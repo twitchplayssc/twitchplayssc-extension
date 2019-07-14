@@ -1,5 +1,6 @@
 package org.camokatuk.extensionserver;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class MainController
 {
+	@CrossOrigin(origins = "*")
 	@RequestMapping("/resources")
 	public String index(@RequestParam("uid") String userId)
 	{
@@ -23,6 +25,7 @@ public class MainController
 		}
 	}
 
+	@CrossOrigin(origins = "*")
 	@RequestMapping("/auth")
 	public String acceptJwt(@RequestParam("uid") String userId, @RequestHeader("x-extension-jwt") String jwt)
 	{
