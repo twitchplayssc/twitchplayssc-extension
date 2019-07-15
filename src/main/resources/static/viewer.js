@@ -96,7 +96,7 @@ twitch.onContext(function (context) {
         zoom = newResolution * 1.0 / 1920;
         logg("new resolution: " +newResolution);
         logg("new zoom: " +zoom);
-        $('document').css('zoom', zoom);
+        $('body').css('zoom', zoom);
         videoResolution = newResolution;
     }
 });

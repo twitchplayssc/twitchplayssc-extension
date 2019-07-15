@@ -54,6 +54,6 @@ body {
     color: lightblue;
 }
 
-.document {
-	transform-origin: top right;
+body {
+	transform-origin: top left;
 }
