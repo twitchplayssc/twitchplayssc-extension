@@ -13,6 +13,7 @@ function ebsReq(ajaxParam)
 	$.ajax(ajaxParam);
 }
 
+let state = {};
 function pollResourcesPeriodically()
 {
 	if(!token) { 
@@ -27,14 +28,23 @@ function pollResourcesPeriodically()
 			toggleMode(data.resources);
 
 			if (data.resources) {
-            	$('.gas').html(data.resources.gas);
-            	$('.minerals').html(data.resources.minerals);
-
-            	$('.feeding').toggle(data.resources.feeding);
-            	if (data.resources.feeding)
-            	{
-            	    $('.feeding .value').text(data.resources.feeding);
-            	}
+				if (state.gas != data.resources.gas)
+				{
+					$('.gas').html(data.resources.gas);
+				}
+				if (state.minerals != data.resources.minerals)
+                {
+                    $('.minerals').html(data.resources.minerals);
+                }
+            	if (state.feeding != data.resources.feeding)
+                {
+                    $('.feeding').toggle(data.resources.feeding);
+                    if (data.resources.feeding)
+                    {
+                        $('.feeding .value').text(data.resources.feeding);
+                    }
+                }
+            	state = data.resources;
             }
 			setTimeout(pollResourcesPeriodically, RESOURCE_POLL_TIMEOUT);
 		}
@@ -58,10 +68,27 @@ function logg(whatever)
 	twitch.rig.log(whatever);
 }
 
+//----------------------------------
+//-------ZOOM-----------------------
+//----------------------------------
+
+let videoResolution = 1920;
+let zoom = 1;
 twitch.onContext(function (context) {
     logg(context);
+    var indexOfX = context.videoResolution.indexOf('x');
+    var newResolution = parseFloat(context.videoResolution.substring(0, indexOfX));
+    logg("new resolution: " +newResolution);
+    if (videoResolution != newResolution)
+    {
+        zoom = newResolution / videoResolution;
+        $('body').css('zoom', zoom);
+    }
 });
 
+//----------------------------------
+//-------AUTH-----------------------
+//----------------------------------
 twitch.onAuthorized(function (auth) {
   // save our credentials
   token = auth.token;
