@@ -53,3 +53,7 @@ body {
     padding: 5px;
     color: lightblue;
 }
+
+.document {
+	transform-origin: top right;
+}

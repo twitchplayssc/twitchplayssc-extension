@@ -25,28 +25,25 @@ function pollResourcesPeriodically()
 		url: OVERLAY_API_BASE_URL + '/resources?uid=' + tuid.substring(1),
 		type: 'GET',
 		success: function(data) {
+			toggleMode(data.resources);
+
 			if (data.resources) {
 				if (state.gas != data.resources.gas)
 				{
-					$('.gas').html(data.resources.gas).show();
+					$('.gas').html(data.resources.gas);
 				}
 				if (state.minerals != data.resources.minerals)
                 {
-                    $('.minerals').html(data.resources.minerals).show();
+                    $('.minerals').html(data.resources.minerals);
                 }
             	if (state.feeding != data.resources.feeding)
                 {
                     if (data.resources.feeding)
                     {
-                        $('.feeding:hidden').show();
                         $('.feeding .value').text(data.resources.feeding);
                     }
                 }
             	state = data.resources;
-            } else { // avoiding twitch animation crap
-                $('.feeding:visible').hide();
-                $('.resource:visible').hide();
-                $('.typetoplay:hidden').show();
             }
 			setTimeout(pollResourcesPeriodically, RESOURCE_POLL_TIMEOUT);
 		}
@@ -54,10 +51,26 @@ function pollResourcesPeriodically()
 	
 }
 
+function toggleMode(joined){
+	$('.feeding').righteousToggle(joined);
+	$('.resource').righteousToggle(joined);
+	$('.typetoplay').righteousToggle(!joined);
+}
+
+$.fn.extend({ // avoids triggering show animation when not necessary
+	righteousToggle: function(show) {
+		if ($(this).is(':visible') && !show) {
+			$(this).hide();
+		} else if ($(this).is(':hidden') && show) {
+			$(this).show();
+		}
+	}
+});
+
 $(function () {
-	//toggleMode(true);
+//	toggleMode(true);
 	//$('.feeding').toggle(true);
-	//$('body').css('background-image', 'url("../img/bg.png")');
+	$('body').css('background-image', 'url("img/bg.png")');
 	pollResourcesPeriodically();
 });
 
@@ -83,7 +96,7 @@ twitch.onContext(function (context) {
         zoom = newResolution * 1.0 / 1920;
         logg("new resolution: " +newResolution);
         logg("new zoom: " +zoom);
-        $('body').css('zoom', zoom);
+        $('document').css('zoom', zoom);
         videoResolution = newResolution;
     }
 });
