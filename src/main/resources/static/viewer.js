@@ -78,10 +78,12 @@ twitch.onContext(function (context) {
     logg(context);
     var indexOfX = context.displayResolution.indexOf('x');
     var newResolution = parseInt(context.displayResolution.substring(0, indexOfX));
-    logg("new resolution: " +newResolution);
+
     if (videoResolution != newResolution)
     {
         zoom = newResolution * 1.0 / videoResolution;
+        logg("new resolution: " +newResolution);
+        logg("new zoom: " +zoom);
         $('document').css('zoom', zoom);
         videoResolution = newResolution;
     }
