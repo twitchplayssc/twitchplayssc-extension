@@ -30,6 +30,7 @@ function pollResourcesPeriodically()
 			if (data.resources) {
 				if (state.gas != data.resources.gas)
 				{
+				logg("gas "  + state.gas);
 					$('.gas').html(data.resources.gas);
 				}
 				if (state.minerals != data.resources.minerals)
@@ -58,7 +59,6 @@ function toggleMode(joined) {
 }
 
 $(function () {
-	toggleMode(true);
 	pollResourcesPeriodically();
 });
 
@@ -76,8 +76,8 @@ let videoResolution = 1920;
 let zoom = 1;
 twitch.onContext(function (context) {
     logg(context);
-    var indexOfX = context.videoResolution.indexOf('x');
-    var newResolution = parseFloat(context.videoResolution.substring(0, indexOfX));
+    var indexOfX = context.displayResolution.indexOf('x');
+    var newResolution = parseFloat(context.displayResolution.substring(0, indexOfX));
     logg("new resolution: " +newResolution);
     if (videoResolution != newResolution)
     {
