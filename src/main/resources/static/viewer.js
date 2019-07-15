@@ -21,7 +21,7 @@ function pollResourcesPeriodically()
 	}
 	
 	ebsReq({
-		url: OVERLAY_API_BASE_URL + '/resources?uid=' + tuid,
+		url: OVERLAY_API_BASE_URL + '/resources?uid=' + tuid.substring(1),
 		type: 'GET',
 		success: function(data) {
 			if (data.resources) {
