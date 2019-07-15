@@ -83,6 +83,7 @@ twitch.onContext(function (context) {
     {
         zoom = newResolution / videoResolution;
         $('body').css('zoom', zoom);
+        videoResolution = newResolution;
     }
 });
 
