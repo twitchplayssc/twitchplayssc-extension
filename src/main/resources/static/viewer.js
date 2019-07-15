@@ -24,9 +24,17 @@ function pollResourcesPeriodically()
 		url: OVERLAY_API_BASE_URL + '/resources?uid=' + tuid.substring(1),
 		type: 'GET',
 		success: function(data) {
+			toggleMode(data.resources);
+
 			if (data.resources) {
             	$('.gas').html(data.resources.gas);
             	$('.minerals').html(data.resources.minerals);
+
+            	$('.feeding').toggle(data.resources.feeding);
+            	if (data.resources.feeding)
+            	{
+            	    $('.feeding .value').text(data.resources.feeding);
+            	}
             }
 			setTimeout(pollResourcesPeriodically, RESOURCE_POLL_TIMEOUT);
 		}
@@ -34,11 +42,13 @@ function pollResourcesPeriodically()
 	
 }
 
+function toggleMode(joined) {
+	$('.resource').toggle(joined);
+	$('.typetoplay').toggle(!joined);
+}
+
 $(function () {
-  	/*twitch.listen('broadcast', function (target, contentType, color) {
-        twitch.rig.log('Received broadcast color');
-    });*/
-	
+	toggleMode(true);
 	pollResourcesPeriodically();
 });
 
@@ -46,11 +56,10 @@ function logg(whatever)
 {
 	console.log(whatever);
 	twitch.rig.log(whatever);
-
 }
 
 twitch.onContext(function (context) {
-  logg(context);
+    logg(context);
 });
 
 twitch.onAuthorized(function (auth) {

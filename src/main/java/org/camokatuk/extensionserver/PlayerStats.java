@@ -18,6 +18,7 @@ public class PlayerStats
 	{
 		private int gas;
 		private int minerals;
+		private String feeding;
 
 		public int getGas()
 		{
@@ -37,6 +38,16 @@ public class PlayerStats
 		public void setMinerals(int minerals)
 		{
 			this.minerals = minerals;
+		}
+
+		public String getFeeding()
+		{
+			return feeding;
+		}
+
+		public void setFeeding(String feeding)
+		{
+			this.feeding = feeding;
 		}
 	}
 

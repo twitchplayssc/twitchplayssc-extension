@@ -1,0 +1,56 @@
+@font-face {
+    font-family: "Michroma";
+    src: url("./michroma-latin-400.woff2") format('woff');
+}
+
+body {
+	width: 1920px;
+	height: 1080px;
+	/*background-image: url("../img/bg.png");*/
+	font-family: "Michroma";
+    font-size: 27px;
+}
+
+.resource {
+	display: none;
+	position: absolute;
+	top: 8px;
+	font-size: 12px;
+	color: white;
+	letter-spacing: 1px;
+	background-color: black;
+	font-weight: bold;
+}
+
+.gas {
+	right: 152px;
+}
+
+.minerals {
+	right: 277px;
+}
+
+.feeding {
+	display: none;
+	position: absolute;
+    top: 37px;
+    right: 280px;
+    font-size: 16px;
+    color: lightblue;
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+.feeding .value {
+	color: white;
+}
+
+.typetoplay {
+	background-color: black;
+	position: absolute;
+    top: 0px;
+    right: 0px;
+    font-size: 23px;
+    padding: 5px;
+    color: lightblue;
+}
