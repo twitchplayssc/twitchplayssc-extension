@@ -25,37 +25,33 @@ function pollResourcesPeriodically()
 		url: OVERLAY_API_BASE_URL + '/resources?uid=' + tuid.substring(1),
 		type: 'GET',
 		success: function(data) {
-			toggleMode(data.resources);
-
 			if (data.resources) {
 				if (state.gas != data.resources.gas)
 				{
-				logg("gas "  + state.gas);
-					$('.gas').html(data.resources.gas);
+					$('.gas').html(data.resources.gas).show();
 				}
 				if (state.minerals != data.resources.minerals)
                 {
-                    $('.minerals').html(data.resources.minerals);
+                    $('.minerals').html(data.resources.minerals).show();
                 }
             	if (state.feeding != data.resources.feeding)
                 {
-                    $('.feeding').toggle(data.resources.feeding);
                     if (data.resources.feeding)
                     {
+                        $('.feeding:hidden').show();
                         $('.feeding .value').text(data.resources.feeding);
                     }
                 }
             	state = data.resources;
+            } else { // avoiding twitch animation crap
+                $('.feeding:visible').hide();
+                $('.resource:visible').hide();
+                $('.typetoplay:hidden').show();
             }
 			setTimeout(pollResourcesPeriodically, RESOURCE_POLL_TIMEOUT);
 		}
 	});
 	
-}
-
-function toggleMode(joined) {
-	$('.resource').toggle(joined);
-	$('.typetoplay').toggle(!joined);
 }
 
 $(function () {
@@ -76,7 +72,7 @@ function logg(whatever)
 //----------------------------------
 
 let videoResolution = 1920;
-let zoom = 1;
+let zoom = 1.0;
 twitch.onContext(function (context) {
     logg(context);
     var indexOfX = context.displayResolution.indexOf('x');
@@ -87,7 +83,7 @@ twitch.onContext(function (context) {
         zoom = newResolution * 1.0 / 1920;
         logg("new resolution: " +newResolution);
         logg("new zoom: " +zoom);
-        $('document').css('zoom', zoom);
+        $('body').css('zoom', zoom);
         videoResolution = newResolution;
     }
 });
