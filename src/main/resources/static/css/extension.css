@@ -6,7 +6,7 @@
 body {
 	width: 1920px;
 	height: 1080px;
-	/*background-image: url("../img/bg.png");*/
+	background-image: url("../img/bg.png");
 	font-family: "Michroma";
     font-size: 27px;
 }
@@ -14,8 +14,8 @@ body {
 .resource {
 	display: none;
 	position: absolute;
-	top: 8px;
-	font-size: 12px;
+	top: 9px;
+	font-size: 0.60vw;
 	color: white;
 	letter-spacing: 1px;
 	background-color: black;
@@ -23,19 +23,19 @@ body {
 }
 
 .gas {
-	right: 152px;
+	left: 1689px;
 }
 
 .minerals {
-	right: 277px;
+	left: 1562px;
 }
 
 .feeding {
 	display: none;
 	position: absolute;
-    top: 37px;
-    right: 280px;
-    font-size: 16px;
+    top: 33px;
+    left: 1532px;
+    font-size: 0.85vw;
     color: lightblue;
     letter-spacing: 1px;
     font-weight: bold;
@@ -50,7 +50,7 @@ body {
 	position: absolute;
     top: 0px;
     right: 0px;
-    font-size: 23px;
+    font-size: 1.2vw;
     padding: 5px;
     color: lightblue;
 }

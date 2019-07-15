@@ -59,6 +59,8 @@ function toggleMode(joined) {
 }
 
 $(function () {
+	toggleMode(true);
+	$('.feeding').toggle(true);
 	pollResourcesPeriodically();
 });
 
