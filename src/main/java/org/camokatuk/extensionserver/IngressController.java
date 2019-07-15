@@ -29,14 +29,29 @@ public class IngressController
 	@PostMapping("/playerstats")
 	public
 	@ResponseBody
-	String index(@RequestBody Map<String, PlayerStats> state, @RequestHeader(value = "Authentication") String ohWowSecurity)
+	String pushStats(@RequestBody Map<String, PlayerStats> state, @RequestHeader(value = "Authentication") String ohWowSecurity)
 	{
 		if (!EXTREMELY_SECURE_VALIDATION_TOKEN.equals(ohWowSecurity))
 		{
 			return "Nope";
 		}
 
-		stateManager.renewState(state);
+		stateManager.pushPlayerStats(state);
+		return "OK";
+	}
+
+	@CrossOrigin(origins = "*")
+	@PostMapping("/playerstats/reset")
+	public
+	@ResponseBody
+	String resetStats(@RequestHeader(value = "Authentication") String ohWowSecurity)
+	{
+		if (!EXTREMELY_SECURE_VALIDATION_TOKEN.equals(ohWowSecurity))
+		{
+			return "Nope";
+		}
+
+		stateManager.resetPlayerStats();
 		return "OK";
 	}
 }

@@ -1,4 +1,4 @@
-let OVERLAY_API_BASE_URL = 'http://localhost:8080/api';//'https://piscine-monsieur-91924.herokuapp.com/api';
+let OVERLAY_API_BASE_URL = 'https://piscine-monsieur-91924.herokuapp.com/api';
 let RESOURCE_POLL_TIMEOUT = 2000;
 let token = '';
 let tuid = '';

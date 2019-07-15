@@ -31,7 +31,7 @@ public class ClientController
 	@RequestMapping("/resources")
 	public
 	@ResponseBody
-	PlayerStats index(@RequestParam("uid") String userId, @RequestHeader("Authorization") String authenticationHeader)
+	PlayerStats index(@RequestParam("uid") int userId, @RequestHeader("Authorization") String authenticationHeader)
 	{
 		authenticationHeader = authenticationHeader.substring("Bearer ".length());
 		Jws<Claims> jws = Jwts.parser().setSigningKey("vVxlKypSyNa6bBtUTzhYGf93IJX9Vzu0FvUTdk4b0o0=").parseClaimsJws(authenticationHeader);
