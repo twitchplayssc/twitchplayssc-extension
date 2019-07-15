@@ -59,8 +59,9 @@ function toggleMode(joined) {
 }
 
 $(function () {
-	toggleMode(true);
-	$('.feeding').toggle(true);
+	//toggleMode(true);
+	//$('.feeding').toggle(true);
+	//$('body').css('background-image', 'url("../img/bg.png")');
 	pollResourcesPeriodically();
 });
 
