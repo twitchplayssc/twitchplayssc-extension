@@ -38,7 +38,7 @@ public class TwitchApi
 		{
 			return cachedUserName;
 		}
-		
+
 		try
 		{
 			HttpHeaders headers = new HttpHeaders();
@@ -46,7 +46,10 @@ public class TwitchApi
 			UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("https://api.twitch.tv/helix/users").queryParam("id", uid);
 			HttpEntity<String> entity = new HttpEntity<>("", headers);
 			ResponseEntity<UserData> response = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, entity, UserData.class);
-			return response.getBody().data[0].display_name;
+			String userName = response.getBody().data[0].display_name;
+
+			userNameToIdCache.put(uid, userName);
+			return userName;
 		}
 		catch (Exception e)
 		{
