@@ -57,9 +57,4 @@ public class TwitchApi
 			return null;
 		}
 	}
-
-	public static void main(String[] asd)
-	{
-		System.out.println(new TwitchApi("wj2tk1o40kcqsekdv2iknadal1krac").getUserDisplayName(59393023));
-	}
 }
