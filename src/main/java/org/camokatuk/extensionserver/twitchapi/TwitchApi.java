@@ -1,5 +1,8 @@
 package org.camokatuk.extensionserver.twitchapi;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,8 @@ public class TwitchApi
 	private final RestTemplate restTemplate = new RestTemplate();
 	private final String extensionClientId;
 
+	private final Map<Integer, String> userNameToIdCache = new HashMap<>();
+
 	@Autowired
 	public TwitchApi(@Value("${extension.client_id}") String extensionClientId)
 	{
@@ -28,6 +33,12 @@ public class TwitchApi
 
 	public String getUserDisplayName(int uid)
 	{
+		String cachedUserName = userNameToIdCache.get(uid);
+		if (cachedUserName != null)
+		{
+			return cachedUserName;
+		}
+		
 		try
 		{
 			HttpHeaders headers = new HttpHeaders();
