@@ -1,0 +1,6 @@
+#Global
+!/.gitignore
+!.well-known
+
+#maven
+target/
