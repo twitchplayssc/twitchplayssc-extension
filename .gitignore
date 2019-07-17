@@ -3,6 +3,7 @@ application.properties
 #Global
 !/.gitignore
 !.well-known
+.iml
 
 #maven
 target/
