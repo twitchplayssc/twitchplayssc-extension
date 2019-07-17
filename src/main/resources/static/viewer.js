@@ -45,6 +45,9 @@ function pollResourcesPeriodically()
                 }
             	state = data.resources;
             }
+            else if (data.globalMessage) {
+                $('.message').text(data.globalMessage).righteousToggle(true);
+            }
 			setTimeout(pollResourcesPeriodically, RESOURCE_POLL_TIMEOUT);
 		}
 	});
@@ -52,9 +55,8 @@ function pollResourcesPeriodically()
 }
 
 function toggleMode(joined){
-	$('.feeding').righteousToggle(joined);
 	$('.resource').righteousToggle(joined);
-	$('.typetoplay').righteousToggle(!joined);
+	$('.message').righteousToggle(!joined);
 }
 
 $.fn.extend({ // avoids triggering show animation when not necessary

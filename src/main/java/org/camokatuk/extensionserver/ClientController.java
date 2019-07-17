@@ -1,5 +1,7 @@
 package org.camokatuk.extensionserver;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -37,7 +39,12 @@ public class ClientController
 	{
 		authenticationHeader = authenticationHeader.substring("Bearer ".length());
 		Jws<Claims> jws = Jwts.parser().setSigningKey(extensionSecret).parseClaimsJws(authenticationHeader);
+		if (jws.getBody().getExpiration().before(new Date()))
+		{
+			return PlayerStats.msg("You JWT has expired O_o");
+		}
+		
 		String userId = (String) jws.getBody().get("user_id");
-		return stateManager.getPlayerStats(Integer.parseInt(userId));
+		return stateManager.getPlayerStats(userId);
 	}
 }

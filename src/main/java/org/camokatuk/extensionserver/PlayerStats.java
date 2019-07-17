@@ -3,6 +3,24 @@ package org.camokatuk.extensionserver;
 public class PlayerStats
 {
 	private Resources resources;
+	private String globalMessage;
+
+	public static PlayerStats msg(String msg)
+	{
+		PlayerStats instance = new PlayerStats();
+		instance.setGlobalMessage(msg);
+		return instance;
+	}
+
+	public String getGlobalMessage()
+	{
+		return globalMessage;
+	}
+
+	public void setGlobalMessage(String globalMessage)
+	{
+		this.globalMessage = globalMessage;
+	}
 
 	public Resources getResources()
 	{

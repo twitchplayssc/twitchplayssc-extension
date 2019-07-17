@@ -22,12 +22,20 @@ public class TwitchApi
 
 	public String getUserDisplayName(int uid)
 	{
-		HttpHeaders headers = new HttpHeaders();
-		headers.set("Client-ID", CLIENT_ID);
-		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("https://api.twitch.tv/helix/users").queryParam("id", uid);
-		HttpEntity<String> entity = new HttpEntity<>("", headers);
-		ResponseEntity<UserData> response = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, entity, UserData.class);
-		return response.getBody().data[0].display_name;
+		try
+		{
+			HttpHeaders headers = new HttpHeaders();
+			headers.set("Client-ID", CLIENT_ID);
+			UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("https://api.twitch.tv/helix/users").queryParam("id", uid);
+			HttpEntity<String> entity = new HttpEntity<>("", headers);
+			ResponseEntity<UserData> response = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, entity, UserData.class);
+			return response.getBody().data[0].display_name;
+		}
+		catch (Exception e)
+		{
+			LOG.warn("Failed to fetch userName by user id: " + uid);
+			return null;
+		}
 	}
 
 	public static void main(String[] asd)
