@@ -19,14 +19,12 @@ import io.jsonwebtoken.Jwts;
 public class ClientController
 {
 	private final StateManager stateManager;
-	private final SecretService secretService;
 	private String extensionSecret;
 
 	@Autowired
-	public ClientController(StateManager stateManager, SecretService secretService, @Value("${extension.secret}") String extensionSecret)
+	public ClientController(StateManager stateManager, @Value("${extension.secret}") String extensionSecret)
 	{
 		this.stateManager = stateManager;
-		this.secretService = secretService;
 		this.extensionSecret = extensionSecret;
 	}
 
