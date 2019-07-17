@@ -48,7 +48,7 @@ public class TwitchApi
 			ResponseEntity<UserData> response = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, entity, UserData.class);
 			String userName = response.getBody().data[0].display_name;
 
-			userNameToIdCache.put(uid, userName);
+			userNameToIdCache.put(uid, userName.toLowerCase());
 			return userName;
 		}
 		catch (Exception e)

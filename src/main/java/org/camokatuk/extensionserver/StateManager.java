@@ -43,7 +43,7 @@ public class StateManager
 			String userName = null;
 			if (userKey.startsWith(UNAME_FLAG_PREFIX))
 			{
-				userName = userKey.substring(UNAME_FLAG_PREFIX.length());
+				userName = userKey.substring(UNAME_FLAG_PREFIX.length()).toLowerCase();
 				userId = displayNameToUid.get(userName); // can be null, since displayNameToUid is populated when user requests their stats
 			}
 			else
