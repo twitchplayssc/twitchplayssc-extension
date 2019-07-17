@@ -39,14 +39,13 @@ public class TwitchApi
 		}
 		catch (Exception e)
 		{
-			LOG.warn("Failed to fetch userName by user id: " + uid);
+			LOG.warn("Failed to fetch userName by user id: " + uid, e);
 			return null;
 		}
 	}
 
-	/*
 	public static void main(String[] asd)
 	{
-		System.out.println(new TwitchApi(extensionClientId).getUserDisplayName(77080650));
-	}*/
+		System.out.println(new TwitchApi("wj2tk1o40kcqsekdv2iknadal1krac").getUserDisplayName(59393023));
+	}
 }
