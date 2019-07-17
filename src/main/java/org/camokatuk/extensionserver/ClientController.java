@@ -23,7 +23,7 @@ public class ClientController
 	private String extensionSecret;
 
 	@Autowired
-	public ClientController(StateManager stateManager, SecretService secretService, @Value("extension.secret") String extensionSecret)
+	public ClientController(StateManager stateManager, SecretService secretService, @Value("${extension.secret}") String extensionSecret)
 	{
 		this.stateManager = stateManager;
 		this.secretService = secretService;
@@ -43,7 +43,7 @@ public class ClientController
 		{
 			return PlayerStats.msg("You JWT has expired O_o");
 		}
-		
+
 		String userId = (String) jws.getBody().get("user_id");
 		return stateManager.getPlayerStats(userId);
 	}
