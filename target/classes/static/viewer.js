@@ -38,6 +38,7 @@ function pollResourcesPeriodically()
                 }
             	if (state.feeding != data.resources.feeding)
                 {
+                    $('.feeding').righteousToggle(data.resources.feeding);
                     if (data.resources.feeding)
                     {
                         $('.feeding .value').text(data.resources.feeding);
@@ -72,7 +73,7 @@ $.fn.extend({ // avoids triggering show animation when not necessary
 $(function () {
 //	toggleMode(true);
 	//$('.feeding').toggle(true);
-	$('body').css('background-image', 'url("img/bg.png")');
+//	$('body').css('background-image', 'url("img/bg.png")');
 	pollResourcesPeriodically();
 });
 

@@ -38,6 +38,7 @@ function pollResourcesPeriodically()
                 }
             	if (state.feeding != data.resources.feeding)
                 {
+                    $('.feeding').righteousToggle(data.resources.feeding);
                     if (data.resources.feeding)
                     {
                         $('.feeding .value').text(data.resources.feeding);

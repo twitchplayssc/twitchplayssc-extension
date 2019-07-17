@@ -58,6 +58,6 @@ public class IngressController
 
 	private boolean isNotAuthorizedRequest(String authHeader)
 	{
-		return superSecretKey.equals(authHeader);
+		return !superSecretKey.equals(authHeader);
 	}
 }
