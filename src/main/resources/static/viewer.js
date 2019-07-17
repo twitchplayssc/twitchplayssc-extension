@@ -22,7 +22,7 @@ function pollResourcesPeriodically()
 	}
 	
 	ebsReq({
-		url: OVERLAY_API_BASE_URL + '/resources?uid=' + tuid.substring(1),
+		url: OVERLAY_API_BASE_URL + '/resources',
 		type: 'GET',
 		success: function(data) {
 			toggleMode(data.resources);
@@ -68,7 +68,7 @@ $.fn.extend({ // avoids triggering show animation when not necessary
 });
 
 $(function () {
-	toggleMode(true);
+//	toggleMode(true);
 	//$('.feeding').toggle(true);
 	$('body').css('background-image', 'url("img/bg.png")');
 	pollResourcesPeriodically();
@@ -83,9 +83,21 @@ function logg(whatever)
 //----------------------------------
 //-------ZOOM-----------------------
 //----------------------------------
-
+/*
 let videoResolution = 1920;
 let zoom = 1.0;
+function resize(newWidth)
+{
+	if (videoResolution != newWidth)
+    {
+        zoom = newResolution * 1.0 / 1920;
+        logg("new resolution: " +newWidth);
+        logg("new zoom: " +zoom);
+        $('body').css('zoom', zoom);
+        videoResolution = newWidth;
+    }
+}
+
 twitch.onContext(function (context) {
     logg(context);
     var indexOfX = context.displayResolution.indexOf('x');
@@ -99,7 +111,7 @@ twitch.onContext(function (context) {
         $('body').css('zoom', zoom);
         videoResolution = newResolution;
     }
-});
+});*/
 
 //----------------------------------
 //-------AUTH-----------------------

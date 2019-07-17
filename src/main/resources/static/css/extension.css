@@ -8,12 +8,13 @@ body {
 	height: 1080px;
 	font-family: "Michroma";
     font-size: 1000px;
+    background-size:100%;
 }
 
 .resource {
 	display: none;
 	position: absolute;
-	top: 9px;
+	top: 0.9%;
 	/*font-size: 1.25vh;*/
 	font-size: 1.2%;
 	color: white;
@@ -23,18 +24,18 @@ body {
 }
 
 .gas {
-	left: 1689px;
+	left: 87.9%;
 }
 
 .minerals {
-	left: 1562px;
+	left: 81.4%;
 }
 
 .feeding {
 	display: none;
 	position: absolute;
-    top: 33px;
-    left: 1532px;
+    top: 3.5%;
+    left: 81%;
     font-size: 1.7%;
     color: lightblue;
     letter-spacing: 1px;
@@ -46,6 +47,7 @@ body {
 }
 
 .typetoplay {
+	width: 24%;
 	background-color: black;
 	position: absolute;
     top: 0px;
