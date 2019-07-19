@@ -52,7 +52,7 @@ public class IngressController
 			return "Nope";
 		}
 
-		stateManager.updateGameState(gameStateContainer);
+		stateManager.pushGameState(gameStateContainer);
 		return "OK";
 	}
 

@@ -39,6 +39,11 @@ public class StateManager
 
 	public void pushPlayerStats(Map<String, UserDisplayData> state)
 	{
+		if (state != null && !state.isEmpty())
+		{
+			this.gameState = GameStateContainer.inGame();
+		}
+
 		for (Map.Entry<String, UserDisplayData> stateEntry : state.entrySet())
 		{
 			String userKey = stateEntry.getKey();
@@ -65,6 +70,15 @@ public class StateManager
 		}
 	}
 
+	public void pushGameState(GameStateContainer gameState)
+	{
+		this.gameState = gameState;
+		if (gameState.getState() != GameState.INGAME)
+		{
+			this.resetPlayerStats();
+		}
+	}
+	
 	public UserDisplayData getDisplayData(String userIdString)
 	{
 		if (this.gameState.getState() == GameState.INGAME)
@@ -143,12 +157,4 @@ public class StateManager
 		}
 	}
 
-	public void updateGameState(GameStateContainer gameState)
-	{
-		this.gameState = gameState;
-		if (gameState.getState() != GameState.INGAME)
-		{
-			this.resetPlayerStats();
-		}
-	}
 }

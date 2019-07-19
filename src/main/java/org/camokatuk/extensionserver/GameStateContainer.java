@@ -10,6 +10,13 @@ public class GameStateContainer
 		this.state = GameState.STARTINGEXTENSION;
 	}
 
+	public static GameStateContainer inGame()
+	{
+		GameStateContainer inGameState = new GameStateContainer();
+		inGameState.state = GameState.INGAME;
+		return inGameState;
+	}
+
 	public GameState getState()
 	{
 		return state;
