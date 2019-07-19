@@ -37,7 +37,8 @@ body {
 	display: none;
 	position: absolute;
     top: 3.5%;
-    left: 81%;
+/*    left: 81%;*/
+	right: 1%;
     font-size: 1.7%;
     color: lightblue;
     letter-spacing: 1px;
@@ -46,6 +47,7 @@ body {
 
 .feeding .value {
 	color: white;
+	margin-left: 10px;
 }
 
 .message {
