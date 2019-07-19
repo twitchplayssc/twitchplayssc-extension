@@ -17,10 +17,10 @@ public class StateManager
 	private static final String UNAME_FLAG_PREFIX = "uname_";
 
 	private final TwitchApi twitchApi;
-	private Map<Integer, UserDisplayData> statsByUserId;
-	private Map<String, UserDisplayData> statsByUserName; // fallback, will be eliminated
+	private volatile Map<Integer, UserDisplayData> statsByUserId;
+	private volatile Map<String, UserDisplayData> statsByUserName; // fallback, will be eliminated
 
-	private Map<String, Integer> displayNameToUid = new ConcurrentHashMap<>();
+	private volatile Map<String, Integer> displayNameToUid = new ConcurrentHashMap<>();
 
 	private volatile GameStateContainer gameState = new GameStateContainer();
 
@@ -78,7 +78,7 @@ public class StateManager
 			this.resetPlayerStats();
 		}
 	}
-	
+
 	public UserDisplayData getDisplayData(String userIdString)
 	{
 		if (this.gameState.getState() == GameState.INGAME)
