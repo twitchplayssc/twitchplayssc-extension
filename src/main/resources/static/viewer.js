@@ -36,8 +36,8 @@ function pollResourcesPeriodically()
                 $('.resource.income').righteousToggle(!data.inGame.feeding);
 
                 $('.feeding .value').text(data.inGame.feeding);
-                $('.gas-income .value').numberChange('+' + data.inGame.gasIncome);
-                $('.minerals-income .value').numberChange('+' + data.inGame.mineralsIncome);
+                $('.gas-income .value').numberChange(data.inGame.gasIncome, '+');
+                $('.minerals-income .value').numberChange(data.inGame.mineralsIncome, '+');
             }
             else if (data.globalMessage) {
                 $('.message').text(data.globalMessage).righteousToggle(true);
@@ -60,24 +60,29 @@ $.fn.extend({ // avoids triggering show animation when not necessary
 		} else if ($(this).is(':hidden') && show) {
 			$(this).show();
 		}
+		return this;
 	}
 });
 
 $.fn.extend({ // avoids triggering show animation when not necessary
-	numberChange: function(newNumber) {
+	numberChange: function(newNumber, str) {
 		$(this).prop('Counter', $(this).text()).animate({ Counter: newNumber }, {
-            duration: 1000,
+            duration: 800,
             easing: 'swing',
             step: function (now) {
-              $(this).text(Math.ceil(now));
+              $(this).text((str ? str : '') + Math.ceil(now));
             }
         });
+        return this;
 	}
 });
 
+
 $(function () {
-//	toggleMode(true); $('body').css('background-image', 'url(img/bg.png)'); $('.feeding').show(); $('.income').hide();
-//	$('.gas .value').numberChange(2412);
+//	toggleMode(true); $('body').css('background-image', 'url(img/bg.png)'); // $('.feeding').show(); $('.income').hide();
+//	$('.minerals').numberChange(99999); $('.gas').numberChange(99999); $('.minerals-income').numberChange(9999, '+'); $('.gas-income').numberChange(9999, '+');;
+
+
 	pollResourcesPeriodically();
 });
 
