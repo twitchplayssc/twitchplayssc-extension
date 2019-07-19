@@ -13,43 +13,95 @@ body {
 
 .resource {
 	width: 4.5%;
+	height: 3%;
 	display: none;
 	position: absolute;
-	top: 0.5%;
+	top: 0.8%;
 	padding: 0;
 	/*font-size: 1.25vh;*/
 	font-size: 0.8vw;
 	color: white;
 	letter-spacing: 1px;
-	background-color: black;
 	font-weight: bold;
 }
 
-.gas {
-	left: 87.9%;
+.resource .value {
+	display: inline-block;
+	position: relative;
+    top: -30%;
+    width: 60%;
+}
+
+.resource .icon {
+	background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 40%;
+    height: 100%;
 }
 
 .minerals {
-	left: 81.4%;
+	left: 74.4%;
 }
 
-.resourcesMgmt {
-	display: none;
+.gas {
+	left: 80.9%;
+}
+
+.supply {
+	left: 87.4%;
+}
+
+.minerals-income {
+	left: 74.4%;
+}
+
+.gas-income {
+	left: 80.9%;
+}
+
+.minerals .icon {
+	background-image: url(../img/icons/minerals.png);
+}
+
+.gas .icon {
+	background-image: url(../img/icons/gas.png);
+}
+
+.supply .icon {
+	background-image: url(../img/icons/supply.png);
+}
+
+.minerals-income .icon {
+	background-image: url(../img/icons/minerals-income.png);
+}
+
+.gas-income .icon {
+	background-image: url(../img/icons/gas-income.png);
+}
+
+.income {
 	position: absolute;
     top: 5%;
-/*    left: 81%;*/
-	left: 79.8%;
-    font-size: 1.7%;
-    color: lightblue;
-    letter-spacing: 1px;
-    font-weight: bold;
-    width: 20%;
-    height: 3%;
 }
 
 .feeding {
+	display: none;
+	position: absolute;
+    top: 5%;
+/*    left: 81%; */
+	left: 74.4%;
+    font-size: 2.2%;
+    color: lightblue;
+    letter-spacing: 1px;
+    font-weight: bold;
+    width: 25%;
+    height: 3%;
+}
+
+.feeding .value {
 	position: relative;
-	top: -30%;
+	top: -8%;
 	width: 90%;
 
 	color: white;
@@ -58,13 +110,15 @@ body {
 	white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-
 }
 
-.feedingarrow {
+
+
+.icon-feeding {
 	background-image: url(../img/icons/feedingarrow.png);
 	background-size: contain;
     background-repeat: no-repeat;
+    margin-left: 1%;
     width: 6%;
     height: 100%;
 	display: inline-block;

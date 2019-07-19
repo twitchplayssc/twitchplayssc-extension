@@ -28,23 +28,16 @@ function pollResourcesPeriodically()
 			toggleMode(data.inGame);
 
 			if (data.inGame) {
-				if (ingameState.gas != data.inGame.gas)
-				{
-					$('.gas').html(data.inGame.gas);
-				}
-				if (ingameState.minerals != data.inGame.minerals)
-                {
-                    $('.minerals').html(data.inGame.minerals);
-                }
-            	if (ingameState.feeding != data.inGame.feeding)
-                {
-                    $('.resourcesMgmt').righteousToggle(data.inGame.feeding);
-                    if (data.inGame.feeding)
-                    {
-                        $('.feeding').text(data.inGame.feeding);
-                    }
-                }
-            	ingameState = data.inGame;
+				$('.gas .value').text(data.inGame.gas);
+				$('.minerals .value').text(data.inGame.minerals);
+                $('.supply .value').text(data.inGame.supply);
+
+                $('.feeding').righteousToggle(data.inGame.feeding);
+                $('.resource.income').righteousToggle(!data.inGame.feeding);
+
+                $('.feeding .value').text(data.inGame.feeding);
+                $('.gas-income .value').text('+' + data.inGame.gasIncome);
+                $('.minerals-income .value').text('+' + data.inGame.mineralsIncome);
             }
             else if (data.globalMessage) {
                 $('.message').text(data.globalMessage).righteousToggle(true);
@@ -71,7 +64,7 @@ $.fn.extend({ // avoids triggering show animation when not necessary
 });
 
 $(function () {
-	 toggleMode(true); $('body').css('background-image', 'url(img/bg.png)'); $('.feeding').show();
+	 toggleMode(true); $('body').css('background-image', 'url(img/bg.png)'); //$('.feeding').show();
 
 	pollResourcesPeriodically();
 });
