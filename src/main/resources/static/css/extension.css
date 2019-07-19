@@ -29,35 +29,35 @@ body {
 	display: inline-block;
 	position: relative;
     top: -30%;
-    width: 60%;
+    width: 52%;
 }
 
 .resource .icon {
 	background-size: contain;
     background-repeat: no-repeat;
     display: inline-block;
-    width: 40%;
+    width: 48%;
     height: 100%;
 }
 
 .minerals {
-	left: 74.4%;
+	left: 72.4%;
 }
 
 .gas {
-	left: 80.9%;
+	left: 79.7%;
 }
 
 .supply {
-	left: 87.4%;
+	left: 87.0%;
 }
 
 .minerals-income {
-	left: 74.4%;
+	left: 72.4%;
 }
 
 .gas-income {
-	left: 80.9%;
+	left: 79.9%;
 }
 
 .minerals .icon {
@@ -90,7 +90,7 @@ body {
 	position: absolute;
     top: 5%;
 /*    left: 81%; */
-	left: 74.4%;
+	left: 72.4%;
     font-size: 2.2%;
     color: lightblue;
     letter-spacing: 1px;
@@ -105,7 +105,6 @@ body {
 	width: 90%;
 
 	color: white;
-	margin-left: 2%;
 	display: inline-block;
 	white-space: nowrap;
     overflow: hidden;
@@ -113,13 +112,12 @@ body {
 }
 
 
-
-.icon-feeding {
+.feeding .icon{
 	background-image: url(../img/icons/feedingarrow.png);
 	background-size: contain;
     background-repeat: no-repeat;
     margin-left: 1%;
-    width: 6%;
+    width: 8%;
     height: 100%;
 	display: inline-block;
 }
