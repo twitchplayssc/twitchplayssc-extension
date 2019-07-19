@@ -71,7 +71,8 @@ $.fn.extend({ // avoids triggering show animation when not necessary
 });
 
 $(function () {
-	//	toggleMode(true);
+	toggleMode(true); $('body').css('background-image', 'url(img/bg.png)')
+
 	pollResourcesPeriodically();
 });
 
