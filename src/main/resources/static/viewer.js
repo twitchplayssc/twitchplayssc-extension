@@ -28,16 +28,16 @@ function pollResourcesPeriodically()
 			toggleMode(data.inGame);
 
 			if (data.inGame) {
-				$('.gas .value').text(data.inGame.gas);
-				$('.minerals .value').text(data.inGame.minerals);
+				$('.gas .value').numberChange(data.inGame.gas);
+				$('.minerals .value').numberChange(data.inGame.minerals);
                 $('.supply .value').text(data.inGame.supply);
 
                 $('.feeding').righteousToggle(data.inGame.feeding);
                 $('.resource.income').righteousToggle(!data.inGame.feeding);
 
                 $('.feeding .value').text(data.inGame.feeding);
-                $('.gas-income .value').text('+' + data.inGame.gasIncome);
-                $('.minerals-income .value').text('+' + data.inGame.mineralsIncome);
+                $('.gas-income .value').numberChange('+' + data.inGame.gasIncome);
+                $('.minerals-income .value').numberChange('+' + data.inGame.mineralsIncome);
             }
             else if (data.globalMessage) {
                 $('.message').text(data.globalMessage).righteousToggle(true);
@@ -63,9 +63,21 @@ $.fn.extend({ // avoids triggering show animation when not necessary
 	}
 });
 
-$(function () {
-	 toggleMode(true); $('body').css('background-image', 'url(img/bg.png)'); $('.feeding').show(); $('.income').hide();
+$.fn.extend({ // avoids triggering show animation when not necessary
+	numberChange: function(newNumber) {
+		$(this).prop('Counter', $(this).text()).animate({ Counter: newNumber }, {
+            duration: 1000,
+            easing: 'swing',
+            step: function (now) {
+              $(this).text(Math.ceil(now));
+            }
+        });
+	}
+});
 
+$(function () {
+//	toggleMode(true); $('body').css('background-image', 'url(img/bg.png)'); $('.feeding').show(); $('.income').hide();
+//	$('.gas .value').numberChange(2412);
 	pollResourcesPeriodically();
 });
 
