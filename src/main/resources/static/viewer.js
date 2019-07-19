@@ -13,7 +13,7 @@ function ebsReq(ajaxParam)
 	$.ajax(ajaxParam);
 }
 
-let state = {};
+let ingameState = {};
 function pollResourcesPeriodically()
 {
 	if(!token) { 
@@ -22,29 +22,29 @@ function pollResourcesPeriodically()
 	}
 	
 	ebsReq({
-		url: OVERLAY_API_BASE_URL + '/resources',
+		url: OVERLAY_API_BASE_URL + '/display',
 		type: 'GET',
 		success: function(data) {
-			toggleMode(data.resources);
+			toggleMode(data.inGame);
 
-			if (data.resources) {
-				if (state.gas != data.resources.gas)
+			if (data.inGame) {
+				if (ingameState.gas != data.inGame.gas)
 				{
-					$('.gas').html(data.resources.gas);
+					$('.gas').html(data.inGame.gas);
 				}
-				if (state.minerals != data.resources.minerals)
+				if (ingameState.minerals != data.inGame.minerals)
                 {
-                    $('.minerals').html(data.resources.minerals);
+                    $('.minerals').html(data.inGame.minerals);
                 }
-            	if (state.feeding != data.resources.feeding)
+            	if (ingameState.feeding != data.inGame.feeding)
                 {
-                    $('.feeding').righteousToggle(data.resources.feeding);
-                    if (data.resources.feeding)
+                    $('.feeding').righteousToggle(data.inGame.feeding);
+                    if (data.inGame.feeding)
                     {
-                        $('.feeding .value').text(data.resources.feeding);
+                        $('.feeding .value').text(data.inGame.feeding);
                     }
                 }
-            	state = data.resources;
+            	ingameState = data.inGame;
             }
             else if (data.globalMessage) {
                 $('.message').text(data.globalMessage).righteousToggle(true);

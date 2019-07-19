@@ -1,13 +1,14 @@
 package org.camokatuk.extensionserver;
 
-public class PlayerStats
+public class UserDisplayData
 {
-	private Resources resources;
+	private InGame inGame;
+	private LeaderboardData leaderboard;
 	private String globalMessage;
 
-	public static PlayerStats msg(String msg)
+	public static UserDisplayData msg(String msg)
 	{
-		PlayerStats instance = new PlayerStats();
+		UserDisplayData instance = new UserDisplayData();
 		instance.setGlobalMessage(msg);
 		return instance;
 	}
@@ -22,17 +23,17 @@ public class PlayerStats
 		this.globalMessage = globalMessage;
 	}
 
-	public Resources getResources()
+	public InGame getInGame()
 	{
-		return resources;
+		return inGame;
 	}
 
-	public void setResources(Resources resources)
+	public void setInGame(InGame inGame)
 	{
-		this.resources = resources;
+		this.inGame = inGame;
 	}
 
-	public static class Resources
+	public static class InGame
 	{
 		private int gas;
 		private int minerals;
@@ -69,4 +70,8 @@ public class PlayerStats
 		}
 	}
 
+	public static class LeaderboardData
+	{
+		/* TODO */
+	}
 }

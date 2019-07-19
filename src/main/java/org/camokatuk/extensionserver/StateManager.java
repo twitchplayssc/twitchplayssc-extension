@@ -1,7 +1,7 @@
 package org.camokatuk.extensionserver;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -17,26 +17,29 @@ public class StateManager
 	private static final String UNAME_FLAG_PREFIX = "uname_";
 
 	private final TwitchApi twitchApi;
-	private Map<Integer, PlayerStats> statsByUserId = new HashMap<>();
-	private Map<String, PlayerStats> statsByUserName = new HashMap<>(); // fallback, will be eliminated
+	private Map<Integer, UserDisplayData> statsByUserId;
+	private Map<String, UserDisplayData> statsByUserName; // fallback, will be eliminated
 
-	private Map<String, Integer> displayNameToUid = new HashMap<>();
+	private Map<String, Integer> displayNameToUid = new ConcurrentHashMap<>();
+
+	private volatile GameStateContainer gameState = new GameStateContainer();
 
 	@Autowired
 	public StateManager(TwitchApi twitchApi)
 	{
 		this.twitchApi = twitchApi;
+		this.resetPlayerStats();
 	}
 
-	public void resetPlayerStats()
+	private void resetPlayerStats()
 	{
-		this.statsByUserId = new HashMap<>();
-		this.statsByUserName = new HashMap<>();
+		this.statsByUserId = new ConcurrentHashMap<>();
+		this.statsByUserName = new ConcurrentHashMap<>();
 	}
 
-	public void pushPlayerStats(Map<String, PlayerStats> state)
+	public void pushPlayerStats(Map<String, UserDisplayData> state)
 	{
-		for (Map.Entry<String, PlayerStats> stateEntry : state.entrySet())
+		for (Map.Entry<String, UserDisplayData> stateEntry : state.entrySet())
 		{
 			String userKey = stateEntry.getKey();
 			Integer userId;
@@ -62,15 +65,43 @@ public class StateManager
 		}
 	}
 
-	public PlayerStats getPlayerStats(String userIdString)
+	public UserDisplayData getDisplayData(String userIdString)
+	{
+		if (this.gameState.getState() == GameState.INGAME)
+		{
+			return this.getInGameDisplayData(userIdString);
+		}
+		else if (this.gameState.getState() == GameState.BROKEN)
+		{
+			return UserDisplayData.msg(this.gameState.getMessage());
+		}
+		else if (this.gameState.getState() == GameState.STARTINGEXTENSION)
+		{
+			return UserDisplayData.msg("(Re)loading extension...");
+		}
+		else if (this.gameState.getState() == GameState.STARTINGSTREAM)
+		{
+			return UserDisplayData.msg(null);
+		}
+		else if (this.gameState.getState() == GameState.LEADERBOARDS)
+		{
+			return UserDisplayData.msg(null);
+		}
+		else
+		{
+			return UserDisplayData.msg(null);
+		}
+	}
+
+	private UserDisplayData getInGameDisplayData(String userIdString)
 	{
 		Integer userId = parseNumericUserId(userIdString);
 		if (userId == null)
 		{
-			return PlayerStats.msg("Please allow the extension to identify you");
+			return UserDisplayData.msg("Please allow the extension to identify you");
 		}
 
-		PlayerStats regularStats = statsByUserId.get(userId);
+		UserDisplayData regularStats = statsByUserId.get(userId);
 		if (regularStats != null)
 		{
 			return regularStats;
@@ -79,13 +110,13 @@ public class StateManager
 		String userName = twitchApi.getUserDisplayName(userId);
 		if (userName == null)
 		{
-			return PlayerStats.msg("Unable to fetch your userName, please contact admins");
+			return UserDisplayData.msg("Unable to fetch your userName, please contact admins");
 		}
 		else
 		{
 			displayNameToUid.put(userName, userId); // save user name in the cache
 
-			PlayerStats legacyStats = statsByUserName.get(userName); // do the lookup in legacy collection
+			UserDisplayData legacyStats = statsByUserName.get(userName); // do the lookup in legacy collection
 			if (legacyStats != null)
 			{
 				statsByUserId.put(userId, legacyStats); // save the data to the regular collection for faster lookup next time
@@ -94,7 +125,7 @@ public class StateManager
 			}
 			else // no data found for the player whatsoever, but we know them, so they're ready to join
 			{
-				return PlayerStats.msg("Type !play to join the game");
+				return UserDisplayData.msg("Type !play to join the game");
 			}
 		}
 	}
@@ -109,6 +140,15 @@ public class StateManager
 		{
 			LOG.warn("Could not parse neither user id nor username from the key: " + str);
 			return null;
+		}
+	}
+
+	public void updateGameState(GameStateContainer gameState)
+	{
+		this.gameState = gameState;
+		if (gameState.getState() != GameState.INGAME)
+		{
+			this.resetPlayerStats();
 		}
 	}
 }

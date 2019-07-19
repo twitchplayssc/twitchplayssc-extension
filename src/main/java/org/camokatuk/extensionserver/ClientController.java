@@ -30,19 +30,19 @@ public class ClientController
 
 	@CrossOrigin(origins = "*")
 	//	@CrossOrigin(origins = "twitch.tv")
-	@RequestMapping("/resources")
+	@RequestMapping("/display")
 	public
 	@ResponseBody
-	PlayerStats index(@RequestHeader("Authorization") String authenticationHeader)
+	UserDisplayData index(@RequestHeader("Authorization") String authenticationHeader)
 	{
 		authenticationHeader = authenticationHeader.substring("Bearer ".length());
 		Jws<Claims> jws = Jwts.parser().setSigningKey(extensionSecret).parseClaimsJws(authenticationHeader);
 		if (jws.getBody().getExpiration().before(new Date()))
 		{
-			return PlayerStats.msg("You JWT has expired O_o");
+			return UserDisplayData.msg("You JWT has expired O_o");
 		}
 
 		String userId = (String) jws.getBody().get("user_id");
-		return stateManager.getPlayerStats(userId);
+		return stateManager.getDisplayData(userId);
 	}
 }

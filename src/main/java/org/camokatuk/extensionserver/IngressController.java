@@ -30,7 +30,7 @@ public class IngressController
 	@PostMapping("/playerstats")
 	public
 	@ResponseBody
-	String pushStats(@RequestBody Map<String, PlayerStats> state, @RequestHeader(value = "Authentication") String ohWowSecurity)
+	String pushStats(@RequestBody Map<String, UserDisplayData> state, @RequestHeader(value = "Authentication") String ohWowSecurity)
 	{
 		if (isNotAuthorizedRequest(ohWowSecurity))
 		{
@@ -42,17 +42,17 @@ public class IngressController
 	}
 
 	@CrossOrigin(origins = "*")
-	@PostMapping("/playerstats/reset")
+	@PostMapping("/state")
 	public
 	@ResponseBody
-	String resetStats(@RequestHeader(value = "Authentication") String ohWowSecurity)
+	String resetStats(@RequestBody GameStateContainer gameStateContainer, @RequestHeader(value = "Authentication") String ohWowSecurity)
 	{
 		if (isNotAuthorizedRequest(ohWowSecurity))
 		{
 			return "Nope";
 		}
 
-		stateManager.resetPlayerStats();
+		stateManager.updateGameState(gameStateContainer);
 		return "OK";
 	}
 
