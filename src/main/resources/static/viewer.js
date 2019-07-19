@@ -38,10 +38,10 @@ function pollResourcesPeriodically()
                 }
             	if (ingameState.feeding != data.inGame.feeding)
                 {
-                    $('.feeding').righteousToggle(data.inGame.feeding);
+                    $('.resourcesMgmt').righteousToggle(data.inGame.feeding);
                     if (data.inGame.feeding)
                     {
-                        $('.feeding .value').text(data.inGame.feeding);
+                        $('.feeding').text(data.inGame.feeding);
                     }
                 }
             	ingameState = data.inGame;
@@ -71,7 +71,7 @@ $.fn.extend({ // avoids triggering show animation when not necessary
 });
 
 $(function () {
-	// toggleMode(true); $('body').css('background-image', 'url(img/bg.png)'); $('.feeding').show();
+	 toggleMode(true); $('body').css('background-image', 'url(img/bg.png)'); $('.feeding').show();
 
 	pollResourcesPeriodically();
 });

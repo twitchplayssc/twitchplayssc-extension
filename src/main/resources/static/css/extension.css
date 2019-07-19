@@ -33,21 +33,41 @@ body {
 	left: 81.4%;
 }
 
-.feeding {
+.resourcesMgmt {
 	display: none;
 	position: absolute;
-    top: 3.5%;
+    top: 5%;
 /*    left: 81%;*/
-	right: 1%;
+	left: 79.8%;
     font-size: 1.7%;
     color: lightblue;
     letter-spacing: 1px;
     font-weight: bold;
+    width: 20%;
+    height: 3%;
 }
 
-.feeding .value {
+.feeding {
+	position: relative;
+	top: -30%;
+	width: 90%;
+
 	color: white;
-	margin-left: 10px;
+	margin-left: 2%;
+	display: inline-block;
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}
+
+.feedingarrow {
+	background-image: url(../img/icons/feedingarrow.png);
+	background-size: contain;
+    background-repeat: no-repeat;
+    width: 6%;
+    height: 100%;
+	display: inline-block;
 }
 
 .message {
@@ -64,3 +84,4 @@ body {
 body {
 	transform-origin: top left;
 }
+
