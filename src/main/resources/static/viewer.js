@@ -80,7 +80,7 @@ $.fn.extend({ // avoids triggering show animation when not necessary
 
 $(function () {
 //	toggleMode(true); $('body').css('background-image', 'url(img/bg.png)'); // $('.feeding').show(); $('.income').hide();
-//	$('.minerals').numberChange(99999); $('.gas').numberChange(99999); $('.minerals-income').numberChange(9999, '+'); $('.gas-income').numberChange(9999, '+');;
+//	$('.minerals .value').numberChange(99999); $('.gas .value').numberChange(99999); $('.minerals-income .value').numberChange(9999, '+'); $('.gas-income .value').numberChange(9999, '+');;
 
 
 	pollResourcesPeriodically();
