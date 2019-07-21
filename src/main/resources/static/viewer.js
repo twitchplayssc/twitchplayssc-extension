@@ -42,6 +42,10 @@ function pollResourcesPeriodically()
 
                 $('.message').righteousToggle(false);
             }
+            else
+            {
+                $('.feeding').righteousToggle(false);
+            }
 
             $('.message').righteousToggle(data.globalMessage)
             if (data.globalMessage) {
