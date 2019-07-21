@@ -157,4 +157,8 @@ public class StateManager
 		}
 	}
 
+	public GameStateContainer getCurrentState()
+	{
+		return this.gameState;
+	}
 }

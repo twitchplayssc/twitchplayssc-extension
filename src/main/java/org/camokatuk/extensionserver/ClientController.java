@@ -45,4 +45,14 @@ public class ClientController
 		String userId = (String) jws.getBody().get("user_id");
 		return stateManager.getDisplayData(userId);
 	}
+
+	@CrossOrigin(origins = "*")
+	//	@CrossOrigin(origins = "twitch.tv")
+	@RequestMapping("/state")
+	public
+	@ResponseBody
+	GameStateContainer index()
+	{
+		return stateManager.getCurrentState();
+	}
 }
