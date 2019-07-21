@@ -34,21 +34,6 @@ public class IngressController
 	}
 
 	@CrossOrigin(origins = "*")
-	@PostMapping("/playerstats/regular")
-	public
-	@ResponseBody
-	String pushStats(@RequestBody Map<String, UserDisplayData> state, @RequestHeader(value = "Authentication") String ohWowSecurity)
-	{
-		if (isNotAuthorizedRequest(ohWowSecurity))
-		{
-			return "Nope";
-		}
-
-		stateManager.pushPlayerStats(state);
-		return "OK";
-	}
-
-	@CrossOrigin(origins = "*")
 	@PostMapping("/playerstats")
 	public
 	@ResponseBody
@@ -59,7 +44,7 @@ public class IngressController
 			return "Nope";
 		}
 
-		LOG.info("Raw request " + request);
+		LOG.debug("Raw request " + request);
 
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, UserDisplayData> state = mapper.readValue(request, Map.class);
