@@ -44,7 +44,7 @@ public class IngressController
 			return "Nope";
 		}
 
-		LOG.debug("Raw request " + request);
+		LOG.info("Raw request " + request);
 
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, UserDisplayData> state = mapper.readValue(request, Map.class);
