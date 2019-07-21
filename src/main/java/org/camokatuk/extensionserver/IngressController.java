@@ -49,7 +49,7 @@ public class IngressController
 	}
 
 	@CrossOrigin(origins = "*")
-	@PostMapping("/playerstats/")
+	@PostMapping("/playerstats")
 	public
 	@ResponseBody
 	String pushStats(@RequestBody String request, @RequestHeader(value = "Authentication") String ohWowSecurity) throws IOException
