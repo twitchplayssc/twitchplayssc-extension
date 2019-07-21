@@ -84,7 +84,8 @@ $.fn.extend({ // avoids triggering show animation when not necessary
 
 
 $(function () {
-//	toggleMode(true); $('body').css('background-image', 'url(img/bg.png)'); // $('.feeding').show(); $('.income').hide();
+//toggleMode(true);
+//	$('body').css('background-image', 'url(img/bg.png)'); $(".message").text('asdasdasdasdasdasds')// $('.feeding').show(); $('.income').hide();
 //	$('.minerals .value').numberChange(99999); $('.gas .value').numberChange(99999); $('.minerals-income .value').numberChange(9999, '+'); $('.gas-income .value').numberChange(9999, '+');;
 
 
