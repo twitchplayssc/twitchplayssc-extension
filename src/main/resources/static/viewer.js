@@ -39,18 +39,14 @@ function pollResourcesPeriodically()
                 $('.feeding .value').text(data.inGame.feeding);
                 $('.gas-income .value').numberChange(data.inGame.gasIncome, '+');
                 $('.minerals-income .value').numberChange(data.inGame.mineralsIncome, '+');
-
-                $('.message').righteousToggle(false);
             }
             else
             {
                 $('.feeding').righteousToggle(false);
             }
 
-            $('.message').righteousToggle(data.globalMessage)
-            if (data.globalMessage) {
-                $('.message').text(data.globalMessage);
-            }
+            $('.message').text(data.globalMessage);
+            
 			setTimeout(pollResourcesPeriodically, RESOURCE_POLL_TIMEOUT);
 		}
 	});
