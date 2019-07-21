@@ -124,11 +124,9 @@ body {
 
 .message {
 	position: absolute;
-    top: 0px;
-    right: 2%;
+    top: 0.3%;
+    right: 2.5%;
     font-size: 2.5%;
-    padding: 5px;
-    padding-right: 10px;
     color: lightblue;
 }
 
