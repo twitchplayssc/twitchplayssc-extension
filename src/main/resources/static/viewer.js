@@ -25,9 +25,10 @@ function pollResourcesPeriodically()
 		url: OVERLAY_API_BASE_URL + '/display',
 		type: 'GET',
 		success: function(data) {
-			toggleMode(data.inGame);
 
+			$('.resource').righteousToggle(data.inGame);
 			if (data.inGame) {
+
 				$('.gas .value').numberChange(data.inGame.gas);
 				$('.minerals .value').numberChange(data.inGame.minerals);
                 $('.supply .value').text(data.inGame.supply);
@@ -38,9 +39,13 @@ function pollResourcesPeriodically()
                 $('.feeding .value').text(data.inGame.feeding);
                 $('.gas-income .value').numberChange(data.inGame.gasIncome, '+');
                 $('.minerals-income .value').numberChange(data.inGame.mineralsIncome, '+');
+
+                $('.message').righteousToggle(false);
             }
-            else if (data.globalMessage) {
-                $('.message').text(data.globalMessage).righteousToggle(true);
+
+            $('.message').righteousToggle(data.globalMessage)
+            if (data.globalMessage) {
+                $('.message').text(data.globalMessage);
             }
 			setTimeout(pollResourcesPeriodically, RESOURCE_POLL_TIMEOUT);
 		}
