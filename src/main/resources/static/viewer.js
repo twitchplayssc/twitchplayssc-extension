@@ -22,7 +22,7 @@ function pollResourcesPeriodically()
 	}
 	
 	ebsReq({
-		url: OVERLAY_API_BASE_URL + '/display?timestamp' + new Date().getTime();,
+		url: OVERLAY_API_BASE_URL + '/display?timestamp' + new Date().getTime(),
 		type: 'GET',
 		success: function(data) {
 
