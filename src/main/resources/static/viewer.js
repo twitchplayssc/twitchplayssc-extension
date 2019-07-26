@@ -13,7 +13,6 @@ function ebsReq(ajaxParam)
 	$.ajax(ajaxParam);
 }
 
-let ingameState = {};
 function pollResourcesPeriodically()
 {
 	if(!token) { 
@@ -43,6 +42,7 @@ function pollResourcesPeriodically()
             else
             {
                 $('.feeding').righteousToggle(false);
+                $('.resource .value').text('0').prop('Counter', '0');
             }
 
             $('.message').text(data.globalMessage);
@@ -83,9 +83,11 @@ $.fn.extend({ // avoids triggering show animation when not necessary
 });
 
 $(function () {
-//toggleMode(true);
+toggleMode(true);
 //	$('body').css('background-image', 'url(img/bg.png)'); $(".message").text('asdasdasdasdasdasds')// $('.feeding').show(); $('.income').hide();
-//	$('.minerals .value').numberChange(99999); $('.gas .value').numberChange(99999); $('.minerals-income .value').numberChange(9999, '+'); $('.gas-income .value').numberChange(9999, '+');;
+//	$('.gas .value').numberChange(99999); $('.minerals-income .value').numberChange(9999, '+'); $('.gas-income .value').numberChange(9999, '+');;
+//	$('.resource .value').text('0').prop('Counter', '0');
+//	$('.minerals .value').numberChange(99999);
 //
 //	var data = {"ingame": null, "globalMessage":"asd"};
 //			$('.resource').righteousToggle(data.inGame);
