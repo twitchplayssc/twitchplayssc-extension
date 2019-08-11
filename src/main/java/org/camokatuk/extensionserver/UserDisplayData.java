@@ -39,6 +39,8 @@ public class UserDisplayData
 		private int minerals;
 		private int gasIncome;
 		private int mineralsIncome;
+		private int gasTax;
+		private int mineralsTax;
 		private String supply;
 		private String feeding;
 
@@ -90,6 +92,22 @@ public class UserDisplayData
 		public void setMineralsIncome(int mineralsIncome)
 		{
 			this.mineralsIncome = mineralsIncome;
+		}
+
+		public int getGasTax() {
+			return gasTax;
+		}
+
+		public void setGasTax(int gasTax) {
+			this.gasTax = gasTax;
+		}
+
+		public int getMineralsTax() {
+			return mineralsTax;
+		}
+
+		public void setMineralsTax(int mineralsTax) {
+			this.mineralsTax = mineralsTax;
 		}
 
 		public String getSupply()

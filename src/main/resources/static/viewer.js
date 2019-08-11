@@ -36,8 +36,10 @@ function pollResourcesPeriodically()
                 $('.resource.income').righteousToggle(!data.inGame.feeding);
 
                 $('.feeding .value').text(data.inGame.feeding);
-                $('.gas-income .value').numberChange(data.inGame.gasIncome, '+');
-                $('.minerals-income .value').numberChange(data.inGame.mineralsIncome, '+');
+                $('.gas-income .value').numberChange(data.inGame.gasIncome, '+')
+                    .taxColor(data.inGame.gasTax);
+                $('.minerals-income .value').numberChange(data.inGame.mineralsIncome, '+')
+                    .taxColor(data.inGame.mineralsTax);
             }
             else
             {
@@ -50,7 +52,6 @@ function pollResourcesPeriodically()
 			setTimeout(pollResourcesPeriodically, RESOURCE_POLL_TIMEOUT);
 		}
 	});
-	
 }
 
 function toggleMode(joined){
@@ -58,26 +59,39 @@ function toggleMode(joined){
 	$('.message').righteousToggle(!joined);
 }
 
-$.fn.extend({ // avoids triggering show animation when not necessary
-	righteousToggle: function(show) {
+$.fn.extend({
+	righteousToggle: function(show) { // avoids triggering show animation when not necessary
 		if ($(this).is(':visible') && !show) {
 			$(this).hide();
 		} else if ($(this).is(':hidden') && show) {
 			$(this).show();
 		}
 		return this;
-	}
-});
-
-$.fn.extend({ // avoids triggering show animation when not necessary
+	},
 	numberChange: function(newNumber, str) {
-		$(this).prop('Counter', $(this).text()).animate({ Counter: newNumber }, {
+        $(this).prop('Counter', $(this).text()).animate({ Counter: newNumber }, {
             duration: 800,
             easing: 'swing',
             step: function (now) {
-              $(this).text((str ? str : '') + Math.ceil(now));
+                $(this).text((str ? str : '') + Math.ceil(now));
             }
         });
+        return this;
+    },
+	rgbColor: function(r, g, b) {
+		$(this).css("color", "rgb(" + r + "," + g + "," + b + ")");
+		return this;
+	},
+	taxColor: function(tax) {
+	    if (!tax)
+	    {
+	        return this;
+	    }
+	    var r = 255;
+        var g = 255 - Math.max(5 * tax - 245, 0);
+        var b = 255 - Math.min(5 * tax, 255);
+        console.log(r + ' ' + g + ' ' + b)
+        $(this).rgbColor(r, g, b);
         return this;
 	}
 });
