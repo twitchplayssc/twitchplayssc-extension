@@ -40,11 +40,23 @@ function pollResourcesPeriodically()
                     .taxColor(data.inGame.gasTax);
                 $('.minerals-income .value').numberChange(data.inGame.mineralsIncome, '+')
                     .taxColor(data.inGame.mineralsTax);
+
+                if (data.inGame.workers)
+                {
+                    $('.workers-minerals .value').numberChange(data.inGame.workers.minerals);
+                    $('.workers-gas .value').numberChange(data.inGame.workers.gas);
+                    $('.workers-moving .value').numberChange(data.inGame.workers.moving);
+                    $('.workers-idle .value').numberChange(data.inGame.workers.idle, '', function(e, val) {
+                        e.toggleClass("value-warn", val > 0);
+                    });
+
+                }
             }
             else
             {
                 $('.feeding').righteousToggle(false);
                 $('.resource .value').text('0').prop('Counter', '0');
+                $('.workers .value').text('0').prop('Counter', '0');
             }
 
             $('.message').text(data.globalMessage);
@@ -68,12 +80,13 @@ $.fn.extend({
 		}
 		return this;
 	},
-	numberChange: function(newNumber, str) {
+	numberChange: function(newNumber, str, onstep) {
         $(this).prop('Counter', $(this).text()).animate({ Counter: newNumber }, {
             duration: 800,
             easing: 'swing',
             step: function (now) {
                 $(this).text((str ? str : '') + Math.ceil(now));
+                if (onstep) onstep($(this), Math.ceil(now));
             }
         });
         return this;

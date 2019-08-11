@@ -32,6 +32,10 @@ body {
     width: 52%;
 }
 
+.value-warn {
+    color: red;
+}
+
 .resource .icon {
 	background-size: contain;
     background-repeat: no-repeat;

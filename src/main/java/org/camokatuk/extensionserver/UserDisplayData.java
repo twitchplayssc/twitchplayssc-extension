@@ -43,6 +43,7 @@ public class UserDisplayData
 		private int mineralsTax;
 		private String supply;
 		private String feeding;
+		private Workers workers;
 
 		public int getGas()
 		{
@@ -118,6 +119,54 @@ public class UserDisplayData
 		public void setSupply(String supply)
 		{
 			this.supply = supply;
+		}
+
+		public Workers getWorkers() {
+			return workers;
+		}
+
+		public void setWorkers(Workers workers) {
+			this.workers = workers;
+		}
+
+		public static class Workers
+		{
+			private int minerals;
+			private int gas;
+			private int idle;
+			private int moving;
+
+			public int getMinerals() {
+				return minerals;
+			}
+
+			public void setMinerals(int minerals) {
+				this.minerals = minerals;
+			}
+
+			public int getGas() {
+				return gas;
+			}
+
+			public void setGas(int gas) {
+				this.gas = gas;
+			}
+
+			public int getIdle() {
+				return idle;
+			}
+
+			public void setIdle(int idle) {
+				this.idle = idle;
+			}
+
+			public int getMoving() {
+				return moving;
+			}
+
+			public void setMoving(int moving) {
+				this.moving = moving;
+			}
 		}
 	}
 
