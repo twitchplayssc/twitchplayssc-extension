@@ -12,7 +12,7 @@ body {
 }
 
 .resource {
-	width: 4.5%;
+	width: 5.5%;
 	height: 3%;
 	display: none;
 	position: absolute;
@@ -28,7 +28,7 @@ body {
 .resource .value {
 	display: inline-block;
 	position: relative;
-    top: -30%;
+    top: -34%;
     width: 52%;
 }
 
@@ -40,16 +40,36 @@ body {
     height: 100%;
 }
 
-.minerals, .minerals-income {
+.minerals, .minerals-income, .workers-minerals {
 	left: 72.4%;
 }
 
-.gas, .gas-income {
+.gas, .gas-income, .workers-gas {
 	left: 79.7%;
 }
 
-.supply {
+.supply, .workers-moving {
 	left: 87.0%;
+}
+
+.workers-idle {
+	left: 94.3%;
+}
+
+.workers-minerals .icon {
+	background-image: url(../img/icons/wrench_min.png);
+}
+
+.workers-gas .icon {
+	background-image: url(../img/icons/wrench_gas.png);
+}
+
+.workers-idle .icon {
+	background-image: url(../img/icons/wrench_idle.png);
+}
+
+.workers-moving .icon {
+	background-image: url(../img/icons/wrench_mov.png);
 }
 
 .minerals .icon {
@@ -77,6 +97,11 @@ body {
     top: 5%;
 }
 
+.workers {
+    position: absolute;
+    top: 9.2%;
+}
+
 .feeding {
 	display: none;
 	position: absolute;
@@ -93,9 +118,9 @@ body {
 
 .feeding .value {
 	position: relative;
-	top: -8%;
-	width: 90%;
-
+	top: -18%;
+	width: 89%;
+    margin-left: 1%;
 	color: white;
 	display: inline-block;
 	white-space: nowrap;
@@ -109,7 +134,7 @@ body {
 	background-size: contain;
     background-repeat: no-repeat;
     margin-left: 1%;
-    width: 8%;
+    width: 9%;
     height: 100%;
 	display: inline-block;
 }
