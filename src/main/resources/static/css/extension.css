@@ -40,24 +40,16 @@ body {
     height: 100%;
 }
 
-.minerals {
+.minerals, .minerals-income {
 	left: 72.4%;
 }
 
-.gas {
+.gas, .gas-income {
 	left: 79.7%;
 }
 
 .supply {
 	left: 87.0%;
-}
-
-.minerals-income {
-	left: 72.4%;
-}
-
-.gas-income {
-	left: 79.9%;
 }
 
 .minerals .icon {
