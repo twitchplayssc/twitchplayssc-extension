@@ -90,7 +90,6 @@ $.fn.extend({
 	    var r = 255;
         var g = 255 - Math.max(5 * tax - 245, 0);
         var b = 255 - Math.min(5 * tax, 255);
-        console.log(r + ' ' + g + ' ' + b)
         $(this).rgbColor(r, g, b);
         return this;
 	}
