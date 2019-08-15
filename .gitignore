@@ -1,5 +1,6 @@
 application.properties
 debug.js
+static.zip
 
 #Global
 !/.gitignore

@@ -54,9 +54,11 @@ function pollResourcesPeriodically()
             }
             else
             {
+                // reinitialize all the text boxes
                 $('.feeding').righteousToggle(false);
                 $('.resource .value').text('0').prop('Counter', '0');
-                $('.workers .value').text('0').prop('Counter', '0');
+                $('.minerals-income .value').text('0').prop('Counter', '0').taxColor(0);
+                $('.gas-income .value').text('0').prop('Counter', '0').taxColor(0);
             }
 
             $('.message').text(data.globalMessage);
