@@ -98,7 +98,7 @@ $.fn.extend({
 		return this;
 	},
 	taxColor: function(tax) {
-	    if (!tax)
+	    if (tax === null || tax === '')
 	    {
 	        return this;
 	    }
