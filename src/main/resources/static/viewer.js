@@ -57,8 +57,8 @@ function pollResourcesPeriodically()
                 // reinitialize all the text boxes
                 $('.feeding').righteousToggle(false);
                 $('.resource .value').text('0').prop('Counter', '0');
-                $('.minerals-income .value').text('0').prop('Counter', '0').taxColor(0);
-                $('.gas-income .value').text('0').prop('Counter', '0').taxColor(0);
+                $('.minerals-income .value').text('+0').prop('Counter', '0').taxColor(0);
+                $('.gas-income .value').text('+0').prop('Counter', '0').taxColor(0);
             }
 
             $('.message').text(data.globalMessage);
@@ -94,19 +94,20 @@ $.fn.extend({
         return this;
     },
 	rgbColor: function(r, g, b) {
-		$(this).css("color", "rgb(" + r + "," + g + "," + b + ")");
-		return this;
+		return $(this).css("color", "rgb(" + r + "," + g + "," + b + ")");
+	},
+	whiteColor: function() {
+	    return $(this).rgbColor(255, 255, 255);
 	},
 	taxColor: function(tax) {
-	    if (tax === null || tax === '')
+	    if (!tax)
 	    {
-	        return this;
+	        return $(this).whiteColor();
 	    }
 	    var r = 255;
         var g = 255 - Math.max(5 * tax - 245, 0);
         var b = 255 - Math.min(5 * tax, 255);
-        $(this).rgbColor(r, g, b);
-        return this;
+        return $(this).rgbColor(r, g, b);
 	}
 });
 
@@ -163,5 +164,5 @@ twitch.onAuthorized(function (auth) {
   
   tuid = auth.userId;
   
-  console.log(auth)
+//  console.log(auth)
 });
