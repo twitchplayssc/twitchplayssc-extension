@@ -108,41 +108,18 @@ $.fn.extend({
         var g = 255 - Math.max(5 * tax - 245, 0);
         var b = 255 - Math.min(5 * tax, 255);
         return $(this).rgbColor(r, g, b);
-	},
-	trackClicks: function(width, height) {
-	    $(this).click(function (e) {
-	        if (event.which == 1) {
-                var posX = e.pageX - $(this).position().left,
-                posY = e.pageY - $(this).position().top;
-
-                var myX = Math.floor(posX * width / $(this).width());
-                var myY = Math.floor(posY * height / $(this).height());
-                var str = "[" + myX + ", " + myY+ "]";
-                console.log(str);
-                copyToClipboard(str);
-            }
-	    });
 	}
 });
 
 $(function () {
     toggleMode(true);
 	pollResourcesPeriodically();
-	$('.minimap').trackClicks(100, 100);
 });
 
 function logg(whatever)
 {
 	console.log(whatever);
 	twitch.rig.log(whatever);
-}
-
-function copyToClipboard(text) {
-    var $temp = $("<input>");
-    $("body").append($temp);
-    $temp.val(text).select();
-    document.execCommand("copy");
-    $temp.remove();
 }
 
 //----------------------------------
