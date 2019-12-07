@@ -155,3 +155,11 @@ body {
 	transform-origin: top left;
 }
 
+.minimap {
+	position: absolute;
+    top: 83.3%;
+    left: 1.4%;
+    width: 13.8%;
+    height: 27%;
+    background-color: purple;
+}
