@@ -9,6 +9,7 @@ body {
 	font-family: "Michroma";
     font-size: 1000px;
     background-size:100%;
+    overflow: hidden;
 }
 
 .resource {
@@ -155,3 +156,23 @@ body {
 	transform-origin: top left;
 }
 
+.minimap {
+    width: 17.85%;
+    height: 31.80%;
+    position: absolute;
+    left: 0.67%;
+    top: 62.68%;
+}
+
+.minimap-click-data {
+    width: 3.98%;
+    height: 1.76%;
+    position: absolute;
+    left: 0.65%;
+    top: 60.10%;
+    font-family: 'HyperFont';
+    font-weight: bolder;
+    font-size: 0.9vw;
+    text-align: center;
+    color: lightblue;
+}

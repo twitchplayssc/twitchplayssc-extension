@@ -107,12 +107,42 @@ $.fn.extend({
         var g = 255 - Math.max(5 * tax - 245, 0);
         var b = 255 - Math.min(5 * tax, 255);
         return $(this).rgbColor(r, g, b);
+	},
+	mouseCoords(event, scaleWidth, scaleHeight) {
+        var posX = event.pageX - $(this).position().left;
+        var posY = event.pageY - $(this).position().top;
+
+        var myX = Math.floor(posX * scaleWidth / $(this).width() + 1);
+        var myY = Math.floor(scaleHeight - posY * scaleHeight / $(this).height());
+        return {x: myX, y: myY};
+    },
+	trackClicks: function(scaleWidth, scaleHeight) {
+	    $(this).mouseout(function(event) {
+	        $('.minimap-click-data').text('');
+	    }).mousemove(function(event) {
+	        var crds = $(this).mouseCoords(event, scaleWidth, scaleHeight);
+	        var str = "(" + crds.x + " " + crds.y + ")";
+	        $('.minimap-click-data').text(str);
+	    }).click(function (event) {
+	        if (event.which == 1) {
+                copyToClipboard($('.minimap-click-data').text());
+            }
+	    });
 	}
 });
+
+function copyToClipboard(text) {
+    var $temp = $("<input>");
+    $("body").append($temp);
+    $temp.val(text).select();
+    document.execCommand("copy");
+    $temp.remove();
+}
 
 $(function () {
     toggleMode(true);
 	pollResourcesPeriodically();
+	$('.minimap').trackClicks(100, 100);
 });
 
 //----------------------------------
