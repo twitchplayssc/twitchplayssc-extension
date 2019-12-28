@@ -4,7 +4,6 @@ let token = '';
 let tuid = '';
 
 const twitch = window.Twitch.ext;
-console.log(twitch);
 
 function ebsReq(ajaxParam)
 {
@@ -116,53 +115,11 @@ $(function () {
 	pollResourcesPeriodically();
 });
 
-function logg(whatever)
-{
-	console.log(whatever);
-	twitch.rig.log(whatever);
-}
-
-//----------------------------------
-//-------ZOOM-----------------------
-//----------------------------------
-/*
-let videoResolution = 1920;
-let zoom = 1.0;
-function resize(newWidth)
-{
-	if (videoResolution != newWidth)
-    {
-        zoom = newResolution * 1.0 / 1920;
-        logg("new resolution: " +newWidth);
-        logg("new zoom: " +zoom);
-        $('body').css('zoom', zoom);
-        videoResolution = newWidth;
-    }
-}
-
-twitch.onContext(function (context) {
-    logg(context);
-    var indexOfX = context.displayResolution.indexOf('x');
-    var newResolution = parseInt(context.displayResolution.substring(0, indexOfX));
-
-    if (videoResolution != newResolution)
-    {
-        zoom = newResolution * 1.0 / 1920;
-        logg("new resolution: " +newResolution);
-        logg("new zoom: " +zoom);
-        $('body').css('zoom', zoom);
-        videoResolution = newResolution;
-    }
-});*/
-
 //----------------------------------
 //-------AUTH-----------------------
 //----------------------------------
 twitch.onAuthorized(function (auth) {
   // save our credentials
   token = auth.token;
-  
   tuid = auth.userId;
-  
-//  console.log(auth)
 });
