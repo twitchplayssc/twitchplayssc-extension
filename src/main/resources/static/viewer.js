@@ -121,11 +121,11 @@ $.fn.extend({
 	        $('.minimap-click-data').text('');
 	    }).mousemove(function(event) {
 	        var crds = $(this).mouseCoords(event, scaleWidth, scaleHeight);
-	        var str = "(" + crds.x + " " + crds.y + ")";
+	        var str = crds.x + " " + crds.y;
 	        $('.minimap-click-data').text(str);
 	    }).click(function (event) {
 	        if (event.which == 1) {
-                copyToClipboard($('.minimap-click-data').text());
+                copyToClipboard("(" + $('.minimap-click-data').text() + ")");
             }
 	    });
 	}
