@@ -140,7 +140,7 @@ function copyToClipboard(text) {
 }
 
 $(function () {
-    toggleMode(true);
+    toggleMode(false);
 	pollResourcesPeriodically();
 	$('.minimap').trackClicks(100, 100);
 });
