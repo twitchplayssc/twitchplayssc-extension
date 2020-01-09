@@ -25,6 +25,7 @@ function pollResourcesPeriodically()
 		success: function(data) {
 
 			$('.resource').righteousToggle(data.inGame);
+			$('.minimap-click-data, .minimap').righteousToggle(data.inGame);
 			if (data.inGame) {
 
 				$('.gas .value').numberChange(data.inGame.gas);
@@ -69,6 +70,7 @@ function pollResourcesPeriodically()
 
 function toggleMode(joined){
 	$('.resource').righteousToggle(joined);
+	$('.minimap-click-data, .minimap').righteousToggle(joined);
 	$('.message').righteousToggle(!joined);
 }
 
