@@ -35,8 +35,10 @@ public class UserDisplayData
 
 	public static class InGame
 	{
+		private boolean sellout = false;
 		private int gas;
 		private int minerals;
+		private int terrazine;
 		private int gasIncome;
 		private int mineralsIncome;
 		private int gasTax;
@@ -44,6 +46,26 @@ public class UserDisplayData
 		private String supply;
 		private String feeding;
 		private Workers workers;
+
+		public boolean isSellout()
+		{
+			return sellout;
+		}
+
+		public void setSellout(boolean sellout)
+		{
+			this.sellout = sellout;
+		}
+
+		public int getTerrazine()
+		{
+			return terrazine;
+		}
+
+		public void setTerrazine(int terrazine)
+		{
+			this.terrazine = terrazine;
+		}
 
 		public int getGas()
 		{

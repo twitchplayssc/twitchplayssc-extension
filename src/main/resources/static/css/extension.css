@@ -51,7 +51,7 @@ body {
 	left: 79.7%;
 }
 
-.supply, .workers-moving {
+.supply, .workers-moving, .terrazine {
 	left: 87.0%;
 }
 
@@ -95,7 +95,11 @@ body {
 	background-image: url(../img/icons/gas-income.png);
 }
 
-.income {
+.terrazine .icon {
+	background-image: url(../img/icons/terrazine28.png);
+}
+
+.income, .terrazine {
 	position: absolute;
     top: 5%;
 }

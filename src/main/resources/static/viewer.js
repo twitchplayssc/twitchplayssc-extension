@@ -31,6 +31,7 @@ function pollResourcesPeriodically()
 				$('.gas .value').numberChange(data.inGame.gas);
 				$('.minerals .value').numberChange(data.inGame.minerals);
                 $('.supply .value').text(data.inGame.supply);
+                $('.terrazine .value').text(data.inGame.terrazine);
 
                 $('.feeding').righteousToggle(data.inGame.feeding);
                 $('.resource.income').righteousToggle(!data.inGame.feeding);
@@ -49,16 +50,16 @@ function pollResourcesPeriodically()
                     $('.workers-idle .value').numberChange(data.inGame.workers.idle, '', function(e, val) {
                         e.toggleClass("value-warn", val > 0);
                     });
-
                 }
+
+                $('.sellout').righteousToggle(data.inGame.sellout);
             }
             else
             {
                 // reinitialize all the text boxes
                 $('.feeding').righteousToggle(false);
                 $('.resource .value').text('0').prop('Counter', '0');
-                $('.minerals-income .value').text('+0').prop('Counter', '0').taxColor(0);
-                $('.gas-income .value').text('+0').prop('Counter', '0').taxColor(0);
+                $('.income .value').text('+0').prop('Counter', '0').taxColor(0);
             }
 
             $('.message').text(data.globalMessage);

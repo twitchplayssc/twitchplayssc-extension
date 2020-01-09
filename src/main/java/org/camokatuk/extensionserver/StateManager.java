@@ -39,7 +39,13 @@ public class StateManager
 
 	public void pushPlayerStats(Map<String, UserDisplayData> state)
 	{
-		if (state != null && !state.isEmpty())
+		// if the extension server was just restarted or somehow we didn't get the initial push from the bot
+		// and yet we're receiving players' data, we should update the global state to INGAME.
+		// it could be a sellout game, which would imply INGAME_SELLOUT, but the chances of that are low,
+		// and we shouldn't be restarting the extension server during the sellout games in the first place.
+		// we can always fix this by pushing INGAME_SELLOUT manually.
+		boolean stateIsNotInGame = this.gameState == null || GameState.isNotInGame(this.gameState.getState());
+		if (state != null && !state.isEmpty() && stateIsNotInGame)
 		{
 			this.gameState = GameStateContainer.inGame();
 		}
@@ -73,7 +79,7 @@ public class StateManager
 	public void pushGameState(GameStateContainer gameState)
 	{
 		this.gameState = gameState;
-		if (gameState.getState() != GameState.INGAME)
+		if (GameState.isNotInGame(gameState.getState()))
 		{
 			this.resetPlayerStats();
 		}
@@ -81,9 +87,11 @@ public class StateManager
 
 	public UserDisplayData getDisplayData(String userIdString)
 	{
-		if (this.gameState.getState() == GameState.INGAME)
+		if (GameState.isInGame(this.gameState.getState()))
 		{
-			return this.getInGameDisplayData(userIdString);
+			UserDisplayData displayData = this.getInGameDisplayData(userIdString);
+			displayData.getInGame().setSellout(this.gameState.getState() == GameState.INGAME_SELLOUT);
+			return displayData;
 		}
 		else if (this.gameState.getState() == GameState.BROKEN)
 		{

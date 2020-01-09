@@ -14,16 +14,39 @@ import com.fasterxml.jackson.databind.node.TextNode;
 @JsonDeserialize(using = GameState.GameStateDeserializer.class)
 public enum GameState
 {
-	INGAME,
-	LEADERBOARDS,
-	BROKEN,
-	STARTINGEXTENSION,
-	STARTINGSTREAM;
+	INGAME(true),
+	INGAME_SELLOUT(true),
+	LEADERBOARDS(),
+	BROKEN(),
+	STARTINGEXTENSION(),
+	STARTINGSTREAM();
+
+	private boolean inGame;
+
+	GameState(boolean inGame)
+	{
+		this.inGame = inGame;
+	}
+
+	GameState()
+	{
+		this(false);
+	}
 
 	@JsonValue
 	public String jsonRepresentation()
 	{
 		return this.name().toLowerCase();
+	}
+
+	public static boolean isInGame(GameState state)
+	{
+		return state != null && state.inGame;
+	}
+
+	public static boolean isNotInGame(GameState state)
+	{
+		return !isInGame(state);
 	}
 
 	public static class GameStateDeserializer extends JsonDeserializer<GameState>
