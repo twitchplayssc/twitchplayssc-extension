@@ -90,7 +90,10 @@ public class StateManager
 		if (GameState.isInGame(this.gameState.getState()))
 		{
 			UserDisplayData displayData = this.getInGameDisplayData(userIdString);
-			displayData.getInGame().setSellout(this.gameState.getState() == GameState.INGAME_SELLOUT);
+			if (displayData.getInGame() != null)
+			{
+				displayData.getInGame().setSellout(this.gameState.getState() == GameState.INGAME_SELLOUT);
+			}
 			return displayData;
 		}
 		else if (this.gameState.getState() == GameState.BROKEN)
