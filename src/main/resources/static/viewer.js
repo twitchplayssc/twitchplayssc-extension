@@ -119,16 +119,17 @@ $.fn.extend({
         var myY = Math.floor(scaleHeight - posY * scaleHeight / $(this).height());
         return {x: myX, y: myY};
     },
-	trackClicks: function(scaleWidth, scaleHeight) {
+	trackClicks: function(valueHolder, valueDisplayFn, valueClipFn, scaleWidth, scaleHeight) {
 	    $(this).mouseout(function(event) {
-	        $('.minimap-click-data').text('');
+	        valueHolder.text('');
 	    }).mousemove(function(event) {
 	        var crds = $(this).mouseCoords(event, scaleWidth, scaleHeight);
-	        var str = crds.x + " " + crds.y;
-	        $('.minimap-click-data').text(str);
+	        var str = valueDisplayFn(crds);
+	        valueHolder.text(str);
 	    }).click(function (event) {
 	        if (event.which == 1) {
-                copyToClipboard("(" + $('.minimap-click-data').text() + ")");
+	            var crds = $(this).mouseCoords(event, scaleWidth, scaleHeight);
+            	copyToClipboard(valueClipFn(crds));
             }
 	    });
 	}
@@ -145,8 +146,50 @@ function copyToClipboard(text) {
 $(function () {
     toggleMode(false);
 	pollResourcesPeriodically();
-	$('.minimap').trackClicks(100, 100);
+	$('.minimap').trackClicks($('.minimap-click-data'), crds => (crds.x + " " + crds.y),
+	    crds => "(" + crds.x + " " + crds.y + ")", 100, 100);
+	$('.command-card').trackClicks($('.command-card-click-data'), crds => command(crds).sh,
+	    crds => command(crds).lg, 7, 4);
 });
+
+
+function command(crds) {
+    if (crds.x == 1 && crds.y == 0) return {sh: '!u s', lg: '!upgrade shields'};
+    if (crds.x == 1 && crds.y == 1) return {sh: '!u ga', lg: '!upgrade ground_armor'};
+    if (crds.x == 1 && crds.y == 2) return {sh: '!u gw', lg: '!upgrade ground_weapons'};
+
+    if (crds.x == 2 && crds.y == 0) return {sh: '!r wg', lg: '!research warpgate'};
+    if (crds.x == 2 && crds.y == 1) return {sh: '!u aa', lg: '!upgrade air_armor'};
+    if (crds.x == 2 && crds.y == 2) return {sh: '!u aw', lg: '!upgrade air_weapons'};
+
+    if (crds.x == 3 && crds.y == 0) return {sh: '!r g', lg: '!research glaive'};
+    if (crds.x == 3 && crds.y == 1) return {sh: '!r b', lg: '!research blink'};
+    if (crds.x == 3 && crds.y == 2) return {sh: '!r c', lg: '!research charge'};
+
+    if (crds.x == 4 && crds.y == 0) return {sh: '!r tl', lg: '!research thermal_lance'};
+    if (crds.x == 4 && crds.y == 1) return {sh: '!r gd', lg: '!research drive'};
+    if (crds.x == 4 && crds.y == 2) return {sh: '!r gb', lg: '!research boosters'};
+
+    if (crds.x == 5 && crds.y == 1) return {sh: '!r fv', lg: '!research fluxvanes'};
+    if (crds.x == 5 && crds.y == 2) return {sh: '!r pc', lg: '!research crystals'};
+
+    if (crds.x == 6 && crds.y == 2) return {sh: '!r s', lg: '!research storm'};
+
+    if (crds.x == 7 && crds.y == 2) return {sh: '!r ss', lg: '!research dark_templar'};
+
+
+    if (crds.x == 1 && crds.y == 3) return {sh: '!b f', lg: '!build forge'};
+    if (crds.x == 2 && crds.y == 3) return {sh: '!b cc', lg: '!build core'};
+    if (crds.x == 3 && crds.y == 3) return {sh: '!b t', lg: '!build twilight'};
+    if (crds.x == 4 && crds.y == 3) return {sh: '!b rb', lg: '!build robo_bay'};
+    if (crds.x == 5 && crds.y == 3) return {sh: '!b fb', lg: '!build fleet_beacon'};
+    if (crds.x == 6 && crds.y == 3) return {sh: '!b ta', lg: '!build templar_archives'};
+    if (crds.x == 7 && crds.y == 3) return {sh: '!b ds', lg: '!build dark_shrine'};
+
+    if (crds.x == 5 && crds.y == 0) return {sh: '!b g', lg: '!build gateway'};
+    if (crds.x == 6 && crds.y == 0) return {sh: '!b r', lg: '!build robo'};
+    if (crds.x == 7 && crds.y == 0) return {sh: '!b s', lg: '!build stargate'};
+}
 
 //----------------------------------
 //-------AUTH-----------------------

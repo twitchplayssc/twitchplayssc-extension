@@ -167,18 +167,37 @@ body {
     top: 62.68%;
 }
 
-.minimap-click-data {
+.minimap-click-data, .command-card-click-data {
     background: url(../img/clickdatacontainer.png);
     background-size: cover;
     width: 4.42%;
     height: 2.80%;
     padding-top: 0.2%;
     position: absolute;
-    left: 7.1%;
-    top: 95.35%;
     font-family: 'HyperFont', monospace;
     font-weight: bolder;
     font-size: 1.1vw;
     text-align: center;
     color: lightblue;
 }
+
+.minimap-click-data {
+    left: 7.1%;
+    top: 95.35%;
+}
+
+.command-card {
+    position: absolute;
+    top: 74.8%;
+    right: 0.9%;
+    width: 18.22%;
+    height: 19.00%;
+    opacity:0.5;
+    background-color: white;
+}
+
+.command-card-click-data {
+    left: 88.3%;
+    top: 95.35%;
+}
+
