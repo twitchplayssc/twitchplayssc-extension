@@ -46,6 +46,17 @@ public class UserDisplayData
 		private String supply;
 		private String feeding;
 		private Workers workers;
+		private MiniMap map = new MiniMap();
+
+		public MiniMap getMap()
+		{
+			return map;
+		}
+
+		public void setMap(MiniMap map)
+		{
+			this.map = map;
+		}
 
 		public boolean isSellout()
 		{

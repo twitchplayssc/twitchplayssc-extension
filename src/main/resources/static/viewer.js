@@ -25,8 +25,11 @@ function pollResourcesPeriodically()
 		success: function(data) {
 
 			$('.resource').righteousToggle(data.inGame);
-			$('.minimap-click-data, .minimap').righteousToggle(data.inGame);
+			$('.minimap-click-data, .minimap, .command-card-click-data, .command-card').righteousToggle(data.inGame);
 			if (data.inGame) {
+			    if (data.inGame.map) {
+			        $('.minimap').scaleToRatio(data.inGame.map.ratio ? data.inGame.map.ratio : 1);
+			    }
 
 				$('.gas .value').numberChange(data.inGame.gas);
 				$('.minerals .value').numberChange(data.inGame.minerals);
@@ -71,7 +74,7 @@ function pollResourcesPeriodically()
 
 function toggleMode(joined){
 	$('.resource').righteousToggle(joined);
-	$('.minimap-click-data, .minimap').righteousToggle(joined);
+	$('.minimap-click-data, .minimap, .command-card-click-data, .command-card').righteousToggle(joined);
 	$('.message').righteousToggle(!joined);
 }
 
@@ -132,7 +135,51 @@ $.fn.extend({
             	copyToClipboard(valueClipFn(crds));
             }
 	    });
-	}
+	},
+	percentWidth: function() {
+	    return 100 * $(this).width() / $(window).width();
+	},
+	percentHeight: function() {
+        return 100 * $(this).height() / $(window).height();
+    },
+    percentLeft: function() {
+        return 100 * $(this).position().left / $(window).width();
+    },
+    percentTop: function() {
+        return 100 * $(this).position().top / $(window).height();
+    },
+    percentValue: function(prop, newVal) {
+         return $(this).css(prop, newVal + '%');
+    },
+	scaleToRatio: function(ratioW2H) { // preserves the center
+	    var originalPosition;
+        var originalDimensions;
+	    if (!$(this).attr('originalPosition')) { // store the original values
+	        originalPosition = {left: $(this).percentLeft(), top: $(this).percentTop()};
+	        originalDimensions = {width: $(this).percentWidth(), height: $(this).percentHeight()};
+	        $(this).attr('originalPosition', JSON.stringify(originalPosition));
+	        $(this).attr('originalDimensions', JSON.stringify(originalDimensions));
+	    } else { // reset to original dimensions first
+	         originalPosition = JSON.parse($(this).attr('originalPosition'));
+             originalDimensions = JSON.parse($(this).attr('originalDimensions'));
+             $(this).percentValue('left', originalPosition.left);
+             $(this).percentValue('top', originalPosition.top);
+             $(this).percentValue('width', originalDimensions.width);
+             $(this).percentValue('height', originalDimensions.height);
+	    }
+
+	    if (ratioW2H > 1) { // apply the ratio thingy
+            let originalHeight = originalDimensions.height;
+	        let newHeight = originalHeight / ratioW2H;
+	        $(this).percentValue('top', originalPosition.top + ((originalHeight - newHeight) / 2));
+	        $(this).percentValue('height', newHeight);
+	    } else if (ratioW2H < 1) {
+	        let originalWidth = originalDimensions.width;
+	        let newWidth = originalWidth * ratioW2H;
+	        $(this).percentValue('left', originalPosition.left + ((originalWidth - newWidth) / 2));
+	        $(this).percentValue('width', newWidth);
+	    }
+    }
 });
 
 function copyToClipboard(text) {

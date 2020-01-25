@@ -2,19 +2,25 @@ package org.camokatuk.extensionserver;
 
 public class GameStateContainer
 {
-	private GameState state;
+	private GameState state = GameState.STARTINGEXTENSION;;
 	private String message;
-
-	public GameStateContainer()
-	{
-		this.state = GameState.STARTINGEXTENSION;
-	}
+	private MiniMap map = new MiniMap();
 
 	public static GameStateContainer inGame()
 	{
 		GameStateContainer inGameState = new GameStateContainer();
 		inGameState.state = GameState.INGAME;
 		return inGameState;
+	}
+
+	public MiniMap getMap()
+	{
+		return map;
+	}
+
+	public void setMap(MiniMap map)
+	{
+		this.map = map;
 	}
 
 	public GameState getState()

@@ -92,6 +92,7 @@ public class StateManager
 			UserDisplayData displayData = this.getInGameDisplayData(userIdString);
 			if (displayData.getInGame() != null)
 			{
+				displayData.getInGame().setMap(this.gameState.getMap());
 				displayData.getInGame().setSellout(this.gameState.getState() == GameState.INGAME_SELLOUT);
 			}
 			return displayData;
