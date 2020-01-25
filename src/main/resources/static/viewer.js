@@ -189,6 +189,8 @@ function command(crds) {
     if (crds.x == 5 && crds.y == 0) return {sh: '!b g', lg: '!build gateway'};
     if (crds.x == 6 && crds.y == 0) return {sh: '!b r', lg: '!build robo'};
     if (crds.x == 7 && crds.y == 0) return {sh: '!b s', lg: '!build stargate'};
+
+    return {sh: '', lg: null};
 }
 
 //----------------------------------
