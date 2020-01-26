@@ -183,21 +183,21 @@ body {
 
 .minimap-click-data, .command-card-click-data {
     background: url(../img/clickdatacontainer.png);
-    background-size: cover;
-    width: 4.42%;
-    height: 2.80%;
-    padding-top: 0.2%;
+    background-size: 100% 100%;
+    width: 5.02%;
+    height: 3.20%;
+    padding-top: 0.5%;
     position: absolute;
     font-family: 'HyperFont', monospace;
     font-weight: bolder;
     font-size: 1.1vw;
     text-align: center;
     color: lightblue;
+    top: 94.95%;
 }
 
 .minimap-click-data {
     left: 7.1%;
-    top: 95.35%;
 }
 
 .command-card {
@@ -209,7 +209,6 @@ body {
 }
 
 .command-card-click-data {
-    left: 82.3%;
-    top: 95.35%;
+    left: 81.8%;
 }
 
