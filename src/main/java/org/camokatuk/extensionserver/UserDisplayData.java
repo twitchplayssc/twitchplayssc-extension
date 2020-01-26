@@ -43,10 +43,21 @@ public class UserDisplayData
 		private int mineralsIncome;
 		private int gasTax;
 		private int mineralsTax;
+		private int stance;
 		private String supply;
 		private String feeding;
 		private Workers workers;
 		private MiniMap map = new MiniMap();
+
+		public int getStance()
+		{
+			return stance;
+		}
+
+		public void setStance(int stance)
+		{
+			this.stance = stance;
+		}
 
 		public MiniMap getMap()
 		{

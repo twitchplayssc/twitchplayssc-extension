@@ -31,6 +31,11 @@ function pollResourcesPeriodically()
 			        $('.minimap').scaleToRatio(data.inGame.map.ratio ? data.inGame.map.ratio : 1);
 			    }
 
+                let stanceElement = $('.stance').removeClass().addClass('stance');
+			    if (data.inGame.stance === 0) stanceElement.addClass('manual');
+			    if (data.inGame.stance === 1) stanceElement.addClass('offensive');
+			    if (data.inGame.stance === 2) stanceElement.addClass('offensive');
+
 				$('.gas .value').numberChange(data.inGame.gas);
 				$('.minerals .value').numberChange(data.inGame.minerals);
                 $('.supply .value').text(data.inGame.supply);
