@@ -34,7 +34,7 @@ function pollResourcesPeriodically()
                 let stanceElement = $('.stance').removeClass().addClass('stance');
 			    if (data.inGame.stance === 0) stanceElement.addClass('manual');
 			    if (data.inGame.stance === 1) stanceElement.addClass('offensive');
-			    if (data.inGame.stance === 2) stanceElement.addClass('offensive');
+			    if (data.inGame.stance === 2) stanceElement.addClass('defensive');
 
 				$('.gas .value').numberChange(data.inGame.gas);
 				$('.minerals .value').numberChange(data.inGame.minerals);
@@ -137,7 +137,7 @@ $.fn.extend({
 	    }).click(function (event) {
 	        if (event.which == 1) {
 	            var crds = $(this).mouseCoords(event, scaleWidth, scaleHeight);
-            	copyToClipboard(valueClipFn(crds));
+            	valueClipFn(crds);
             }
 	    });
 	},
@@ -187,60 +187,81 @@ $.fn.extend({
     }
 });
 
-function copyToClipboard(text) {
-    var $temp = $("<input>");
-    $("body").append($temp);
-    $temp.val(text).select();
+let $clipboard = $("<input id='clipboard'>").appendTo('body');
+let CLIPBOARD_COMBO_TOKENS = {
+    BUILD: { attr: 'b'},
+    COORDS: { attr: 'c', combo: ['b', 'c']},
+    OTHER: { attr: 'o'},
+    _clearAllAttributes: function() {
+        Object.values(CLIPBOARD_COMBO_TOKENS).map(val => val.attr ? $clipboard.attr(val.attr, '') : null);
+    }
+};
+
+function copyToClipboard(text, key) {
+    $clipboard.attr(key.attr, text);
+
+    var newVal;
+    if (key.combo) {
+        newVal = key.combo.map(a => $clipboard.attr(a)).join(" ");
+
+        CLIPBOARD_COMBO_TOKENS._clearAllAttributes();
+    } else {
+        newVal = text;
+
+        if (key.timeoutHandle) clearTimeout(key.timeoutHandle);
+        key.timeoutHandle = setTimeout(() => $clipboard.attr(key.attr, ''), 3000); // keep last timeout handle for each type of token
+    }
+
+    $clipboard.val(newVal.trim()).select();
     document.execCommand("copy");
-    $temp.remove();
 }
 
 $(function () {
     toggleMode(false);
 	pollResourcesPeriodically();
 	$('.minimap').trackClicks($('.minimap-click-data'), crds => (crds.x + " " + crds.y),
-	    crds => "(" + crds.x + " " + crds.y + ")", 100, 100);
+	    crds => copyToClipboard("(" + crds.x + " " + crds.y + ")", CLIPBOARD_COMBO_TOKENS.COORDS), 100, 100);
 	$('.command-card').trackClicks($('.command-card-click-data'), crds => command(crds).sh,
-	    crds => command(crds).lg, 7, 4);
+	    crds => copyToClipboard(command(crds).lg, command(crds).clipToken), 7, 4);
 });
 
 
 function command(crds) {
-    if (crds.x == 1 && crds.y == 0) return {sh: '!u s', lg: '!upgrade shields'};
-    if (crds.x == 1 && crds.y == 1) return {sh: '!u ga', lg: '!upgrade ground_armor'};
-    if (crds.x == 1 && crds.y == 2) return {sh: '!u gw', lg: '!upgrade ground_weapons'};
+    if (crds.x == 1 && crds.y == 0) return {sh: '!u s', lg: '!upgrade shields', clipToken: CLIPBOARD_COMBO_TOKENS.OTHER};
+    if (crds.x == 1 && crds.y == 1) return {sh: '!u ga', lg: '!upgrade ground_armor', clipToken: CLIPBOARD_COMBO_TOKENS.OTHER};
+    if (crds.x == 1 && crds.y == 2) return {sh: '!u gw', lg: '!upgrade ground_weapons', clipToken: CLIPBOARD_COMBO_TOKENS.OTHER};
 
-    if (crds.x == 2 && crds.y == 0) return {sh: '!r wg', lg: '!research warpgate'};
-    if (crds.x == 2 && crds.y == 1) return {sh: '!u aa', lg: '!upgrade air_armor'};
-    if (crds.x == 2 && crds.y == 2) return {sh: '!u aw', lg: '!upgrade air_weapons'};
+    if (crds.x == 2 && crds.y == 0) return {sh: '!r wg', lg: '!research warpgate', clipToken: CLIPBOARD_COMBO_TOKENS.OTHER};
+    if (crds.x == 2 && crds.y == 1) return {sh: '!u aa', lg: '!upgrade air_armor', clipToken: CLIPBOARD_COMBO_TOKENS.OTHER};
+    if (crds.x == 2 && crds.y == 2) return {sh: '!u aw', lg: '!upgrade air_weapons', clipToken: CLIPBOARD_COMBO_TOKENS.OTHER};
 
-    if (crds.x == 3 && crds.y == 0) return {sh: '!r g', lg: '!research glaive'};
-    if (crds.x == 3 && crds.y == 1) return {sh: '!r b', lg: '!research blink'};
-    if (crds.x == 3 && crds.y == 2) return {sh: '!r c', lg: '!research charge'};
+    if (crds.x == 3 && crds.y == 0) return {sh: '!r g', lg: '!research glaive', clipToken: CLIPBOARD_COMBO_TOKENS.OTHER};
+    if (crds.x == 3 && crds.y == 1) return {sh: '!r b', lg: '!research blink', clipToken: CLIPBOARD_COMBO_TOKENS.OTHER};
+    if (crds.x == 3 && crds.y == 2) return {sh: '!r c', lg: '!research charge', clipToken: CLIPBOARD_COMBO_TOKENS.OTHER};
 
-    if (crds.x == 4 && crds.y == 0) return {sh: '!r tl', lg: '!research thermal_lance'};
-    if (crds.x == 4 && crds.y == 1) return {sh: '!r gd', lg: '!research drive'};
-    if (crds.x == 4 && crds.y == 2) return {sh: '!r gb', lg: '!research boosters'};
+    if (crds.x == 4 && crds.y == 0) return {sh: '!r tl', lg: '!research thermal_lance', clipToken: CLIPBOARD_COMBO_TOKENS.OTHER};
+    if (crds.x == 4 && crds.y == 1) return {sh: '!r gd', lg: '!research drive', clipToken: CLIPBOARD_COMBO_TOKENS.OTHER};
+    if (crds.x == 4 && crds.y == 2) return {sh: '!r gb', lg: '!research boosters', clipToken: CLIPBOARD_COMBO_TOKENS.OTHER};
 
-    if (crds.x == 5 && crds.y == 1) return {sh: '!r fv', lg: '!research fluxvanes'};
-    if (crds.x == 5 && crds.y == 2) return {sh: '!r pc', lg: '!research crystals'};
+    if (crds.x == 5 && crds.y == 1) return {sh: '!r fv', lg: '!research fluxvanes', clipToken: CLIPBOARD_COMBO_TOKENS.OTHER};
+    if (crds.x == 5 && crds.y == 2) return {sh: '!r pc', lg: '!research crystals', clipToken: CLIPBOARD_COMBO_TOKENS.OTHER};
 
-    if (crds.x == 6 && crds.y == 2) return {sh: '!r s', lg: '!research storm'};
+    if (crds.x == 6 && crds.y == 2) return {sh: '!r s', lg: '!research storm', clipToken: CLIPBOARD_COMBO_TOKENS.OTHER};
 
-    if (crds.x == 7 && crds.y == 2) return {sh: '!r ss', lg: '!research dark_templar'};
+    if (crds.x == 7 && crds.y == 2) return {sh: '!r ss', lg: '!research dark_templar', clipToken: CLIPBOARD_COMBO_TOKENS.OTHER};
 
 
-    if (crds.x == 1 && crds.y == 3) return {sh: '!b f', lg: '!build forge'};
-    if (crds.x == 2 && crds.y == 3) return {sh: '!b cc', lg: '!build core'};
-    if (crds.x == 3 && crds.y == 3) return {sh: '!b t', lg: '!build twilight'};
-    if (crds.x == 4 && crds.y == 3) return {sh: '!b rb', lg: '!build robo_bay'};
-    if (crds.x == 5 && crds.y == 3) return {sh: '!b fb', lg: '!build fleet_beacon'};
-    if (crds.x == 6 && crds.y == 3) return {sh: '!b ta', lg: '!build templar_archives'};
-    if (crds.x == 7 && crds.y == 3) return {sh: '!b ds', lg: '!build dark_shrine'};
+    if (crds.x == 1 && crds.y == 3) return {sh: '!b f', lg: '!build forge', clipToken: CLIPBOARD_COMBO_TOKENS.BUILD};
+    if (crds.x == 2 && crds.y == 3) return {sh: '!b cc', lg: '!build core', clipToken: CLIPBOARD_COMBO_TOKENS.BUILD};
+    if (crds.x == 3 && crds.y == 3) return {sh: '!b t', lg: '!build twilight', clipToken: CLIPBOARD_COMBO_TOKENS.BUILD};
+    if (crds.x == 4 && crds.y == 3) return {sh: '!b rb', lg: '!build robo_bay', clipToken: CLIPBOARD_COMBO_TOKENS.BUILD};
+    if (crds.x == 5 && crds.y == 3) return {sh: '!b fb', lg: '!build fleet_beacon', clipToken: CLIPBOARD_COMBO_TOKENS.BUILD};
+    if (crds.x == 6 && crds.y == 3) return {sh: '!b ta', lg: '!build templar_archives', clipToken: CLIPBOARD_COMBO_TOKENS.BUILD};
+    if (crds.x == 7 && crds.y == 3) return {sh: '!b ds', lg: '!build dark_shrine', clipToken: CLIPBOARD_COMBO_TOKENS.BUILD};
 
-    if (crds.x == 5 && crds.y == 0) return {sh: '!b g', lg: '!build gateway'};
-    if (crds.x == 6 && crds.y == 0) return {sh: '!b r', lg: '!build robo'};
-    if (crds.x == 7 && crds.y == 0) return {sh: '!b s', lg: '!build stargate'};
+    if (crds.x == 5 && crds.y == 0) return {sh: '!b g', lg: '!build gateway', clipToken: CLIPBOARD_COMBO_TOKENS.BUILD};
+    if (crds.x == 6 && crds.y == 0) return {sh: '!b r', lg: '!build robo', clipToken: CLIPBOARD_COMBO_TOKENS.BUILD};
+    if (crds.x == 7 && crds.y == 0) return {sh: '!b s', lg: '!build stargate', clipToken: CLIPBOARD_COMBO_TOKENS.BUILD};
 
     return {sh: '', lg: null};
 }
