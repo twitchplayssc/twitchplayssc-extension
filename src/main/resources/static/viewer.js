@@ -189,7 +189,7 @@ $.fn.extend({
 
 let $clipboard = $("<input id='clipboard'>").appendTo('body');
 let CLIPBOARD_COMBO_TOKENS = {
-    BUILD: { attr: 'b'},
+    BUILD: { attr: 'b', combo: ['b', 'c']},
     COORDS: { attr: 'c', combo: ['b', 'c']},
     OTHER: { attr: 'o'},
     _clearAllAttributes: function() {
@@ -203,14 +203,12 @@ function copyToClipboard(text, key) {
     var newVal;
     if (key.combo) {
         newVal = key.combo.map(a => $clipboard.attr(a)).join(" ");
-
-        CLIPBOARD_COMBO_TOKENS._clearAllAttributes();
     } else {
         newVal = text;
-
-        if (key.timeoutHandle) clearTimeout(key.timeoutHandle);
-        key.timeoutHandle = setTimeout(() => $clipboard.attr(key.attr, ''), 3000); // keep last timeout handle for each type of token
     }
+
+    if (key.timeoutHandle) clearTimeout(key.timeoutHandle);
+    key.timeoutHandle = setTimeout(() => $clipboard.attr(key.attr, ''), 3000); // keep last timeout handle for each type of token
 
     $clipboard.val(newVal.trim()).select();
     document.execCommand("copy");
