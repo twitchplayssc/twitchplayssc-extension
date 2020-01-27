@@ -222,7 +222,7 @@ $(function () {
 	    crds => copyToClipboard("(" + crds.x + " " + crds.y + ")", CLIPBOARD_COMBO_TOKENS.COORDS), 100, 100);
 	$('.command-card').trackClicks($('.command-card-click-data'), crds => command(crds).sh,
 	    crds => copyToClipboard(command(crds).lg, command(crds).clipToken), 7, 4);
-	$("#extension-hint .close").click(() => $("#extension-hint").righteousToggle(false));
+	$("#extension-hint .close").click(() => $("#extension-hint").detach());
 });
 
 
