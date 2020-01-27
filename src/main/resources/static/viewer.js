@@ -68,6 +68,7 @@ function pollResourcesPeriodically()
                 $('.feeding').righteousToggle(false);
                 $('.resource .value').text('0').prop('Counter', '0');
                 $('.income .value').text('+0').prop('Counter', '0').taxColor(0);
+                $('#extension-hint').righteousToggle(data.globalMessage && data.globalMessage.endsWith('identify you'));
             }
 
             $('.message').text(data.globalMessage);
@@ -221,6 +222,7 @@ $(function () {
 	    crds => copyToClipboard("(" + crds.x + " " + crds.y + ")", CLIPBOARD_COMBO_TOKENS.COORDS), 100, 100);
 	$('.command-card').trackClicks($('.command-card-click-data'), crds => command(crds).sh,
 	    crds => copyToClipboard(command(crds).lg, command(crds).clipToken), 7, 4);
+	$("#extension-hint .close").click(() => $("#extension-hint").righteousToggle(false));
 });
 
 

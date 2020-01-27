@@ -212,3 +212,31 @@ body {
     left: 81.8%;
 }
 
+#extension-hint {
+    display:none;
+    position: absolute;
+    width: 20%;
+    height: 40%;
+    right: 0%;
+    top: 30%;
+    background-color: black;
+    background: url(../img/exthint.png);
+    background-size: 100% 100%;
+    opacity: 0.7;
+    border: 0.2vw solid #B9936F;
+}
+
+#extension-hint .close {
+    position: relative;
+    background: url(../img/icons/close_icon.png);
+    background-size: 100% 100%;
+    top: 0%;
+    left: 87%;
+    width: 10%;
+    height: 10%;
+    margin: 1%;
+}
+
+.close:active {
+    filter: brightness(2);
+}
