@@ -11,7 +11,7 @@ $(function () {
    	$('.supply .value').text("200/200/1000");
    	$('.workers .value').text("20");
    	$('.terrazine .value').text("888");
-
+    $('.stance').addClass('offensive');
    //	$('.resource .value').text('0').prop('Counter', '0');
    //	$('.minerals .value').numberChange(99999);
    //

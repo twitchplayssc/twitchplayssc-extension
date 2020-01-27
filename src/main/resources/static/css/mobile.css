@@ -163,3 +163,21 @@ body {
 body {
 	transform-origin: top left;
 }
+
+.stance {
+    position: absolute;
+    width: 50%;
+	background-size: 100% ;
+	background-repeat: no-repeat ;
+    height: 50%;
+    top: 28vw;
+    left: 27.7%;
+}
+
+.stance.offensive { background-image: url(../img/icons/stance_offensive.png); }
+.stance.defensive { background-image: url(../img/icons/stance_defensive.png); }
+.stance.manual { background-image: url(../img/icons/stance_manual.png); }
+
+#clipboard {
+    display:none;
+}

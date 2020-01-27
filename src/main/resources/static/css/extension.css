@@ -240,3 +240,7 @@ body {
 .close:active {
     filter: brightness(2);
 }
+
+#clipboard {
+    display:none;
+}
