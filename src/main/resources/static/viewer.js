@@ -27,7 +27,7 @@ function pollResourcesPeriodically()
 			$('.resource').righteousToggle(data.inGame);
 			$('.minimap-click-data, .minimap, .command-card-click-data, .command-card').righteousToggle(data.inGame);
 			if (data.inGame) {
-			    if (data.inGame.map) {
+			    if (data.inGame.map && $('.minimap').length > 0) {
 			        $('.minimap').scaleToRatio(data.inGame.map.ratio ? data.inGame.map.ratio : 1);
 			    }
 

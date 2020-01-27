@@ -166,12 +166,12 @@ body {
 
 .stance {
     position: absolute;
-    width: 50%;
+    width: 20%;
 	background-size: 100% ;
 	background-repeat: no-repeat ;
     height: 50%;
-    top: 28vw;
-    left: 27.7%;
+    top: 34vw;
+    left: 40%;
 }
 
 .stance.offensive { background-image: url(../img/icons/stance_offensive.png); }
