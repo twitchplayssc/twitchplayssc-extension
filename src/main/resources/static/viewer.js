@@ -69,6 +69,7 @@ function pollResourcesPeriodically()
                 $('.resource .value').text('0').prop('Counter', '0');
                 $('.income .value').text('+0').prop('Counter', '0').taxColor(0);
                 $('#extension-hint').righteousToggle(data.globalMessage && data.globalMessage.endsWith('identify you'));
+                $('.stance').removeClass().addClass('stance');
             }
 
             $('.message').text(data.globalMessage);
