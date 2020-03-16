@@ -94,15 +94,18 @@ $.fn.extend({
 		}
 		return this;
 	},
-	numberChange: function(newNumber, str, onstep) {
-        $(this).prop('Counter', $(this).text()).animate({ Counter: newNumber }, {
-            duration: 800,
-            easing: 'swing',
-            step: function (now) {
-                $(this).text((str ? str : '') + Math.ceil(now));
-                if (onstep) onstep($(this), Math.ceil(now));
-            }
-        });
+	numberChange: async function(newNumber, str, onstep) {
+	    if (!document.hidden ) {
+	        console.log('visible');
+            $(this).prop('Counter', $(this).text()).stop().animate({ Counter: newNumber }, {
+                duration: 800,
+                easing: 'swing',
+                step: function (now) {
+                    $(this).text((str ? str : '') + Math.ceil(now));
+                    if (onstep) onstep($(this), Math.ceil(now));
+                }
+            });
+        }
         return this;
     },
 	rgbColor: function(r, g, b) {
