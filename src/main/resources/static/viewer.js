@@ -207,8 +207,9 @@ $.fn.extend({
 
 let $clipboard = $("<input id='clipboard'>").appendTo('body').righteousToggle(false);
 let CLIPBOARD_COMBO_TOKENS = {
-    BUILD: { attr: 'b', combo: ['b', 'c']},
-    COORDS: { attr: 'c', combo: ['b', 'c']},
+    BUILD: { attr: 'b', combo: ['b', 'c', 'm']},
+    COORDS: { attr: 'c', combo: ['b', 'c', 'm']},
+    MULTIPLIER: { attr: 'm' },
     OTHER: { attr: 'o'},
     _clearAllAttributes: function() {
         Object.values(CLIPBOARD_COMBO_TOKENS).map(val => val.attr ? $clipboard.attr(val.attr, '') : null);
@@ -216,17 +217,28 @@ let CLIPBOARD_COMBO_TOKENS = {
 };
 
 function copyToClipboard(text, key) {
+    var oldValue = $clipboard.attr(key.attr);
     $clipboard.attr(key.attr, text);
+
+    if (oldValue == text) {
+        var multiplierText = $clipboard.attr(CLIPBOARD_COMBO_TOKENS.MULTIPLIER.attr);
+        var multiplier = multiplierText ? parseInt(multiplierText) : 1;
+        $clipboard.attr(CLIPBOARD_COMBO_TOKENS.MULTIPLIER.attr, multiplier + 1);
+    }
 
     var newVal;
     if (key.combo) {
-        newVal = key.combo.map(a => $clipboard.attr(a)).join(" ");
+        newVal = key.combo.map(a => $clipboard.attr(a)).join(" ").replace(/\s+/g, ' ');
     } else {
         newVal = text;
     }
 
     if (key.timeoutHandle) clearTimeout(key.timeoutHandle);
-    key.timeoutHandle = setTimeout(() => $clipboard.attr(key.attr, ''), 3000); // keep last timeout handle for each type of token
+    key.timeoutHandle = setTimeout(function () {
+        $clipboard.attr(key.attr, '');
+        $clipboard.attr(CLIPBOARD_COMBO_TOKENS.MULTIPLIER.attr, '');
+    }, 3000); // keep last timeout handle for each type of token
+
 
     $clipboard.righteousToggle(true).val(newVal.trim()).select();
     document.execCommand("copy");
