@@ -146,9 +146,11 @@ body {
 	display: inline-block;
 }
 
+.stance .label, .focus .label { color: lightblue; }
+
 .stance, .focus {
     position: absolute;
-    top: 12.6%;
+    top: 12.8%;
     width: 13.8%;
     height: 2%;
 	font-size: 2.8%;
