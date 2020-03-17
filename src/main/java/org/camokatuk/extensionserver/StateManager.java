@@ -105,7 +105,7 @@ public class StateManager
 		Integer userId = parseNumericUserId(userIdString);
 		if (userId == null)
 		{
-			return UserDisplayData.msg("Please allow the extension to identify you");
+			return UserDisplayData.msg(null);
 		}
 
 		DataOrMessage<UserGameState> resourcesOrMessage = resources.getData(userId);
