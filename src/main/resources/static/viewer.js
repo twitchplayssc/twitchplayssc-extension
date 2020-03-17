@@ -31,10 +31,8 @@ function pollResourcesPeriodically()
 			        $('.minimap').scaleToRatio(data.map.ratio ? data.map.ratio : 1);
 			    }
 
-                let stanceElement = $('.stance').removeClass().addClass('stance');
-			    if (data.state.stance === 0) stanceElement.addClass('manual');
-			    if (data.state.stance === 1) stanceElement.addClass('offensive');
-			    if (data.state.stance === 2) stanceElement.addClass('defensive');
+                setStanceText(data.state.stance);
+			    setFocusText(data.state.focus);
 
 				$('.gas .value').numberChange(data.state.gas);
 				$('.minerals .value').numberChange(data.state.minerals);
@@ -69,7 +67,7 @@ function pollResourcesPeriodically()
                 $('.resource .value').text('0').prop('Counter', '0');
                 $('.income .value').text('+0').prop('Counter', '0').taxColor(0);
                 $('#extension-hint').righteousToggle(data.globalMessage && data.globalMessage.endsWith('identify you'));
-                $('.stance').removeClass().addClass('stance');
+                $('.stance, .focus').html('');
             }
 
             $('.message').text(data.globalMessage);
@@ -77,6 +75,22 @@ function pollResourcesPeriodically()
 			setTimeout(pollResourcesPeriodically, RESOURCE_POLL_TIMEOUT);
 		}
 	});
+}
+
+function setStanceText(stanceString) {
+    let stanceElement = $('.stance').html('');
+    if (stanceString) {
+        $('<span/>').css('color', "lightblue").text('stance: ').appendTo(stanceElement);
+        stanceElement.append(stanceString);
+    }
+}
+
+function setFocusText(focusString) {
+    let focusElement = $('.focus').html('');
+    if (focusString) {
+        $('<span/>').css('color', "lightblue").text('focus: ').appendTo(focusElement);
+        focusElement.append(focusString);
+    }
 }
 
 function toggleMode(joined){

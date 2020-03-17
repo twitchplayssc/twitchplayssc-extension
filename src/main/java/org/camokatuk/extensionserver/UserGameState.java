@@ -11,17 +11,28 @@ public class UserGameState
 	private int mineralsIncome;
 	private int gasTax;
 	private int mineralsTax;
-	private int stance;
+	private String stance;
+	private String focus;
 	private String supply;
 	private String feeding;
 	private Workers workers;
 
-	public int getStance()
+	public String getFocus()
+	{
+		return focus;
+	}
+
+	public void setFocus(String focus)
+	{
+		this.focus = focus;
+	}
+
+	public String getStance()
 	{
 		return stance;
 	}
 
-	public void setStance(int stance)
+	public void setStance(String stance)
 	{
 		this.stance = stance;
 	}
