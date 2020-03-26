@@ -46,7 +46,7 @@ public class TwitchApi
 			UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("https://api.twitch.tv/helix/users").queryParam("id", uid);
 			HttpEntity<String> entity = new HttpEntity<>("", headers);
 			ResponseEntity<UserData> response = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, entity, UserData.class);
-			String userName = response.getBody().data[0].display_name.toLowerCase(); // not checking for NPEs YOLO
+			String userName = response.getBody().data[0].login.toLowerCase(); // not checking for NPEs YOLO
 
 			userNameToIdCache.put(uid, userName);
 			return userName;
