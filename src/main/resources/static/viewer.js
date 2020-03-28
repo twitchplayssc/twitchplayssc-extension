@@ -220,7 +220,7 @@ function copyToClipboard(text, key) {
     var oldValue = $clipboard.attr(key.attr);
     $clipboard.attr(key.attr, text);
 
-    if (key == CLIPBOARD_COMBO_TOKENS.BUILD && oldValue == text) {
+    if (oldValue == text) {
         var multiplierText = $clipboard.attr(CLIPBOARD_COMBO_TOKENS.MULTIPLIER.attr);
         var multiplier = multiplierText ? parseInt(multiplierText) : 1;
         $clipboard.attr(CLIPBOARD_COMBO_TOKENS.MULTIPLIER.attr, multiplier + 1);
@@ -238,6 +238,7 @@ function copyToClipboard(text, key) {
         $clipboard.attr(key.attr, '');
         $clipboard.attr(CLIPBOARD_COMBO_TOKENS.MULTIPLIER.attr, '');
     }, 3000); // keep last timeout handle for each type of token
+
 
     $clipboard.righteousToggle(true).val(newVal.trim()).select();
     document.execCommand("copy");
