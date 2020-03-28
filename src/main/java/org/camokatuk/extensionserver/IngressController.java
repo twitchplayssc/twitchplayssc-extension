@@ -1,6 +1,5 @@
 package org.camokatuk.extensionserver;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,14 +30,14 @@ public class IngressController
 	@PostMapping("/playerstats")
 	public
 	@ResponseBody
-	String pushStats(@RequestBody Map<String, UserGameState> state, @RequestHeader(value = "Authentication") String ohWowSecurity)
+	String pushStats(@RequestBody Map<String, UserDisplayData> state, @RequestHeader(value = "Authentication") String ohWowSecurity)
 	{
 		if (isNotAuthorizedRequest(ohWowSecurity))
 		{
 			return "Nope";
 		}
 
-		stateManager.pushResources(state);
+		stateManager.pushPlayerStats(state);
 		return "OK";
 	}
 
@@ -54,21 +53,6 @@ public class IngressController
 		}
 
 		stateManager.pushGameState(gameStateContainer);
-		return "OK";
-	}
-
-	@CrossOrigin(origins = "*")
-	@PostMapping("/event")
-	public
-	@ResponseBody
-	String receiveEvent(@RequestBody Map<String, List<String>> eventsByUserIds, @RequestHeader(value = "Authentication") String ohWowSecurity)
-	{
-		if (isNotAuthorizedRequest(ohWowSecurity))
-		{
-			return "Nope";
-		}
-
-		stateManager.pushEvents(eventsByUserIds);
 		return "OK";
 	}
 
