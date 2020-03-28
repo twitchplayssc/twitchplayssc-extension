@@ -80,7 +80,7 @@ function pollResourcesPeriodically()
 function setStanceText(stanceString) {
     let stanceElement = $('.stance').html('');
     if (stanceString) {
-        $('<span/>').addClass('label').text('stance: ').appendTo(stanceElement);
+        $('<span/>').css('color', "lightblue").text('stance: ').appendTo(stanceElement);
         stanceElement.append(stanceString);
     }
 }
@@ -88,7 +88,7 @@ function setStanceText(stanceString) {
 function setFocusText(focusString) {
     let focusElement = $('.focus').html('');
     if (focusString) {
-        $('<span/>').addClass('label').text('focus: ').appendTo(focusElement);
+        $('<span/>').css('color', "lightblue").text('focus: ').appendTo(focusElement);
         focusElement.append(focusString);
     }
 }
