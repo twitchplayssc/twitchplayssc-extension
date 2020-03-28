@@ -164,17 +164,19 @@ body {
 	transform-origin: top left;
 }
 
-.stance, .focus {
+.stance {
     position: absolute;
-    top: 30vw;
-    width: 50%;
-    height: 2%;
-	font-size: 4.0vw;
-    color: white;
+    width: 20%;
+	background-size: 100% ;
+	background-repeat: no-repeat ;
+    height: 50%;
+    top: 34vw;
+    left: 40%;
 }
 
-.stance { left: 2.4%; }
-.focus { left: 52.4%; }
+.stance.offensive { background-image: url(../img/icons/stance_offensive.png); }
+.stance.defensive { background-image: url(../img/icons/stance_defensive.png); }
+.stance.manual { background-image: url(../img/icons/stance_manual.png); }
 
 #clipboard {
     display:none;
