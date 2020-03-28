@@ -146,17 +146,19 @@ body {
 	display: inline-block;
 }
 
-.stance, .focus {
+.stance {
     position: absolute;
-    top: 12.6%;
-    width: 13.8%;
-    height: 2%;
-	font-size: 2.8%;
-    color: white;
+    left: 67.4%;
+    width: 50%;
+	background-size: contain;
+    background-repeat: no-repeat;
+    height: 7.9%;
+    top: 0.5%;
 }
 
-.stance { left: 72.4%; }
-.focus { left: 86.9%; }
+.stance.offensive { background-image: url(../img/icons/stance_offensive.png); }
+.stance.defensive { background-image: url(../img/icons/stance_defensive.png); }
+.stance.manual { background-image: url(../img/icons/stance_manual.png); }
 
 .message {
 	position: absolute;
