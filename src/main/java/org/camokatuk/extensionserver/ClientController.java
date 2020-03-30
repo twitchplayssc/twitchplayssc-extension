@@ -28,8 +28,8 @@ public class ClientController
 		this.extensionSecret = extensionSecret;
 	}
 
-	@CrossOrigin(origins = "*")
-	//	@CrossOrigin(origins = "twitch.tv")
+	// @CrossOrigin(origins = "*")
+	@CrossOrigin(origins = "twitch.tv")
 	@RequestMapping("/display")
 	public
 	@ResponseBody
@@ -46,8 +46,8 @@ public class ClientController
 		return stateManager.getDisplayData(userId);
 	}
 
-	@CrossOrigin(origins = "*")
-	//	@CrossOrigin(origins = "twitch.tv")
+	// @CrossOrigin(origins = "*")
+	@CrossOrigin(origins = "twitch.tv")
 	@RequestMapping("/state")
 	public
 	@ResponseBody
