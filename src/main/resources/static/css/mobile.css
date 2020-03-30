@@ -164,6 +164,8 @@ body {
 	transform-origin: top left;
 }
 
+.stance .label, .focus .label { color: lightblue; }
+
 .stance, .focus {
     position: absolute;
     top: 30vw;
