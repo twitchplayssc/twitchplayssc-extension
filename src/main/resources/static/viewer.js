@@ -25,8 +25,8 @@ function pollResourcesPeriodically()
 		success: function(data) {
 
 			$('.resource').righteousToggle(data.state);
-			$('.minimap-click-data, .minimap, .command-card-click-data, .command-card').righteousToggle(data.map);
 			if (data.state) {
+			    $('.minimap-click-data, .minimap, .command-card-click-data, .command-card').righteousToggle(data.map);
 			    if (data.map && $('.minimap').length > 0) {
 			        $('.minimap').scaleToRatio(data.map.ratio ? data.map.ratio : 1);
 			    }
@@ -45,8 +45,8 @@ function pollResourcesPeriodically()
                 $('.resource.income').righteousToggle(!data.state.feeding);
 
                 $('.feeding .value').text(data.state.feeding);
-                $('.gas-income .value').numberChange(data.state.gasIncome, '+').taxColor(data.state.gasTax);
-                $('.minerals-income .value').numberChange(data.state.mineralsIncome, '+').taxColor(data.state.mineralsTax);
+                $('.gas-income .value').taxColor(data.state.gasTax).numberChange(data.state.gasIncome, '+');
+                $('.minerals-income .value').taxColor(data.state.mineralsTax).numberChange(data.state.mineralsIncome, '+');
 
                 if (data.state.workers)
                 {
@@ -59,6 +59,8 @@ function pollResourcesPeriodically()
                 }
 
                 $('.sellout').righteousToggle(data.sellout);
+
+                data.events.map(event => renderPersonalEvent(event));
             }
             else
             {
@@ -220,6 +222,7 @@ function copyToClipboard(text, key) {
 $(function () {
     toggleMode(false);
 	pollResourcesPeriodically();
+	startUpdatingInGameEventsLog();
 	$('.minimap').trackClicks($('.minimap-click-data'), crds => (crds.x + " " + crds.y),
 	    crds => copyToClipboard("(" + crds.x + " " + crds.y + ")", CLIPBOARD_COMBO_TOKENS.COORDS), 100, 100);
 	$('.command-card').trackClicks($('.command-card-click-data'), crds => command(crds).sh,

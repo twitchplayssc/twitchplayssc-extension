@@ -1,5 +1,6 @@
 package org.camokatuk.extensionserver;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -108,19 +109,19 @@ public class StateManager
 		}
 
 		DataOrMessage<UserGameState> resourcesOrMessage = resources.getData(userId);
-		if (resourcesOrMessage.getData() != null) // *** validations have passed, userId is cached
-		{
-			UserDisplayData displayData = new UserDisplayData();
-			displayData.setState(resourcesOrMessage.getData());
-			displayData.setMap(this.gameState.getMap());
-			displayData.setSellout(this.gameState.getState() == GameState.INGAME_SELLOUT);
-			displayData.setEvents(events.getData(userId).getData()); // see *** above, fetching the data directly is safe
-			return displayData;
-		}
-		else
+		if (resourcesOrMessage.getMessage() != null)
 		{
 			return UserDisplayData.msg(resourcesOrMessage.getMessage());
 		}
+
+		// *** validations have passed, userId is cached, resourcesOrMessage has resources
+		UserDisplayData displayData = new UserDisplayData();
+		displayData.setState(resourcesOrMessage.getData());
+		displayData.setMap(this.gameState.getMap());
+		displayData.setSellout(this.gameState.getState() == GameState.INGAME_SELLOUT);
+		displayData.setEvents(events.getData(userId).getData()); // see *** above, fetching the data directly is safe
+		events.setData(userIdString, new ArrayList<>()); // reset the events data, now they are buffered on FE
+		return displayData;
 	}
 
 	public GameStateContainer getCurrentState()
