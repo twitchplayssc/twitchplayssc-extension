@@ -29,7 +29,7 @@ public class ClientController
 	}
 
 	// @CrossOrigin(origins = "*")
-	@CrossOrigin(origins = "ext-twitch.tv")
+	@CrossOrigin(origins = "*ext-twitch.tv")
 	@RequestMapping("/display")
 	public
 	@ResponseBody
@@ -47,7 +47,7 @@ public class ClientController
 	}
 
 	// @CrossOrigin(origins = "*")
-	@CrossOrigin(origins = "ext-twitch.tv")
+	@CrossOrigin(origins = "*ext-twitch.tv")
 	@RequestMapping("/state")
 	public
 	@ResponseBody
