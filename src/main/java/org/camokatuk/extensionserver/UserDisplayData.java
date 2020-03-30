@@ -1,16 +1,36 @@
 package org.camokatuk.extensionserver;
 
+import java.util.List;
+
 public class UserDisplayData
 {
-	private InGame inGame;
+	private boolean sellout = false;
+	private UserGameState state;
+	private MiniMap map = new MiniMap();
 	private LeaderboardData leaderboard;
 	private String globalMessage;
+	private List<String> events;
+
+	public static UserDisplayData empty()
+	{
+		return UserDisplayData.msg(null);
+	}
 
 	public static UserDisplayData msg(String msg)
 	{
 		UserDisplayData instance = new UserDisplayData();
 		instance.setGlobalMessage(msg);
 		return instance;
+	}
+
+	public boolean isSellout()
+	{
+		return sellout;
+	}
+
+	public void setSellout(boolean sellout)
+	{
+		this.sellout = sellout;
 	}
 
 	public String getGlobalMessage()
@@ -23,14 +43,34 @@ public class UserDisplayData
 		this.globalMessage = globalMessage;
 	}
 
-	public InGame getInGame()
+	public UserGameState getState()
 	{
-		return inGame;
+		return state;
 	}
 
-	public void setInGame(InGame inGame)
+	public void setState(UserGameState state)
 	{
-		this.inGame = inGame;
+		this.state = state;
+	}
+
+	public MiniMap getMap()
+	{
+		return map;
+	}
+
+	public void setMap(MiniMap map)
+	{
+		this.map = map;
+	}
+
+	public List<String> getEvents()
+	{
+		return events;
+	}
+
+	public void setEvents(List<String> events)
+	{
+		this.events = events;
 	}
 
 	public static class InGame

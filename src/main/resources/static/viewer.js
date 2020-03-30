@@ -24,43 +24,41 @@ function pollResourcesPeriodically()
 		type: 'GET',
 		success: function(data) {
 
-			$('.resource').righteousToggle(data.inGame);
-			$('.minimap-click-data, .minimap, .command-card-click-data, .command-card').righteousToggle(data.inGame);
-			if (data.inGame) {
-			    if (data.inGame.map && $('.minimap').length > 0) {
-			        $('.minimap').scaleToRatio(data.inGame.map.ratio ? data.inGame.map.ratio : 1);
+			$('.resource').righteousToggle(data.state);
+			$('.minimap-click-data, .minimap, .command-card-click-data, .command-card').righteousToggle(data.map);
+			if (data.state) {
+			    if (data.map && $('.minimap').length > 0) {
+			        $('.minimap').scaleToRatio(data.map.ratio ? data.map.ratio : 1);
 			    }
 
                 let stanceElement = $('.stance').removeClass().addClass('stance');
-			    if (data.inGame.stance === 0) stanceElement.addClass('manual');
-			    if (data.inGame.stance === 1) stanceElement.addClass('offensive');
-			    if (data.inGame.stance === 2) stanceElement.addClass('defensive');
+			    if (data.state.stance === 0) stanceElement.addClass('manual');
+			    if (data.state.stance === 1) stanceElement.addClass('offensive');
+			    if (data.state.stance === 2) stanceElement.addClass('defensive');
 
-				$('.gas .value').numberChange(data.inGame.gas);
-				$('.minerals .value').numberChange(data.inGame.minerals);
-                $('.supply .value').text(data.inGame.supply);
-                $('.terrazine .value').text(data.inGame.terrazine);
+				$('.gas .value').numberChange(data.state.gas);
+				$('.minerals .value').numberChange(data.state.minerals);
+                $('.supply .value').text(data.state.supply);
+                $('.terrazine .value').text(data.state.terrazine);
 
-                $('.feeding').righteousToggle(data.inGame.feeding);
-                $('.resource.income').righteousToggle(!data.inGame.feeding);
+                $('.feeding').righteousToggle(data.state.feeding);
+                $('.resource.income').righteousToggle(!data.state.feeding);
 
-                $('.feeding .value').text(data.inGame.feeding);
-                $('.gas-income .value').numberChange(data.inGame.gasIncome, '+')
-                    .taxColor(data.inGame.gasTax);
-                $('.minerals-income .value').numberChange(data.inGame.mineralsIncome, '+')
-                    .taxColor(data.inGame.mineralsTax);
+                $('.feeding .value').text(data.state.feeding);
+                $('.gas-income .value').numberChange(data.state.gasIncome, '+').taxColor(data.state.gasTax);
+                $('.minerals-income .value').numberChange(data.state.mineralsIncome, '+').taxColor(data.state.mineralsTax);
 
-                if (data.inGame.workers)
+                if (data.state.workers)
                 {
-                    $('.workers-minerals .value').numberChange(data.inGame.workers.minerals);
-                    $('.workers-gas .value').numberChange(data.inGame.workers.gas);
-                    $('.workers-moving .value').numberChange(data.inGame.workers.moving);
-                    $('.workers-idle .value').numberChange(data.inGame.workers.idle, '', function(e, val) {
+                    $('.workers-minerals .value').numberChange(data.state.workers.minerals);
+                    $('.workers-gas .value').numberChange(data.state.workers.gas);
+                    $('.workers-moving .value').numberChange(data.state.workers.moving);
+                    $('.workers-idle .value').numberChange(data.state.workers.idle, '', function(e, val) {
                         e.toggleClass("value-warn", val > 0);
                     });
                 }
 
-                $('.sellout').righteousToggle(data.inGame.sellout);
+                $('.sellout').righteousToggle(data.sellout);
             }
             else
             {
@@ -96,7 +94,6 @@ $.fn.extend({
 	},
 	numberChange: async function(newNumber, str, onstep) {
 	    if (!document.hidden ) {
-	        console.log('visible');
             $(this).prop('Counter', $(this).text()).stop().animate({ Counter: newNumber }, {
                 duration: 800,
                 easing: 'swing',
