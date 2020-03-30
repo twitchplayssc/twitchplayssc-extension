@@ -2,6 +2,7 @@ package org.camokatuk.extensionserver.twitchapi;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -23,7 +24,7 @@ public class TwitchApi
 	private final RestTemplate restTemplate = new RestTemplate();
 	private final String extensionClientId;
 
-	private final Map<Integer, String> userNameToIdCache = new HashMap<>();
+	private final Map<Integer, String> userNameToIdCache = new ConcurrentHashMap<>();
 
 	@Autowired
 	public TwitchApi(@Value("${extension.client_id}") String extensionClientId)
