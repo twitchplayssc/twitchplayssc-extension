@@ -105,7 +105,7 @@ public class StateManager
 		Integer userId = parseNumericUserId(userIdString);
 		if (userId == null)
 		{
-			return UserDisplayData.msg(null);
+			return UserDisplayData.msg("Welcome");
 		}
 
 		DataOrMessage<UserGameState> resourcesOrMessage = resources.getData(userId);
