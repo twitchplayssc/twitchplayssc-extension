@@ -4,258 +4,283 @@ import java.util.List;
 
 public class UserDisplayData
 {
-	private boolean sellout = false;
-	private UserGameState state;
-	private MiniMap map = new MiniMap();
-	private LeaderboardData leaderboard;
-	private String globalMessage;
-	private List<String> events;
+    private boolean sellout = false;
+    private UserGameState state;
+    private MiniMap map;
+    private LeaderboardData leaderboard;
+    private String globalMessage;
+    private List<String> events;
+    private CommandCard commandCard;
 
-	public static UserDisplayData empty()
-	{
-		return UserDisplayData.msg(null);
-	}
+    public static UserDisplayData empty()
+    {
+        return UserDisplayData.msg(null);
+    }
 
-	public static UserDisplayData msg(String msg)
-	{
-		UserDisplayData instance = new UserDisplayData();
-		instance.setGlobalMessage(msg);
-		return instance;
-	}
+    public static UserDisplayData msg(String msg)
+    {
+        UserDisplayData instance = new UserDisplayData();
+        instance.setGlobalMessage(msg);
+        return instance;
+    }
 
-	public boolean isSellout()
-	{
-		return sellout;
-	}
+    public boolean isSellout()
+    {
+        return sellout;
+    }
 
-	public void setSellout(boolean sellout)
-	{
-		this.sellout = sellout;
-	}
+    public void setSellout(boolean sellout)
+    {
+        this.sellout = sellout;
+    }
 
-	public String getGlobalMessage()
-	{
-		return globalMessage;
-	}
+    public String getGlobalMessage()
+    {
+        return globalMessage;
+    }
 
-	public void setGlobalMessage(String globalMessage)
-	{
-		this.globalMessage = globalMessage;
-	}
+    public void setGlobalMessage(String globalMessage)
+    {
+        this.globalMessage = globalMessage;
+    }
 
-	public UserGameState getState()
-	{
-		return state;
-	}
+    public UserGameState getState()
+    {
+        return state;
+    }
 
-	public void setState(UserGameState state)
-	{
-		this.state = state;
-	}
+    public void setState(UserGameState state)
+    {
+        this.state = state;
+    }
 
-	public MiniMap getMap()
-	{
-		return map;
-	}
+    public MiniMap getMap()
+    {
+        return map;
+    }
 
-	public void setMap(MiniMap map)
-	{
-		this.map = map;
-	}
+    public void setMap(MiniMap map)
+    {
+        this.map = map;
+    }
 
-	public List<String> getEvents()
-	{
-		return events;
-	}
+    public List<String> getEvents()
+    {
+        return events;
+    }
 
-	public void setEvents(List<String> events)
-	{
-		this.events = events;
-	}
+    public void setEvents(List<String> events)
+    {
+        this.events = events;
+    }
 
-	public static class InGame
-	{
-		private boolean sellout = false;
-		private int gas;
-		private int minerals;
-		private int terrazine;
-		private int gasIncome;
-		private int mineralsIncome;
-		private int gasTax;
-		private int mineralsTax;
-		private int stance;
-		private String supply;
-		private String feeding;
-		private Workers workers;
-		private MiniMap map = new MiniMap();
+    public void setCommandCard(CommandCard commandCard)
+    {
+        this.commandCard = commandCard;
+    }
 
-		public int getStance()
-		{
-			return stance;
-		}
+    public CommandCard getCommandCard()
+    {
+        return commandCard;
+    }
 
-		public void setStance(int stance)
-		{
-			this.stance = stance;
-		}
+    public static class InGame
+    {
+        private boolean sellout = false;
+        private int gas;
+        private int minerals;
+        private int terrazine;
+        private int gasIncome;
+        private int mineralsIncome;
+        private int gasTax;
+        private int mineralsTax;
+        private int stance;
+        private String supply;
+        private String feeding;
+        private Workers workers;
+        private MiniMap map = new MiniMap();
 
-		public MiniMap getMap()
-		{
-			return map;
-		}
+        public int getStance()
+        {
+            return stance;
+        }
 
-		public void setMap(MiniMap map)
-		{
-			this.map = map;
-		}
+        public void setStance(int stance)
+        {
+            this.stance = stance;
+        }
 
-		public boolean isSellout()
-		{
-			return sellout;
-		}
+        public MiniMap getMap()
+        {
+            return map;
+        }
 
-		public void setSellout(boolean sellout)
-		{
-			this.sellout = sellout;
-		}
+        public void setMap(MiniMap map)
+        {
+            this.map = map;
+        }
 
-		public int getTerrazine()
-		{
-			return terrazine;
-		}
+        public boolean isSellout()
+        {
+            return sellout;
+        }
 
-		public void setTerrazine(int terrazine)
-		{
-			this.terrazine = terrazine;
-		}
+        public void setSellout(boolean sellout)
+        {
+            this.sellout = sellout;
+        }
 
-		public int getGas()
-		{
-			return gas;
-		}
+        public int getTerrazine()
+        {
+            return terrazine;
+        }
 
-		public void setGas(int gas)
-		{
-			this.gas = gas;
-		}
+        public void setTerrazine(int terrazine)
+        {
+            this.terrazine = terrazine;
+        }
 
-		public int getMinerals()
-		{
-			return minerals;
-		}
+        public int getGas()
+        {
+            return gas;
+        }
 
-		public void setMinerals(int minerals)
-		{
-			this.minerals = minerals;
-		}
+        public void setGas(int gas)
+        {
+            this.gas = gas;
+        }
 
-		public String getFeeding()
-		{
-			return feeding;
-		}
+        public int getMinerals()
+        {
+            return minerals;
+        }
 
-		public void setFeeding(String feeding)
-		{
-			this.feeding = feeding;
-		}
+        public void setMinerals(int minerals)
+        {
+            this.minerals = minerals;
+        }
 
-		public int getGasIncome()
-		{
-			return gasIncome;
-		}
+        public String getFeeding()
+        {
+            return feeding;
+        }
 
-		public void setGasIncome(int gasIncome)
-		{
-			this.gasIncome = gasIncome;
-		}
+        public void setFeeding(String feeding)
+        {
+            this.feeding = feeding;
+        }
 
-		public int getMineralsIncome()
-		{
-			return mineralsIncome;
-		}
+        public int getGasIncome()
+        {
+            return gasIncome;
+        }
 
-		public void setMineralsIncome(int mineralsIncome)
-		{
-			this.mineralsIncome = mineralsIncome;
-		}
+        public void setGasIncome(int gasIncome)
+        {
+            this.gasIncome = gasIncome;
+        }
 
-		public int getGasTax() {
-			return gasTax;
-		}
+        public int getMineralsIncome()
+        {
+            return mineralsIncome;
+        }
 
-		public void setGasTax(int gasTax) {
-			this.gasTax = gasTax;
-		}
+        public void setMineralsIncome(int mineralsIncome)
+        {
+            this.mineralsIncome = mineralsIncome;
+        }
 
-		public int getMineralsTax() {
-			return mineralsTax;
-		}
+        public int getGasTax()
+        {
+            return gasTax;
+        }
 
-		public void setMineralsTax(int mineralsTax) {
-			this.mineralsTax = mineralsTax;
-		}
+        public void setGasTax(int gasTax)
+        {
+            this.gasTax = gasTax;
+        }
 
-		public String getSupply()
-		{
-			return supply;
-		}
+        public int getMineralsTax()
+        {
+            return mineralsTax;
+        }
 
-		public void setSupply(String supply)
-		{
-			this.supply = supply;
-		}
+        public void setMineralsTax(int mineralsTax)
+        {
+            this.mineralsTax = mineralsTax;
+        }
 
-		public Workers getWorkers() {
-			return workers;
-		}
+        public String getSupply()
+        {
+            return supply;
+        }
 
-		public void setWorkers(Workers workers) {
-			this.workers = workers;
-		}
+        public void setSupply(String supply)
+        {
+            this.supply = supply;
+        }
 
-		public static class Workers
-		{
-			private int minerals;
-			private int gas;
-			private int idle;
-			private int moving;
+        public Workers getWorkers()
+        {
+            return workers;
+        }
 
-			public int getMinerals() {
-				return minerals;
-			}
+        public void setWorkers(Workers workers)
+        {
+            this.workers = workers;
+        }
 
-			public void setMinerals(int minerals) {
-				this.minerals = minerals;
-			}
+        public static class Workers
+        {
+            private int minerals;
+            private int gas;
+            private int idle;
+            private int moving;
 
-			public int getGas() {
-				return gas;
-			}
+            public int getMinerals()
+            {
+                return minerals;
+            }
 
-			public void setGas(int gas) {
-				this.gas = gas;
-			}
+            public void setMinerals(int minerals)
+            {
+                this.minerals = minerals;
+            }
 
-			public int getIdle() {
-				return idle;
-			}
+            public int getGas()
+            {
+                return gas;
+            }
 
-			public void setIdle(int idle) {
-				this.idle = idle;
-			}
+            public void setGas(int gas)
+            {
+                this.gas = gas;
+            }
 
-			public int getMoving() {
-				return moving;
-			}
+            public int getIdle()
+            {
+                return idle;
+            }
 
-			public void setMoving(int moving) {
-				this.moving = moving;
-			}
-		}
-	}
+            public void setIdle(int idle)
+            {
+                this.idle = idle;
+            }
 
-	public static class LeaderboardData
-	{
-		/* TODO */
-	}
+            public int getMoving()
+            {
+                return moving;
+            }
+
+            public void setMoving(int moving)
+            {
+                this.moving = moving;
+            }
+        }
+    }
+
+    public static class LeaderboardData
+    {
+        /* TODO */
+    }
 }

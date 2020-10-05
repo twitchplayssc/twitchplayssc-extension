@@ -2,6 +2,7 @@ let OVERLAY_API_BASE_URL = 'https://piscine-monsieur-91924.herokuapp.com/api';
 let RESOURCE_POLL_TIMEOUT = 2000;
 let token = '';
 let tuid = '';
+let isGameDataApplied = false;
 
 const twitch = window.Twitch.ext;
 
@@ -12,24 +13,46 @@ function ebsReq(ajaxParam)
 	$.ajax(ajaxParam);
 }
 
-function pollResourcesPeriodically()
+function pollResourcesPeriodically(firstCall)
 {
 	if(!token) { 
-		setTimeout(pollResourcesPeriodically, RESOURCE_POLL_TIMEOUT);
+		setTimeout(() => pollResourcesPeriodically, RESOURCE_POLL_TIMEOUT);
 		return;
 	}
 	
 	ebsReq({
-		url: OVERLAY_API_BASE_URL + '/display?timestamp' + new Date().getTime(),
+		url: OVERLAY_API_BASE_URL + '/display?timestamp' + new Date().getTime() + (!isGameDataApplied ? "&fetchGlobalGameData=true" : ""),
 		type: 'GET',
 		success: function(data) {
 
 			$('.resource').righteousToggle(data.state);
+            $('.minimap-click-data, .minimap, .command-card-click-data, .command-card').righteousToggle(data.state);
 			if (data.state) {
-			    $('.minimap-click-data, .minimap, .command-card-click-data, .command-card').righteousToggle(data.map);
 			    if (data.map && $('.minimap').length > 0) {
 			        $('.minimap').scaleToRatio(data.map.ratio ? data.map.ratio : 1);
+                    isGameDataApplied = true;
 			    }
+                if (data.commandCard)
+                {
+                    var cellFn = crds => data.commandCard.cells[crds.x][crds.y];
+                    $('.command-card').css({
+                        'border': data.commandCard.debugBorder ? '1px solid white' : 'none',
+                        'left': data.commandCard.left,
+                        'top': data.commandCard.top,
+                        'width': data.commandCard.width,
+                        'height': data.commandCard.height
+                    }).show().trackClicks($('.command-card-click-data'), crds => {
+                            var cell = data.commandCard.cells[crds.x + "," + crds.y];
+                            return cell ? cell.tip : '';
+                        },
+                        crds => {
+                            var cell = data.commandCard.cells[crds.x + "," + crds.y];
+                            if (cell) {
+                                copyToClipboard(cell.copyText, cell.clipToken)
+                            }
+                        }, 
+                        data.commandCard.widthCells, data.commandCard.heightCells);
+                }
 
                 setStanceText(data.state.stance);
 			    setFocusText(data.state.focus);
@@ -58,7 +81,10 @@ function pollResourcesPeriodically()
 
                 $('.sellout').righteousToggle(data.sellout);
 
-                data.events.map(event => renderPersonalEvent(event));
+                if (data.events)
+                {
+                    data.events.map(event => renderPersonalEvent(event));
+                }
             }
             else
             {
@@ -68,6 +94,7 @@ function pollResourcesPeriodically()
                 $('.income .value').text('+0').prop('Counter', '0').taxColor(0);
                 $('#extension-hint').righteousToggle(data.globalMessage && data.globalMessage.endsWith('elcome'));
                 $('.stance, .focus').html('');
+                isGameDataApplied = false;
             }
 
             $('.message').text(data.globalMessage);
@@ -220,14 +247,13 @@ function copyToClipboard(text, key) {
     var oldValue = $clipboard.attr(key.attr);
     $clipboard.attr(key.attr, text);
 
-    if (key == CLIPBOARD_COMBO_TOKENS.BUILD && oldValue == text) {
-        var multiplierText = $clipboard.attr(CLIPBOARD_COMBO_TOKENS.MULTIPLIER.attr);
-        var multiplier = multiplierText ? parseInt(multiplierText) : 1;
-        $clipboard.attr(CLIPBOARD_COMBO_TOKENS.MULTIPLIER.attr, multiplier + 1);
-    }
-
     var newVal;
     if (key.combo) {
+        if (key.combo.includes("m") && oldValue == text) {
+            var multiplierText = $clipboard.attr(CLIPBOARD_COMBO_TOKENS.MULTIPLIER.attr);
+            var multiplier = multiplierText ? parseInt(multiplierText) : 1;
+            $clipboard.attr(CLIPBOARD_COMBO_TOKENS.MULTIPLIER.attr, multiplier + 1);
+        }
         newVal = key.combo.map(a => $clipboard.attr(a)).join(" ").replace(/\s+/g, ' ');
     } else {
         newVal = text;
@@ -235,8 +261,8 @@ function copyToClipboard(text, key) {
 
     if (key.timeoutHandle) clearTimeout(key.timeoutHandle);
     key.timeoutHandle = setTimeout(function () {
-        $clipboard.attr(key.attr, '');
-        $clipboard.attr(CLIPBOARD_COMBO_TOKENS.MULTIPLIER.attr, '');
+        $clipboard.attr(key.attr, null);
+        $clipboard.attr(CLIPBOARD_COMBO_TOKENS.MULTIPLIER.attr, null);
     }, 3000); // keep last timeout handle for each type of token
 
     $clipboard.righteousToggle(true).val(newVal.trim()).select();
@@ -246,55 +272,12 @@ function copyToClipboard(text, key) {
 
 $(function () {
     toggleMode(false);
-	pollResourcesPeriodically();
+	pollResourcesPeriodically(true);
 	startUpdatingInGameEventsLog();
 	$('.minimap').trackClicks($('.minimap-click-data'), crds => (crds.x + " " + crds.y),
 	    crds => copyToClipboard("(" + crds.x + " " + crds.y + ")", CLIPBOARD_COMBO_TOKENS.COORDS), 100, 100);
-	$('.command-card').trackClicks($('.command-card-click-data'), crds => command(crds).sh,
-	    crds => copyToClipboard(command(crds).lg, command(crds).clipToken), 7, 4);
 	$("#extension-hint .close").click(() => $("#extension-hint").detach());
 });
-
-
-function command(crds) {
-    if (crds.x == 1 && crds.y == 0) return {sh: '!u s', lg: '!upgrade shields', clipToken: CLIPBOARD_COMBO_TOKENS.OTHER};
-    if (crds.x == 1 && crds.y == 1) return {sh: '!u ga', lg: '!upgrade ground_armor', clipToken: CLIPBOARD_COMBO_TOKENS.OTHER};
-    if (crds.x == 1 && crds.y == 2) return {sh: '!u gw', lg: '!upgrade ground_weapons', clipToken: CLIPBOARD_COMBO_TOKENS.OTHER};
-
-    if (crds.x == 2 && crds.y == 0) return {sh: '!r wg', lg: '!research warpgate', clipToken: CLIPBOARD_COMBO_TOKENS.OTHER};
-    if (crds.x == 2 && crds.y == 1) return {sh: '!u aa', lg: '!upgrade air_armor', clipToken: CLIPBOARD_COMBO_TOKENS.OTHER};
-    if (crds.x == 2 && crds.y == 2) return {sh: '!u aw', lg: '!upgrade air_weapons', clipToken: CLIPBOARD_COMBO_TOKENS.OTHER};
-
-    if (crds.x == 3 && crds.y == 0) return {sh: '!r g', lg: '!research glaive', clipToken: CLIPBOARD_COMBO_TOKENS.OTHER};
-    if (crds.x == 3 && crds.y == 1) return {sh: '!r b', lg: '!research blink', clipToken: CLIPBOARD_COMBO_TOKENS.OTHER};
-    if (crds.x == 3 && crds.y == 2) return {sh: '!r c', lg: '!research charge', clipToken: CLIPBOARD_COMBO_TOKENS.OTHER};
-
-    if (crds.x == 4 && crds.y == 0) return {sh: '!r tl', lg: '!research thermal_lance', clipToken: CLIPBOARD_COMBO_TOKENS.OTHER};
-    if (crds.x == 4 && crds.y == 1) return {sh: '!r gd', lg: '!research drive', clipToken: CLIPBOARD_COMBO_TOKENS.OTHER};
-    if (crds.x == 4 && crds.y == 2) return {sh: '!r gb', lg: '!research boosters', clipToken: CLIPBOARD_COMBO_TOKENS.OTHER};
-
-    if (crds.x == 5 && crds.y == 1) return {sh: '!r fv', lg: '!research fluxvanes', clipToken: CLIPBOARD_COMBO_TOKENS.OTHER};
-    if (crds.x == 5 && crds.y == 2) return {sh: '!r pc', lg: '!research crystals', clipToken: CLIPBOARD_COMBO_TOKENS.OTHER};
-
-    if (crds.x == 6 && crds.y == 2) return {sh: '!r s', lg: '!research storm', clipToken: CLIPBOARD_COMBO_TOKENS.OTHER};
-
-    if (crds.x == 7 && crds.y == 2) return {sh: '!r ss', lg: '!research dark_templar', clipToken: CLIPBOARD_COMBO_TOKENS.OTHER};
-
-
-    if (crds.x == 1 && crds.y == 3) return {sh: '!b f', lg: '!build forge', clipToken: CLIPBOARD_COMBO_TOKENS.BUILD};
-    if (crds.x == 2 && crds.y == 3) return {sh: '!b cc', lg: '!build core', clipToken: CLIPBOARD_COMBO_TOKENS.BUILD};
-    if (crds.x == 3 && crds.y == 3) return {sh: '!b t', lg: '!build twilight', clipToken: CLIPBOARD_COMBO_TOKENS.BUILD};
-    if (crds.x == 4 && crds.y == 3) return {sh: '!b rb', lg: '!build robo_bay', clipToken: CLIPBOARD_COMBO_TOKENS.BUILD};
-    if (crds.x == 5 && crds.y == 3) return {sh: '!b fb', lg: '!build fleet_beacon', clipToken: CLIPBOARD_COMBO_TOKENS.BUILD};
-    if (crds.x == 6 && crds.y == 3) return {sh: '!b ta', lg: '!build templar_archives', clipToken: CLIPBOARD_COMBO_TOKENS.BUILD};
-    if (crds.x == 7 && crds.y == 3) return {sh: '!b ds', lg: '!build dark_shrine', clipToken: CLIPBOARD_COMBO_TOKENS.BUILD};
-
-    if (crds.x == 5 && crds.y == 0) return {sh: '!b g', lg: '!build gateway', clipToken: CLIPBOARD_COMBO_TOKENS.BUILD};
-    if (crds.x == 6 && crds.y == 0) return {sh: '!b r', lg: '!build robo', clipToken: CLIPBOARD_COMBO_TOKENS.BUILD};
-    if (crds.x == 7 && crds.y == 0) return {sh: '!b s', lg: '!build stargate', clipToken: CLIPBOARD_COMBO_TOKENS.BUILD};
-
-    return {sh: '', lg: null};
-}
 
 //----------------------------------
 //-------AUTH-----------------------
