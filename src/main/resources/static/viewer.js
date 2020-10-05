@@ -108,7 +108,7 @@ function setStanceText(stanceString) {
     let stanceElement = $('.stance').html('');
     if (stanceString) {
         $('<span/>').addClass('label').text('stance: ').appendTo(stanceElement);
-        stanceElement.append(stanceString);
+        stanceElement.append(stanceString).tooltip('Army behavior');;
     }
 }
 
@@ -116,7 +116,7 @@ function setFocusText(focusString) {
     let focusElement = $('.focus').html('');
     if (focusString) {
         $('<span/>').addClass('label').text('focus: ').appendTo(focusElement);
-        focusElement.append(focusString);
+        focusElement.append(focusString).tooltip('Attack priority');
     }
 }
 
@@ -229,6 +229,9 @@ $.fn.extend({
 	        $(this).percentValue('left', originalPosition.left + ((originalWidth - newWidth) / 2));
 	        $(this).percentValue('width', newWidth);
 	    }
+    },
+    tooltip: function(txt) {
+        $(this).addClass('tooltip').append('<span class="tooltiptext">' + txt + '</span>');
     }
 });
 
@@ -277,7 +280,23 @@ $(function () {
 	$('.minimap').trackClicks($('.minimap-click-data'), crds => (crds.x + " " + crds.y),
 	    crds => copyToClipboard("(" + crds.x + " " + crds.y + ")", CLIPBOARD_COMBO_TOKENS.COORDS), 100, 100);
 	$("#extension-hint .close").click(() => $("#extension-hint").detach());
+    initTips();
 });
+
+function initTips()
+{
+    $('.minerals').tooltip('Your&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;minerals');
+    $('.gas').tooltip('Your&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vespene');
+    $('.supply').tooltip('Supply: your/total/limit');
+    $('.minerals-income').tooltip('Your&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;minerals income');
+    $('.gas-income').tooltip('Your&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vespene income');
+    $('.supply').tooltip('Supply: your/total/limit');
+    $('.workers-minerals').tooltip('Workers on minerals');
+    $('.workers-gas').tooltip('Workers on vespene');
+    $('.workers-moving').tooltip('Moving workers');
+    $('.workers-idle').tooltip('Idle<br/>workers');
+}
+
 
 //----------------------------------
 //-------AUTH-----------------------
