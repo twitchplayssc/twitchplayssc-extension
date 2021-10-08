@@ -34,7 +34,6 @@ function pollResourcesPeriodically(firstCall)
 			    }
                 if (data.commandCard)
                 {
-                    var cellFn = crds => data.commandCard.cells[crds.x][crds.y];
                     $('.command-card').css({
                         'border': data.commandCard.debugBorder ? '1px solid white' : 'none',
                         'left': data.commandCard.left,
@@ -168,23 +167,25 @@ $.fn.extend({
         var posX = event.pageX - $(this).position().left;
         var posY = event.pageY - $(this).position().top;
 
-        var myX = Math.floor(posX * scaleWidth / $(this).width() + 1);
+        var myX = Math.floor(posX * scaleWidth / $(this).width());
         var myY = Math.floor(scaleHeight - posY * scaleHeight / $(this).height());
         return {x: myX, y: myY};
     },
 	trackClicks: function(valueHolder, valueDisplayFn, valueClipFn, scaleWidth, scaleHeight) {
+	    function myClickTrack(event) {
+	        if (event.which == 1) {
+                var crds = $(this).mouseCoords(event, scaleWidth, scaleHeight);
+                valueClipFn(crds);
+            }
+	    }
+
 	    $(this).mouseout(function(event) {
 	        valueHolder.text('');
 	    }).mousemove(function(event) {
 	        var crds = $(this).mouseCoords(event, scaleWidth, scaleHeight);
 	        var str = valueDisplayFn(crds);
 	        valueHolder.text(str);
-	    }).click(function (event) {
-	        if (event.which == 1) {
-	            var crds = $(this).mouseCoords(event, scaleWidth, scaleHeight);
-            	valueClipFn(crds);
-            }
-	    });
+	    }).unbind('click').bind('click', myClickTrack);
 	},
 	percentWidth: function() {
 	    return 100 * $(this).width() / $(window).width();
@@ -277,8 +278,8 @@ $(function () {
     toggleMode(false);
 	pollResourcesPeriodically(true);
 	startUpdatingInGameEventsLog();
-	$('.minimap').trackClicks($('.minimap-click-data'), crds => (crds.x + " " + crds.y),
-	    crds => copyToClipboard("(" + crds.x + " " + crds.y + ")", CLIPBOARD_COMBO_TOKENS.COORDS), 100, 100);
+	$('.minimap').trackClicks($('.minimap-click-data'), crds => ((crds.x + 1) + " " + crds.y),
+	    crds => copyToClipboard("(" + (crds.x + 1) + " " + crds.y + ")", CLIPBOARD_COMBO_TOKENS.COORDS), 100, 100);
 	$("#extension-hint .close").click(() => $("#extension-hint").detach());
     initTips();
 });
