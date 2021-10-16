@@ -1,173 +1,198 @@
 package org.camokatuk.extensionserver;
 
-import java.util.List;
+import java.util.Map;
 
 public class UserGameState
 {
-	private int gas;
-	private int minerals;
-	private int terrazine;
-	private int gasIncome;
-	private int mineralsIncome;
-	private int gasTax;
-	private int mineralsTax;
-	private String stance;
-	private String focus;
-	private String supply;
-	private String feeding;
-	private Workers workers;
+    private int gas;
+    private int minerals;
+    private int terrazine;
+    private int gasIncome;
+    private int mineralsIncome;
+    private int gasTax;
+    private int mineralsTax;
+    private String stance;
+    private String focus;
+    private String supply;
+    private String feeding;
+    private Workers workers;
+    private Map<Integer, Integer> army;
 
-	public String getFocus()
-	{
-		return focus;
-	}
+    public Map<Integer, Integer> getArmy()
+    {
+        return army;
+    }
 
-	public void setFocus(String focus)
-	{
-		this.focus = focus;
-	}
+    public void setArmy(Map<Integer, Integer> army)
+    {
+        this.army = army;
+    }
 
-	public String getStance()
-	{
-		return stance;
-	}
+    public String getFocus()
+    {
+        return focus;
+    }
 
-	public void setStance(String stance)
-	{
-		this.stance = stance;
-	}
+    public void setFocus(String focus)
+    {
+        this.focus = focus;
+    }
 
-	public int getTerrazine()
-	{
-		return terrazine;
-	}
+    public String getStance()
+    {
+        return stance;
+    }
 
-	public void setTerrazine(int terrazine)
-	{
-		this.terrazine = terrazine;
-	}
+    public void setStance(String stance)
+    {
+        this.stance = stance;
+    }
 
-	public int getGas()
-	{
-		return gas;
-	}
+    public int getTerrazine()
+    {
+        return terrazine;
+    }
 
-	public void setGas(int gas)
-	{
-		this.gas = gas;
-	}
+    public void setTerrazine(int terrazine)
+    {
+        this.terrazine = terrazine;
+    }
 
-	public int getMinerals()
-	{
-		return minerals;
-	}
+    public int getGas()
+    {
+        return gas;
+    }
 
-	public void setMinerals(int minerals)
-	{
-		this.minerals = minerals;
-	}
+    public void setGas(int gas)
+    {
+        this.gas = gas;
+    }
 
-	public String getFeeding()
-	{
-		return feeding;
-	}
+    public int getMinerals()
+    {
+        return minerals;
+    }
 
-	public void setFeeding(String feeding)
-	{
-		this.feeding = feeding;
-	}
+    public void setMinerals(int minerals)
+    {
+        this.minerals = minerals;
+    }
 
-	public int getGasIncome()
-	{
-		return gasIncome;
-	}
+    public String getFeeding()
+    {
+        return feeding;
+    }
 
-	public void setGasIncome(int gasIncome)
-	{
-		this.gasIncome = gasIncome;
-	}
+    public void setFeeding(String feeding)
+    {
+        this.feeding = feeding;
+    }
 
-	public int getMineralsIncome()
-	{
-		return mineralsIncome;
-	}
+    public int getGasIncome()
+    {
+        return gasIncome;
+    }
 
-	public void setMineralsIncome(int mineralsIncome)
-	{
-		this.mineralsIncome = mineralsIncome;
-	}
+    public void setGasIncome(int gasIncome)
+    {
+        this.gasIncome = gasIncome;
+    }
 
-	public int getGasTax() {
-		return gasTax;
-	}
+    public int getMineralsIncome()
+    {
+        return mineralsIncome;
+    }
 
-	public void setGasTax(int gasTax) {
-		this.gasTax = gasTax;
-	}
+    public void setMineralsIncome(int mineralsIncome)
+    {
+        this.mineralsIncome = mineralsIncome;
+    }
 
-	public int getMineralsTax() {
-		return mineralsTax;
-	}
+    public int getGasTax()
+    {
+        return gasTax;
+    }
 
-	public void setMineralsTax(int mineralsTax) {
-		this.mineralsTax = mineralsTax;
-	}
+    public void setGasTax(int gasTax)
+    {
+        this.gasTax = gasTax;
+    }
 
-	public String getSupply()
-	{
-		return supply;
-	}
+    public int getMineralsTax()
+    {
+        return mineralsTax;
+    }
 
-	public void setSupply(String supply)
-	{
-		this.supply = supply;
-	}
+    public void setMineralsTax(int mineralsTax)
+    {
+        this.mineralsTax = mineralsTax;
+    }
 
-	public Workers getWorkers() {
-		return workers;
-	}
+    public String getSupply()
+    {
+        return supply;
+    }
 
-	public void setWorkers(Workers workers) {
-		this.workers = workers;
-	}
+    public void setSupply(String supply)
+    {
+        this.supply = supply;
+    }
 
-	public static class Workers
-	{
-		private int minerals;
-		private int gas;
-		private int idle;
-		private int moving;
+    public Workers getWorkers()
+    {
+        return workers;
+    }
 
-		public int getMinerals() {
-			return minerals;
-		}
+    public void setWorkers(Workers workers)
+    {
+        this.workers = workers;
+    }
 
-		public void setMinerals(int minerals) {
-			this.minerals = minerals;
-		}
+    public static class Workers
+    {
+        private int minerals;
+        private int gas;
+        private int idle;
+        private int moving;
 
-		public int getGas() {
-			return gas;
-		}
+        public int getMinerals()
+        {
+            return minerals;
+        }
 
-		public void setGas(int gas) {
-			this.gas = gas;
-		}
+        public void setMinerals(int minerals)
+        {
+            this.minerals = minerals;
+        }
 
-		public int getIdle() {
-			return idle;
-		}
+        public int getGas()
+        {
+            return gas;
+        }
 
-		public void setIdle(int idle) {
-			this.idle = idle;
-		}
+        public void setGas(int gas)
+        {
+            this.gas = gas;
+        }
 
-		public int getMoving() {
-			return moving;
-		}
+        public int getIdle()
+        {
+            return idle;
+        }
 
-		public void setMoving(int moving) {
-			this.moving = moving;
-		}
-	}
+        public void setIdle(int idle)
+        {
+            this.idle = idle;
+        }
+
+        public int getMoving()
+        {
+            return moving;
+        }
+
+        public void setMoving(int moving)
+        {
+            this.moving = moving;
+        }
+    }
 }

@@ -78,6 +78,12 @@ function pollResourcesPeriodically(firstCall)
                     });
                 }
 
+                $('.army').righteousToggle(data.state.army);
+                if (data.state.army)
+                {
+                    updateArmy(data.state.army);
+                }
+
                 $('.sellout').righteousToggle(data.sellout);
 
                 if (data.events)
@@ -101,6 +107,41 @@ function pollResourcesPeriodically(firstCall)
 			setTimeout(pollResourcesPeriodically, RESOURCE_POLL_TIMEOUT);
 		}
 	});
+}
+
+/*
+var UNIT_TABLE_OFFSET = function(idx, scale) {
+    return 'right ' + 76 * scale * (idx % 20)  + 'px bottom ' +  (76 * scale * (Math.ceil(idx / 20))) + 'px';
+};*/
+
+var UNIT_TABLE_OFFSET = function(idx) {
+    return 'right ' + 100 * (idx % 20)  + '% bottom ' +  (99.8 * (Math.ceil(idx / 20))) + '%'; // SUCH MAGIC
+};
+
+function updateArmy(army) {
+    var unitsPresent = Object.keys(army);
+    var thisIter = Math.random() + '';
+    for (var i = 0; i < unitsPresent.length; i++) {
+        var unit = unitsPresent[i];
+        var count = army[unit];
+
+        var unitDiv = $('#unitcount-' + unit);
+        if (unitDiv.length == 0) {
+            unitDiv = $('<div/>').addClass('unit');
+            unitDiv.attr('id', 'unitcount-' + unit).attr('unitId', unit);
+            unitDiv.css('background-position', UNIT_TABLE_OFFSET(unit));
+            var countEl = $('<span/>').addClass('count');
+            unitDiv.append(countEl);
+            $('.army').append(unitDiv);
+        }
+        unitDiv.attr('iter', thisIter);
+        unitDiv.find('.count').text(count);
+    }
+
+    // units not received on this iteration get purged
+    $(".unit[iter!='" + thisIter + "']").each(function() {
+        $(this).detach();
+    });
 }
 
 function setStanceText(stanceString) {

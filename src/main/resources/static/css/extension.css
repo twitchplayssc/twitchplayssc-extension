@@ -157,7 +157,33 @@ body {
     color: white;
 }
 
-.stance { left: 72.4%; }
+.army {
+    position: absolute;
+    top: 17%;
+    width: 26%;
+	font-size: 1vw;
+    color: white;
+    text-shadow: 0.1vw 0.1vw 1px #000000;
+}
+
+.army .unit {
+    position: relative;
+    display: inline-block;
+    background-image: url(../img/icons/unit_table.png);
+    background-size: 2000%;
+/*    width: 10%; height: 2.4vw; /* 10 in a row */
+    width: 12%; height: 3.0vw; /* 8 in a row */
+    text-align: center;
+}
+
+.army .unit .count {
+    position: relative;
+    bottom: -65%;
+    opacity: 0.8;
+    background-color: black;
+}
+
+.stance, .army { left: 72.4%; }
 .focus { left: 86.9%; }
 
 .message {
