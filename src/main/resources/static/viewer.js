@@ -109,15 +109,6 @@ function pollResourcesPeriodically(firstCall)
 	});
 }
 
-/*
-var UNIT_TABLE_OFFSET = function(idx, scale) {
-    return 'right ' + 76 * scale * (idx % 20)  + 'px bottom ' +  (76 * scale * (Math.ceil(idx / 20))) + 'px';
-};*/
-
-var UNIT_TABLE_OFFSET = function(idx) {
-    return 'right ' + 100 * (idx % 20)  + '% bottom ' +  (99.8 * (Math.ceil(idx / 20))) + '%'; // SUCH MAGIC
-};
-
 function updateArmy(army) {
     var unitsPresent = Object.keys(army);
     var thisIter = Math.random() + '';
@@ -128,7 +119,7 @@ function updateArmy(army) {
         var unitDiv = $('#unitcount-' + unit);
         if (unitDiv.length == 0) {
             unitDiv = $('<div/>').addClass('unit');
-            unitDiv.attr('id', 'unitcount-' + unit).attr('unitId', unit);
+            unitDiv.attr('id', 'unitcount-' + unit).attr('unitId', unit).attr('title', UNITS[unit]);
             unitDiv.css('background-position', UNIT_TABLE_OFFSET(unit));
             var countEl = $('<span/>').addClass('count');
             unitDiv.append(countEl);
