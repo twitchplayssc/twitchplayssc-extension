@@ -1,0 +1,78 @@
+#control-panel {
+    position: absolute;
+    width: 54%;
+    height: 63%;
+    left: 19.5%;
+    top: 5%;
+    border: 3vw solid transparent;
+    border-image: url(../img/icons/box2.png) 30 round;
+    padding: 0;
+    z-index: 10000;
+}
+
+#control-panel-content-container {
+    margin: -2.5vw 0 0 -2.52vw;
+    border-radius: 10px;
+    width: 109.2%;
+    height: 113.8%;
+    background-color: black;
+    opacity: 0.8;
+}
+
+#control-panel-content {
+    margin-left: 0.4vw;
+    opacity: 1;
+}
+
+.tab-selector {
+    display: inline;
+    width: 108.2%;
+    height: 10%;
+    font-size: 1.1vw;
+}
+
+.tab {
+    float:left;
+    list-style:none;
+    border-left:0.2vw solid rgb(71, 124, 185);
+    outline:none;
+    background-color: black;
+    text-align: center;
+    cursor:pointer;
+}
+
+.tab:first-of-type {
+    border: 0;
+}
+
+.tab a {
+    padding: 0.22vw 2.35vw;
+    outline:none;
+    display:block;
+    background: black;
+    text-decoration:none;
+}
+
+.tab a:not(.inactive){
+    color: white;
+    border-bottom: 0.2vw solid black;
+}
+
+.tab a.inactive{
+    color: rgb(171, 224, 255);
+    border-bottom: 0.2vw solid rgb(71, 124, 185);
+}
+
+.tab-selector .tab a:hover {
+    text-shadow: 0 0 60px green;
+}
+
+.tab-content {
+    top: -100%;
+    width: 100%;
+    height: 100%;
+
+    color: white;
+    /*border: 1px solid rgb(71, 124, 185);*/
+    font-size: 1.1vw;
+}

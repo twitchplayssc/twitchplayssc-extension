@@ -49,6 +49,7 @@ UNITS[214] = "Liberator" ;
 UNITS[215] = "Banshee" ;
 UNITS[216] = "Raven" ;
 UNITS[217] = "Battlecruiser" ;
+UNITS[220] = "Nuclear Missile" ;
 
 UNITS[250] = "Medic" ;
 UNITS[251] = "Firebat" ;
