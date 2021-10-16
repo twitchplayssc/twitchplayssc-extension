@@ -13,4 +13,8 @@ $(document).ready(function() {
             $('#'+ t + 'C').fadeIn('slow');
         }
     });
+
+    $('#control-panel-toggle').click(function() {
+        $('#control-panel').toggle();
+    });
 });

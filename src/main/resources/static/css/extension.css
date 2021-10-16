@@ -196,6 +196,7 @@ body {
 
 body {
 	transform-origin: top left;
+	user-select: none;
 }
 
 .minimap {
