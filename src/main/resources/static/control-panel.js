@@ -133,7 +133,7 @@ function updatePolls(tab, data) {
             for (var j = 0; j < poll.options.length; j++) {
                 var option = poll.options[j];
                 var optionEl = pollTable.children(":nth-child(" + (j + 1) + ")");
-                optionEl.find(".currentValue").animate({
+                optionEl.find(".currentValue").stop().animate({
                     width: 100 * option.progress + "%"
                 }, 1000, function() {});
 
