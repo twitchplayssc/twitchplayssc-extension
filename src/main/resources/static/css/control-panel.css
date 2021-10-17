@@ -92,11 +92,112 @@
 }
 
 .tab-content {
-    top: -100%;
     width: 100%;
-    height: 100%;
-
+    height: 38.3vw;
     color: white;
     /*border: 1px solid rgb(71, 124, 185);*/
     font-size: 1.1vw;
+    overflow-y: auto;
+}
+
+.poll-container {
+    margin-bottom: 1vw;
+}
+
+.poll-container .pollName {
+    color: #b9936f;
+}
+
+.currentValue {
+    float: left;
+    background-color: rgb(71, 124, 185);
+    opacity: 0.8;
+    overflow: visible;
+    white-space: nowrap;
+}
+
+.poll-container > table {
+    width: 100%;
+    border: 0.2vw solid rgb(71, 124, 185);
+    border-collapse: yes;
+}
+
+.poll-container > table td:nth-child(1) {
+    width: 60%;
+}
+
+.poll-container > table td:nth-child(2) {
+    width: 25%;
+}
+
+.poll-container input[type=number]::-webkit-inner-spin-button,
+.poll-container input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+}
+
+.poll-container input[type=number] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+    margin: 0;
+    width:5vw;
+    text-align: center;
+}
+
+.scrollers {
+    display: inline-block;
+    width:2.7vw;
+}
+
+.numberup, .numberdown  {
+    display: inline-block;
+    width:1.3vw;
+    height:1.1vw;
+    background-size: cover;
+    vertical-align: middle;
+}
+
+.numberup {
+    background: url(../img/icons/numberup.png) no-repeat center;
+}
+
+.numberdown {
+    background: url(../img/icons/numberdown.png) no-repeat center;
+}
+
+.poll-container .submitBtn:hover {
+    opacity: 1;
+}
+
+.pollError {
+    color: darkred;
+    text-shadow: 0.1vw 0vw 0.1vw red;
+}
+
+.pollInfo {
+    color: darkgreen;
+    text-shadow: 0.1vw 0vw 0.1vw green;
+}
+
+.poll-container .submitBtn.disabled {
+    border: 0.1vw solid rgb(50, 50, 50);
+    color: rgb(50, 50, 50);
+    cursor: arrow;
+}
+
+.poll-container .submitBtn {
+    font-size: 1.1vw;
+    font-family: Michroma;
+    margin-left: 0.2vw;
+    border: 0.1vw solid white;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+}
+
+.poll-container .terra {
+    font-size: 1.1vw;
+    background-color: black;
+    color: white;
+    width: 35%;
 }
