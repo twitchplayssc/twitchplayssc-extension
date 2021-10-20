@@ -8,7 +8,7 @@ var TABS = [
     },{
         name: "Skills",
         fetchFn: fetchSkills,
-        fetchIntervalMs: 1000
+        fetchIntervalMs: 10000
     },{
         name: "Achievements",
         fetchFn: fetchAchievements,
@@ -27,7 +27,7 @@ var TABS = [
         fetchIntervalMs: 1000
     }
 ];
-var ACTIVE_TAB = TABS[0];
+var ACTIVE_TAB = TABS[01];
 
 $(document).ready(function() {
     function stopFetchingAllData() {
@@ -180,18 +180,6 @@ function createOptionSubmitElements(poll, optionIndex) {
     return parentEl;
 }
 
-(function( $ ){
-    $.fn.clamp = function() {
-        function doet() {
-            var myMin = parseInt($(this).attr('min'));
-            var myMax = parseInt($(this).attr('max'));
-            $(this).val(clamp(myMin, $(this).val(), myMax));
-        }
-        $(this).change(doet);
-        return this;
-    };
-})( jQuery );
-
 function pollSubmit(element, pollId, optionIndex) {
     var terraEl = element.parent().find('.terra');
     if (terraEl && terraEl.val() <= 0) {
@@ -235,8 +223,66 @@ function fetchAchievements() {
 
 function fetchSkills() {
     console.log("Imma fetch some Skills");
+    updateSkills($('#tabSkills'), DEBUG_SKILLS());
+}
+
+function updateSkills(tab, skills) {
+    $('#skillContainer').children().detach();
+    $('#availablePoints').text('-');
+
+    console.log(skills.groups.length);
+    var mainSkillsEl = $('#skillContainer');
+    for (var i = 0; i < skills.groups.length; i++) {
+        var skillGroup = skills.groups[i];
+        var skillGroupEl = $('<div/>').addClass("skillGroup");
+        skillGroupEl.append($('<span/>').addClass("skillName").text(skillGroup.name));
+        for (var j = 0; j < skillGroup.skills.length; j++) {
+            var skill = $('<div/>').attr('skillHint', skillGroup.skills[j].hint);
+            var progressbar = $('<div/>').addClass("skillProgressbar");
+            progressbar.tpscprogressbar({
+                value: skillGroup.skills[j].value,
+                max: skillGroup.skills[j].max
+            });
+            skill.append(progressbar);
+            skill.mousemove(function() {
+                $("#skillHint").text($(this).attr("skillHint"));
+            });
+            skillGroupEl.append(skill);
+        }
+        mainSkillsEl.append(skillGroupEl);
+    }
+    $('#availablePoints').text(skills.availablePoints);
 }
 
 function fetchMaps() {
     console.log("Imma fetch some Maps");
 }
+
+(function ( $ ) {
+
+    $.fn.tpscprogressbar = function(options) {
+        var opts = $.extend( {
+            value: 0,
+            max: 10
+        }, options );
+        this.addClass( "progressbarContainer" );
+        this.append($("<div/>").addClass("progressbar"));
+        return this.adjustProgressbar(opts.value, opts.max);
+    };
+
+    $.fn.adjustProgressbar = function( newVal, max ) {
+        var progressPercents = 100.0 * newVal / max;
+        this.find('.progressbar').css('left', (progressPercents - 100) + "%");
+        return this;
+    };
+
+    $.fn.clamp = function() {
+        function doet() {
+            var myMin = parseInt($(this).attr('min'));
+            var myMax = parseInt($(this).attr('max'));
+            $(this).val(clamp(myMin, $(this).val(), myMax));
+        }
+        $(this).change(doet);
+        return this;
+    };
+}( jQuery ));
