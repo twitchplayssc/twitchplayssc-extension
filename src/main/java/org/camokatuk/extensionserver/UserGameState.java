@@ -195,4 +195,24 @@ public class UserGameState
             this.moving = moving;
         }
     }
+
+    @Override
+    public String toString()
+    {
+        return "UserGameState{" +
+                "gas=" + gas +
+                ", minerals=" + minerals +
+                ", terrazine=" + terrazine +
+                ", gasIncome=" + gasIncome +
+                ", mineralsIncome=" + mineralsIncome +
+                ", gasTax=" + gasTax +
+                ", mineralsTax=" + mineralsTax +
+                ", stance='" + stance + '\'' +
+                ", focus='" + focus + '\'' +
+                ", supply='" + supply + '\'' +
+                ", feeding='" + feeding + '\'' +
+                ", workers=" + workers +
+                ", army=" + army +
+                '}';
+    }
 }
