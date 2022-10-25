@@ -199,6 +199,7 @@ public class UserGameState
     @Override
     public String toString()
     {
+        
         return "UserGameState{" +
                 "gas=" + gas +
                 ", minerals=" + minerals +
