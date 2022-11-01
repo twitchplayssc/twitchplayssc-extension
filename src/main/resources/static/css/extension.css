@@ -201,11 +201,11 @@ body {
 
 .minimap {
     /*344 x 344*/
-    width: 17.91%;
-    height: 31.85%;
+    width: 18.25%;
+    height: 32.0%;
     position: absolute;
-    left: 0.67%;
-    top: 62.68%;
+    left: 1.05%;
+    top: 66.9%;
 }
 
 .minimap-click-data, .command-card-click-data {
