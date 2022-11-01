@@ -1,16 +1,9 @@
 package org.camokatuk.extensionserver;
 
+import lombok.Data;
+
+@Data
 public class MiniMap
 {
     private float ratio = 1;
-
-    public float getRatio()
-    {
-        return ratio;
-    }
-
-    public void setRatio(float ratio)
-    {
-        this.ratio = ratio;
-    }
 }

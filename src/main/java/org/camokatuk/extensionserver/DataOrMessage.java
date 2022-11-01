@@ -1,5 +1,8 @@
 package org.camokatuk.extensionserver;
 
+import lombok.Data;
+
+@Data
 public class DataOrMessage<D>
 {
     private D data;
@@ -17,25 +20,5 @@ public class DataOrMessage<D>
         DataOrMessage<D> dDataOrMessage = new DataOrMessage<>();
         dDataOrMessage.setMessage(msg);
         return dDataOrMessage;
-    }
-
-    public D getData()
-    {
-        return data;
-    }
-
-    public void setData(D data)
-    {
-        this.data = data;
-    }
-
-    public String getMessage()
-    {
-        return message;
-    }
-
-    public void setMessage(String message)
-    {
-        this.message = message;
     }
 }
