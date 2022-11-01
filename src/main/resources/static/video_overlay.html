@@ -11,6 +11,7 @@
 <div id="app" class="full-height"></div>
 <script src="https://extension-files.twitch.tv/helper/v1/twitch-ext.min.js"></script>
 <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
+<script src="js/skill-table.js" type="text/javascript"></script>
 <script src="js/unit-table.js" type="text/javascript"></script>
 <script src="js/control-panel.js" type="text/javascript"></script>
 <script src="js/utils.js" type="text/javascript"></script>
@@ -65,8 +66,10 @@
                 <div id="skillContainer"></div>
                 <div id="skillHintContainer">
                     <div class="skillHintBox">
+                        <span class="skillName">Skill Level:&nbsp;</span>
+                        <span id="currentSkillLevel" class="skillFieldMargin"></span>
                         <span class="skillName">Available Points:&nbsp;</span>
-                        <span id="availablePoints"></span>
+                        <span id="availablePoints" class="skillFieldMargin"></span>
                     </div>
                     <div id="skillHint" class="skillHintBox"></div>
                 </div>

@@ -8,7 +8,7 @@ var TABS = [
     },{
         name: "Skills",
         fetchFn: fetchSkills,
-        fetchIntervalMs: 10000
+        fetchIntervalMs: 10000000
     },{
         name: "Achievements",
         fetchFn: fetchAchievements,
@@ -223,35 +223,67 @@ function fetchAchievements() {
 
 function fetchSkills() {
     console.log("Imma fetch some Skills");
-    updateSkills($('#tabSkills'), DEBUG_SKILLS());
+    var skillJson = { groups: [] };
+    var playerSkills = {
+        availablePoints: 5,
+        levels: [1, 2, 5, 15, 17, 15, 6, 8, 12, 5, 15, 17, 15 ,15 ,15 ,20, 15, 15, 18, 20, 14, 15]
+    };
+    skillJson.groups[0] = mapSkillGroup("General", SKILLS_GENERAL, playerSkills.levels);
+    skillJson.groups[1] = mapSkillGroup("Protoss", SKILLS_PROTOSS, playerSkills.levels);
+    skillJson.groups[2] = mapSkillGroup("Terran", SKILLS_TERRAN, playerSkills.levels);
+    skillJson.groups[3] = mapSkillGroup("Zerg", SKILLS_ZERG, playerSkills.levels);
+    updateSkills($('#tabSkills'), skillJson, playerSkills);
 }
 
-function updateSkills(tab, skills) {
+function mapSkillGroup(groupName, idArray, skillLevels) {
+    var group = {
+        name: groupName
+    };
+
+    group.skills = idArray.map(id => ({
+        id: id,
+        name: SKILLS[id].name,
+        shortName: SKILLS[id].shortName,
+        hint: SKILLS[id].description,
+        playerLevel: skillLevels[id],
+        max: 20
+    }));
+    return group;
+}
+
+function updateSkills(tab, skills, skillLevels) {
     $('#skillContainer').children().detach();
+    $('.skillHintBox').righteousToggle(false);
     $('#availablePoints').text('-');
 
-    console.log(skills.groups.length);
     var mainSkillsEl = $('#skillContainer');
     for (var i = 0; i < skills.groups.length; i++) {
         var skillGroup = skills.groups[i];
         var skillGroupEl = $('<div/>').addClass("skillGroup");
         skillGroupEl.append($('<span/>').addClass("skillName").text(skillGroup.name));
         for (var j = 0; j < skillGroup.skills.length; j++) {
-            var skill = $('<div/>').attr('skillHint', skillGroup.skills[j].hint);
-            var progressbar = $('<div/>').addClass("skillProgressbar");
+            var skill = skillGroup.skills[j];
+
+            var skillElement = $('<div/>').attr('skillHint', skill.hint).attr('skillLevel', skill.playerLevel + "/" + skill.max);
+            var progressbar = $('<div/>').addClass("skillProgressbar").append("");
             progressbar.tpscprogressbar({
-                value: skillGroup.skills[j].value,
-                max: skillGroup.skills[j].max
+                name: skill.name,
+                value: skill.playerLevel,
+                max: skill.max
             });
-            skill.append(progressbar);
-            skill.mousemove(function() {
+            skillElement.append(progressbar);
+            skillElement.mouseover(function() {
+                $('#currentSkillLevel').text($(this).attr("skillLevel"));
                 $("#skillHint").text($(this).attr("skillHint"));
+                $('.skillHintBox').righteousToggle(true);
+            }).mouseout(function() {
+                $('.skillHintBox').righteousToggle(false);
             });
-            skillGroupEl.append(skill);
+            skillGroupEl.append(skillElement);
         }
         mainSkillsEl.append(skillGroupEl);
     }
-    $('#availablePoints').text(skills.availablePoints);
+    $('#availablePoints').text(skillLevels.availablePoints);
 }
 
 function fetchMaps() {
@@ -263,10 +295,12 @@ function fetchMaps() {
     $.fn.tpscprogressbar = function(options) {
         var opts = $.extend( {
             value: 0,
-            max: 10
+            max: 10,
+            name: "skill name"
         }, options );
         this.addClass( "progressbarContainer" );
         this.append($("<div/>").addClass("progressbar"));
+        this.append($("<span/>").addClass("progressbarLabel").text(opts.name));
         return this.adjustProgressbar(opts.value, opts.max);
     };
 
