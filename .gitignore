@@ -1,7 +1,8 @@
 application.properties
 debug.js
 static.zip
-.idea
+.idea/
+*.iml
 
 #Global
 !/.gitignore
@@ -11,3 +12,7 @@ static.zip
 #maven
 target/
 logs/
+
+
+
+tossclip.txt

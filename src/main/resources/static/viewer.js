@@ -270,8 +270,8 @@ $.fn.extend({
 
 let $clipboard = $("<input id='clipboard'>").appendTo('body').righteousToggle(false);
 let CLIPBOARD_COMBO_TOKENS = {
-    BUILD: { attr: 'b', combo: ['b', 'c', 'm']},
-    COORDS: { attr: 'c', combo: ['b', 'c', 'm']},
+    BUILD: { attr: 't', combo: ['t', 'c', 'm']},
+    COORDS: { attr: 'c', combo: ['t', 'c', 'm']},
     MULTIPLIER: { attr: 'm' },
     OTHER: { attr: 'o'},
     _clearAllAttributes: function() {
