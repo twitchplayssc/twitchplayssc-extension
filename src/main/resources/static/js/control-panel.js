@@ -246,7 +246,7 @@ function mapSkillGroup(groupName, idArray, skillLevels) {
         shortName: SKILLS[id].shortName,
         hint: SKILLS[id].description,
         playerLevel: skillLevels[id],
-        max: 20
+        max: SKILLS[id].maxPoints
     }));
     return group;
 }
@@ -280,9 +280,9 @@ function updateSkills(tab, skills, skillLevels) {
                 $('#skillHintSkillName').text($(this).attr("skillName") + " Level ");
                 $('#currentSkillLevel').text($(this).attr("skillLevel"));
                 $("#skillHint").text($(this).attr("skillHint"));
-                $('.skillHintBox').righteousToggle(true);
+                $('#skillHintBox').righteousToggle(true);
             }).mouseout(function() {
-                $('.skillHintBox').righteousToggle(false);
+                $('#skillHintBox').righteousToggle(false);
             });
             skillGroupEl.append(skillElement);
         }
@@ -307,13 +307,16 @@ function fetchMaps() {
 
         this.append($("<div/>").addClass("progressbar"));
         this.append($("<div/>").addClass("skillBarMask"));
-        this.append($("<span/>").addClass("progressbarLabel").text(opts.name));
+//        this.append($("<span/>").addClass("progressbarLabel").text(opts.name));
         return this.adjustProgressbar(opts.value, opts.max);
     };
 
     $.fn.adjustProgressbar = function( newVal, max ) {
+        newVal = Math.min(newVal, max);
         var progressPercents = 100.0 * newVal / max;
         this.find('.progressbar').css('left', (progressPercents - 100) + "%");
+        var maskStretch = 100 * 20.0 / max; // dynamic max
+        this.find('.skillBarMask').css('background-size', maskStretch + '% 100%');
         return this;
     };
 

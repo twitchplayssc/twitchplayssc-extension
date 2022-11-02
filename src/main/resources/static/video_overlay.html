@@ -8,17 +8,19 @@
     <link rel="stylesheet" type="text/css" href="css/control-panel.css">
 </head>
 <body>
-<div id="app" class="full-height"></div>
 <script src="https://extension-files.twitch.tv/helper/v1/twitch-ext.min.js"></script>
 <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
+<script src="js/utils.js" type="text/javascript"></script>
+<script src="js/clipboard.js" type="text/javascript"></script>
 <script src="js/skill-table.js" type="text/javascript"></script>
 <script src="js/unit-table.js" type="text/javascript"></script>
 <script src="js/control-panel.js" type="text/javascript"></script>
-<script src="js/utils.js" type="text/javascript"></script>
-<script src="js/clipboard.js" type="text/javascript"></script>
 <script src="js/viewer.js" type="text/javascript"></script>
 <script src="js/events.js" type="text/javascript"></script>
-<!--<script src="js/debug.js" type="text/javascript"></script>-->
+<script src="js/debug.js" type="text/javascript"></script>
+
+
+<div id="app" class="full-height"></div>
 
 <div class="stance"></div>
 <div class="focus"></div>
@@ -31,7 +33,6 @@
 <div class="minerals-income resource income"><span class="icon"></span><span class="value"></span></div>
 <div class="gas-income resource income"><span class="icon"></span><span class="value"></span></div>
 <div class="terrazine resource sellout"><span class="icon"></span><span class="value"></span></div>
-<br/><br/>
 <div class="feeding "><span class="icon resourcesMgmt"></span><span class="value"></span></div>
 
 
@@ -65,7 +66,7 @@
             <div class="tab-content" id="tabSkills">
                 <div id="skillContainer"></div>
                 <div id="skillHintContainer">
-                    <div class="skillHintBox">
+                    <div id="skillHintBox">
                         <span id="skillHintSkillName" class="skillName">Skill Level:&nbsp;</span>
                         <span id="currentSkillLevel" class="skillFieldMargin"></span>
                         <span class="skillName">Available Points:&nbsp;</span>

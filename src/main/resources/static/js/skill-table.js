@@ -131,3 +131,7 @@ SKILLS[20] = {
     name: "Burrow",
     description: ""
 };
+
+for (var i = 0; i < SKILLS.length; i++) {
+    if (SKILLS[i]) SKILLS[i].maxPoints = 15;//randomInt(20, 12);
+}

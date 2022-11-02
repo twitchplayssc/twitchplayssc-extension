@@ -2,8 +2,8 @@
     position: absolute;
     width: 55.6%;
     height: 63%;
-    left: 19.5%;
-    top: 11%;
+    left: 18.8%;
+    top: 6.8%;
     border: 3vw solid transparent;
     border-image: url(../img/icons/box2.png) 30 round;
     padding: 0;
@@ -24,8 +24,8 @@
     position: absolute;
     width: 50.0%;
     height: 2.8%;
-    left: 25.5%;
-    top: 82.0%;
+    left: 24.8%;
+    top: 79.0%;
     background-color: #5cb6f6;
     opacity: 0.8;
     border: 0.2vw solid black;
@@ -228,7 +228,7 @@
     top: 0%;
 }
 
-.skillHintBox {
+#skillHintBox {
     display: block;
     margin-bottom: 0.5vw;
     font-size: 1vw;

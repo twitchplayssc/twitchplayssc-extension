@@ -108,3 +108,7 @@ $.fn.extend({
         $(this).addClass('tooltip').append('<span class="tooltiptext">' + txt + '</span>');
     }
 });
+
+function randomInt(max, min) {
+    return min ? min + Math.floor(Math.random() * (max - min)) : Math.floor(Math.random() * max);
+}
