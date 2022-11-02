@@ -211,7 +211,7 @@
 
 .skillProgressbar {
     margin-left: 2vw;
-    width: 17vw;
+    width: 22.2vw;
     height: 1.4vw;
     border: 0.1vw solid #060b16;
     border-width: 0.3vw 0.7vw;
@@ -253,10 +253,11 @@
 }
 
 .progressbarLabel {
-    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    text-shadow: -0.1vw -0.1vw 0 #000, 0.1vw -0.1vw 0 #000, -0.1vw 0.1vw 0 #000, 0.1vw 0.1vw 0 #000;
+    /*color: yellow;*/
     position: relative !important;
-    top: -104%;
-    left: 1%;
+    top: -206%;
+    left: 2%;
 }
 
 .progressbar {
@@ -265,9 +266,22 @@
     left: -10%;
     width: 100%;
     height: 100%;
-    background: url(../img/progressbar.png) no-repeat left;
+    background: linear-gradient(rgba(4,112,173,1), rgba(4,112,173,1));
+    /*background: url(../img/progressbar.png) no-repeat left;*/
 }
 
 .skillFieldMargin {
     margin-right: 1%;
+}
+
+.skillBarMask {
+    width:100%;
+    height:100%;
+    position:relative;
+    background: url(../img/progressgrid.png) no-repeat left;
+    top: -100%;
+}
+
+#skillHintSkillName {
+    text-transform: capitalize;
 }

@@ -264,7 +264,11 @@ function updateSkills(tab, skills, skillLevels) {
         for (var j = 0; j < skillGroup.skills.length; j++) {
             var skill = skillGroup.skills[j];
 
-            var skillElement = $('<div/>').attr('skillHint', skill.hint).attr('skillLevel', skill.playerLevel + "/" + skill.max);
+            var skillElement = $('<div/>').attr({
+                skillHint: skill.hint,
+                skillName: skill.shortName,
+                skillLevel: skill.playerLevel + "/" + skill.max
+            });
             var progressbar = $('<div/>').addClass("skillProgressbar").append("");
             progressbar.tpscprogressbar({
                 name: skill.name,
@@ -273,6 +277,7 @@ function updateSkills(tab, skills, skillLevels) {
             });
             skillElement.append(progressbar);
             skillElement.mouseover(function() {
+                $('#skillHintSkillName').text($(this).attr("skillName") + " Level ");
                 $('#currentSkillLevel').text($(this).attr("skillLevel"));
                 $("#skillHint").text($(this).attr("skillHint"));
                 $('.skillHintBox').righteousToggle(true);
@@ -299,7 +304,9 @@ function fetchMaps() {
             name: "skill name"
         }, options );
         this.addClass( "progressbarContainer" );
+
         this.append($("<div/>").addClass("progressbar"));
+        this.append($("<div/>").addClass("skillBarMask"));
         this.append($("<span/>").addClass("progressbarLabel").text(opts.name));
         return this.adjustProgressbar(opts.value, opts.max);
     };
