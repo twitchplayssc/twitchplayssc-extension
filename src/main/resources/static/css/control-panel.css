@@ -228,8 +228,11 @@
     top: 0%;
 }
 
+#skillHint {
+    display: none;
+}
 #skillHintBox {
-    display: block;
+    display: none;
     margin-bottom: 0.5vw;
     font-size: 1vw;
 }
@@ -289,4 +292,24 @@
 
 .skillPlus {
     display:inline-block;
+    background: url(../img/icons/skillplus.png) no-repeat;
+    background-size: cover;
+    width: 1.5vw;
+    height: 1.5vw;
+    top: -0.3vw;
+    position: relative;
+    cursor: pointer;
+}
+
+.skillPlus.disabled {
+    filter: none;
+    -webkit-filter: grayscale(100%) !important;
+    -moz-filter:    grayscale(100%) !important;
+    -ms-filter:     grayscale(100%) !important;
+    -o-filter:      grayscale(100%) !important;
+    cursor: no-drop !important;
+}
+
+.skillControls {
+    height: 2vw;
 }

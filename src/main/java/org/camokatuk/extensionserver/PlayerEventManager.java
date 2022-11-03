@@ -31,16 +31,17 @@ public class PlayerEventManager
         {
             levelUpBuffer.offer(new LevelUpEvent(userId, skillId));
         }
+        globalInfoManager.levelUpSkill(userId, skillId);
     }
 
     public Map<String, PlayerGeneratedEvents> fakeEvents()
     {
-        levelUpSkill("77080650", 0);
-        levelUpSkill("77080650", 0);
-        levelUpSkill("77080650", 14);
-        levelUpSkill("77080650", 17);
+        levelUpSkill("59393023", 0);
+        levelUpSkill("59393023", 0);
+        levelUpSkill("59393023", 14);
+        levelUpSkill("59393023", 17);
 
-        userOnline("59393023");
+        userOnline("77080650");
 
         return collectAndDropEvents();
     }
@@ -93,11 +94,6 @@ public class PlayerEventManager
             allEvents.add(nextElement);
         }
         return allEvents;
-    }
-
-    public void acceptEventsFromServer(Map<String, PlayerGeneratedEvents> eventsByUserIds)
-    {
-        // TODO
     }
 
     @Data

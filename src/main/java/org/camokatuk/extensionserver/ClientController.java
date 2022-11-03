@@ -6,6 +6,8 @@ import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -13,21 +15,24 @@ import java.util.Date;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/client")
 public class ClientController
 {
     private final StateManager stateManager;
     private final PlayerEventManager playerEventManager;
+    private final GlobalInfoManager globalInfoManager;
     private final String extensionSecret;
     private final boolean devProfile;
 
     @Autowired
     public ClientController(StateManager stateManager, PlayerEventManager playerEventManager,
+                            GlobalInfoManager globalInfoManager,
                             ConfigurableEnvironment env, @Value("${extension.secret}") String extensionSecret)
     {
         this.stateManager = stateManager;
         this.extensionSecret = extensionSecret;
         this.playerEventManager = playerEventManager;
+        this.globalInfoManager = globalInfoManager;
         this.devProfile = Arrays.asList(env.getActiveProfiles()).contains("dev");
     }
 
@@ -51,7 +56,24 @@ public class ClientController
 
     @CrossOrigin(origins = "*")
     //	@CrossOrigin(origins = "twitch.tv")
-    @PostMapping("/skill/levelup")
+    @GetMapping("/playerstatsglobal")
+    public
+    @ResponseBody
+    ResponseEntity<PlayerGlobalStats> getPlayerData(@RequestHeader("Authorization") String authenticationHeader)
+    {
+        Optional<String> userIdOptional = getUserIdFromAuth(authenticationHeader);
+        if (userIdOptional.isEmpty())
+        {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+        }
+
+        Integer userId = Utils.parseNumericUserId(userIdOptional.get());
+        return ResponseEntity.ok().body(globalInfoManager.get(userId));
+    }
+
+    @CrossOrigin(origins = "*")
+    //	@CrossOrigin(origins = "twitch.tv")
+    @PostMapping("/skills/levelup")
     public
     @ResponseBody
     String levelUpSkill(@RequestHeader("Authorization") String authenticationHeader, @RequestParam int skillId)

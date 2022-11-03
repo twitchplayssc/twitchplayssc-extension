@@ -8,7 +8,7 @@ var TABS = [
     },{
         name: "Skills",
         fetchFn: fetchSkills,
-        fetchIntervalMs: 10000000
+        fetchIntervalMs: 1000
     },{
         name: "Achievements",
         fetchFn: fetchAchievements,
@@ -218,24 +218,36 @@ function fetchStats() {
 }
 
 function fetchAchievements() {
-    console.log("Imma fetch some Achievements");
+    // console.log("Imma fetch some Achievements");
 }
 
 function fetchSkills() {
-    console.log("Imma fetch some Skills");
-    var skillJson = { groups: [] };
-    var playerSkills = {
-        availablePoints: 5,
-        levels: [1, 2, 5, 15, 17, 15, 6, 8, 12, 5, 15, 17, 15 ,15 ,15 ,20, 15, 15, 18, 20, 14, 15]
-    };
-    skillJson.groups[0] = mapSkillGroup("General", SKILLS_GENERAL, playerSkills.levels);
-    skillJson.groups[1] = mapSkillGroup("Protoss", SKILLS_PROTOSS, playerSkills.levels);
-    skillJson.groups[2] = mapSkillGroup("Terran", SKILLS_TERRAN, playerSkills.levels);
-    skillJson.groups[3] = mapSkillGroup("Zerg", SKILLS_ZERG, playerSkills.levels);
-    updateSkills($('#tabSkills'), skillJson, playerSkills);
+    ebsReq({
+       	url: OVERLAY_API_BASE_URL + '/playerstatsglobal',
+      	type: 'GET',
+     	success: function(data) {
+     	    updateSkills(data);
+        },
+        error: function(e) {
+            // $('#tabPolls').text(e.status + ' - ' + e.statusText)
+        }
+    });
 }
 
-function mapSkillGroup(groupName, idArray, skillLevels) {
+function updateSkills(playerGlobalState) {
+    $.extend(PLAYER_GLOBAL_DATA, playerGlobalState);
+
+    var skillJson = {
+        groups: []
+    };
+    skillJson.groups[0] = mapSkillGroup("General", SKILLS_GENERAL);
+    skillJson.groups[1] = mapSkillGroup("Protoss", SKILLS_PROTOSS);
+    skillJson.groups[2] = mapSkillGroup("Terran", SKILLS_TERRAN);
+    skillJson.groups[3] = mapSkillGroup("Zerg", SKILLS_ZERG);
+    rebuildSkillsUI(skillJson);
+}
+
+function mapSkillGroup(groupName, idArray) {
     var group = {
         name: groupName
     };
@@ -245,13 +257,14 @@ function mapSkillGroup(groupName, idArray, skillLevels) {
         name: SKILLS[id].name,
         shortName: SKILLS[id].shortName,
         hint: SKILLS[id].description,
-        playerLevel: skillLevels[id],
+        playerLevel: Math.min(PLAYER_GLOBAL_DATA.skills[id], SKILLS[id].maxPoints),
         max: SKILLS[id].maxPoints
     }));
     return group;
 }
 
-function updateSkills(tab, skills, skillLevels) {
+
+function rebuildSkillsUI(skills) {
     $('#skillContainer').children().detach();
     $('.skillHintBox').righteousToggle(false);
     $('#availablePoints').text('-');
@@ -264,49 +277,79 @@ function updateSkills(tab, skills, skillLevels) {
         for (var j = 0; j < skillGroup.skills.length; j++) {
             var skill = skillGroup.skills[j];
 
-            var skillElement = $('<div/>').attr({
-                skillHint: skill.hint,
-                skillName: skill.shortName,
-                skillLevel: skill.playerLevel + "/" + skill.max
+            var skillElement = $('<div/>').addClass("skillControls").attr({
+                skillId: skill.id
             });
-            var progressbar = $('<div/>').addClass("skillProgressbar").append("");
+            var progressbar = $('<div/>').addClass("skillProgressbar");
             progressbar.tpscprogressbar({
-                name: skill.name,
                 value: skill.playerLevel,
                 max: skill.max
             });
             skillElement.append(progressbar);
-            var skillPlus = $('<div/>').addClass("skillPlus").attr("skillId", skill.id).text("+");
+            var skillPlus = $('<div/>').addClass("skillPlus").attr("skillId", skill.id);
+            skillPlus.toggleClass("disabled", skill.playerLevel == skill.max || PLAYER_GLOBAL_DATA.availablePoints == 0);
             skillElement.append(skillPlus)
             skillElement.mouseover(function() {
-                $('#skillHintSkillName').text($(this).attr("skillName") + " Level ");
-                $('#currentSkillLevel').text($(this).attr("skillLevel"));
-                $("#skillHint").text($(this).attr("skillHint"));
-                $('#skillHintBox').righteousToggle(true);
+                var skillId = parseInt($(this).attr("skillId"));
+                var skillLevel = PLAYER_GLOBAL_DATA.skills[skillId];
+                $('#skillHintSkillName').text(SKILLS[skillId].name + " Level ");
+                var skillLevelString = skillLevel + " / " + SKILLS[skillId].maxPoints
+                $('#currentSkillLevel').text(skillLevelString);
+                $("#skillHint").text(SKILLS[skillId].description);
+                $('#skillHintContainer').children().righteousToggle(true);
             }).mouseout(function() {
-                $('#skillHintBox').righteousToggle(false);
+                $('#skillHintContainer').children().righteousToggle(false);
             });
             skillGroupEl.append(skillElement);
         }
         mainSkillsEl.append(skillGroupEl);
     }
-    $('#availablePoints').text(skillLevels.availablePoints);
+
+    $('#availablePoints').text(PLAYER_GLOBAL_DATA.availablePoints);
 
     $('.skillPlus').click(function() {
-        var skillId = $(this).attr("skillId");
-        skillLevelUp(skillId);
+        if (PLAYER_GLOBAL_DATA.availablePoints == 0) return;
+
+        var _this = $(this);
+        var skillId = _this.attr("skillId");
+        var progressBar = _this.prev();
+        var max = parseInt(progressBar.attr('max'));
+        var expectedNewValue = PLAYER_GLOBAL_DATA.skills[skillId];
+        if (expectedNewValue < max)
+        {
+            skillLevelUp(skillId, max, function() {
+                PLAYER_GLOBAL_DATA.levelupSkill(skillId);
+                adjustPlayerGlobalDataUI();
+                _this.mouseover();
+            });
+        }
     });
 }
 
-function skillLevelUp(skillId) {
+function adjustPlayerGlobalDataUI()
+{
+    $('.skillControls').each(function() {
+        var skillId = parseInt($(this).attr("skillId"));
+        var skillMaxLevel = SKILLS[skillId].maxPoints;
+        var skillLevel = PLAYER_GLOBAL_DATA.skills[skillId];
+
+        // update plus
+        $(this).find('.skillPlus').toggleClass("disabled", PLAYER_GLOBAL_DATA.availablePoints == 0 || skillLevel >= skillMaxLevel);
+        // update progress bar
+        $(this).find('.skillProgressbar').adjustProgressbar(skillLevel, skillMaxLevel);
+    });
+    $('#availablePoints').text(PLAYER_GLOBAL_DATA.availablePoints);
+}
+
+function skillLevelUp(skillId, max, onsuccess) {
     ebsReq({
-        url: OVERLAY_API_BASE_URL + '/skill/levelup?timestamp' + new Date().getTime(),
+        url: OVERLAY_API_BASE_URL + '/skills/levelup?timestamp' + new Date().getTime(),
         type: 'POST',
         data: {
             skillId: skillId
         },
         success: function(data) {
-
+            onsuccess();
         }
     });
 }
@@ -325,7 +368,7 @@ function fetchMaps() {
             name: "skill name"
         }, options );
         this.addClass( "progressbarContainer" );
-
+        this.attr('max', opts.max);
         this.append($("<div/>").addClass("progressbar"));
         this.append($("<div/>").addClass("skillBarMask"));
 //        this.append($("<span/>").addClass("progressbarLabel").text(opts.name));

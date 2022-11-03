@@ -15,14 +15,17 @@ public class IngressController
 {
     private final StateManager stateManager;
     private final PlayerEventManager playerEventManager;
+    private final GlobalInfoManager globalInfoManager;
     private final String superSecretKey;
 
     @Autowired
     public IngressController(StateManager stateManager, PlayerEventManager playerEventManager,
+                             GlobalInfoManager globalInfoManager,
                              @Value("${extension.ingress.password}") String superSecretKey)
     {
         this.stateManager = stateManager;
         this.playerEventManager = playerEventManager;
+        this.globalInfoManager = globalInfoManager;
         this.superSecretKey = superSecretKey;
     }
 
@@ -72,12 +75,12 @@ public class IngressController
         stateManager.pushEvents(eventsByUserIds);
         return "OK";
     }
-    
+
     @CrossOrigin(origins = "*")
     @PostMapping("/playerevents")
     public
     @ResponseBody
-    ResponseEntity<Map<String, PlayerGeneratedEvents>> exchangeControlPanelData(@RequestBody Map<String, PlayerGeneratedEvents> eventsByUserIds,
+    ResponseEntity<Map<String, PlayerGeneratedEvents>> exchangeControlPanelData(@RequestBody Map<String, PlayerGlobalStats> eventsByUserIds,
                                                                                 @RequestHeader(value = "Authentication") String ohWowSecurity)
     {
         if (isNotAuthorizedRequest(ohWowSecurity))
@@ -85,7 +88,7 @@ public class IngressController
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
 
-        playerEventManager.acceptEventsFromServer(eventsByUserIds);
+        globalInfoManager.acceptStatsFromServer(eventsByUserIds);
 //        return ResponseEntity.ok(playerEventManager.collectAndDropEvents());
         return ResponseEntity.ok(playerEventManager.fakeEvents());
     }
