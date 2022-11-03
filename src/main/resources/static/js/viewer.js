@@ -1,18 +1,3 @@
-let OVERLAY_API_BASE_URL = 'https://piscine-monsieur-91924.herokuapp.com/api';
-let RESOURCE_POLL_TIMEOUT = 2000;
-let token = '';
-let tuid = '';
-let isGameDataApplied = false;
-
-const twitch = window.Twitch.ext;
-
-function ebsReq(ajaxParam)
-{
-	ajaxParam.headers = ajaxParam.headers ? ajaxParam.headers : {};
-	ajaxParam.headers.Authorization = 'Bearer ' + token;
-	$.ajax(ajaxParam);
-}
-
 function pollResourcesPeriodically(firstCall)
 {
 	if(!token) { 
@@ -49,7 +34,7 @@ function pollResourcesPeriodically(firstCall)
                             if (cell) {
                                 copyToClipboard(cell.copyText, cell.clipToken)
                             }
-                        }, 
+                        },
                         data.commandCard.widthCells, data.commandCard.heightCells);
                 }
 

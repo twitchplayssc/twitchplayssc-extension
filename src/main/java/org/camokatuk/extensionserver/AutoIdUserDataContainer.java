@@ -44,7 +44,7 @@ public class AutoIdUserDataContainer<D>
         }
         else
         {
-            userId = parseNumericUserId(someUserIdentifier);
+            userId = Utils.parseNumericUserId(someUserIdentifier);
         }
 
         if (userId != null)
@@ -66,19 +66,6 @@ public class AutoIdUserDataContainer<D>
     public void setData(String someUserIdentifier, D data)
     {
         this.mergeData(someUserIdentifier, data, (oldData, newData) -> newData);
-    }
-
-    public static Integer parseNumericUserId(String str)
-    {
-        try
-        {
-            return Integer.parseInt(str);
-        }
-        catch (NumberFormatException e)
-        {
-            LOG.warn("Could not parse neither user id nor username from the key: " + str);
-            return null;
-        }
     }
 
     public DataOrMessage<D> getData(int userId)

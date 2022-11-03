@@ -250,6 +250,7 @@
     background: url(../img/progressbarContainer.png) no-repeat center;
     background-size: cover;
     overflow:hidden;
+    display: inline-block;
 }
 
 .progressbarLabel {
@@ -284,4 +285,8 @@
 
 #skillHintSkillName {
     text-transform: capitalize;
+}
+
+.skillPlus {
+    display:inline-block;
 }

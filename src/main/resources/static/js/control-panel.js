@@ -199,7 +199,7 @@ function pollSubmit(element, pollId, optionIndex) {
     	    terraEl.val(0);
        	    updatePolls($('#tabPolls'), data);
        	    console.log(element);
-                console.log("Cool, you voted with " + terraEl.val());
+            console.log("Cool, you voted with " + terraEl.val());
         },
         error: function(data) {
                	    updatePolls($('#tabPolls'), data);
@@ -276,6 +276,8 @@ function updateSkills(tab, skills, skillLevels) {
                 max: skill.max
             });
             skillElement.append(progressbar);
+            var skillPlus = $('<div/>').addClass("skillPlus").attr("skillId", skill.id).text("+");
+            skillElement.append(skillPlus)
             skillElement.mouseover(function() {
                 $('#skillHintSkillName').text($(this).attr("skillName") + " Level ");
                 $('#currentSkillLevel').text($(this).attr("skillLevel"));
@@ -289,7 +291,26 @@ function updateSkills(tab, skills, skillLevels) {
         mainSkillsEl.append(skillGroupEl);
     }
     $('#availablePoints').text(skillLevels.availablePoints);
+
+    $('.skillPlus').click(function() {
+        var skillId = $(this).attr("skillId");
+        skillLevelUp(skillId);
+    });
 }
+
+function skillLevelUp(skillId) {
+    ebsReq({
+        url: OVERLAY_API_BASE_URL + '/skill/levelup?timestamp' + new Date().getTime(),
+        type: 'POST',
+        data: {
+            skillId: skillId
+        },
+        success: function(data) {
+
+        }
+    });
+}
+
 
 function fetchMaps() {
     console.log("Imma fetch some Maps");

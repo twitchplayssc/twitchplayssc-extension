@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static org.camokatuk.extensionserver.AutoIdUserDataContainer.parseNumericUserId;
-
 @Component
 public class StateManager
 {
@@ -102,7 +100,7 @@ public class StateManager
 
     private UserDisplayData getInGameDisplayData(String userIdString, boolean fetchGlobalGameData)
     {
-        Integer userId = parseNumericUserId(userIdString);
+        Integer userId = Utils.parseNumericUserId(userIdString);
         if (userId == null)
         {
             return UserDisplayData.msg("Welcome");
