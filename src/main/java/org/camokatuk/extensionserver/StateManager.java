@@ -10,8 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Component
-public class StateManager
-{
+public class StateManager {
     private static final Log LOG = LogFactory.getLog(StateManager.class);
 
     private final DataByUserName<PlayerInGameData> resources = new DataByUserName<>();
@@ -19,21 +18,17 @@ public class StateManager
 
     private volatile GameStateContainer gameState = new GameStateContainer();
 
-    public StateManager()
-    {
+    public StateManager() {
         this.resetPlayerStats();
     }
 
-    private void resetPlayerStats()
-    {
+    private void resetPlayerStats() {
         this.resources.reset();
         this.events.reset();
     }
 
-    public void pushResources(Map<String, PlayerInGameData> state)
-    {
-        if (state == null)
-        {
+    public void pushResources(Map<String, PlayerInGameData> state) {
+        if (state == null) {
             LOG.warn("Got null state map, what the hell");
             return;
         }
@@ -44,59 +39,41 @@ public class StateManager
         // and we shouldn't be restarting the extension server during the sellout games in the first place.
         // we can always fix this by pushing INGAME_SELLOUT manually.
         boolean stateIsNotInGame = this.gameState == null || GameState.isNotInGame(this.gameState.getState());
-        if (!state.isEmpty() && stateIsNotInGame)
-        {
+        if (!state.isEmpty() && stateIsNotInGame) {
             this.gameState = GameStateContainer.inGame();
         }
 
-        for (Map.Entry<String, PlayerInGameData> stateEntry : state.entrySet())
-        {
+        for (Map.Entry<String, PlayerInGameData> stateEntry : state.entrySet()) {
             this.resources.setData(stateEntry.getKey(), stateEntry.getValue());
         }
     }
 
-    public void pushGameState(GameStateContainer gameState)
-    {
+    public void pushGameState(GameStateContainer gameState) {
         this.gameState = gameState;
-        if (GameState.isNotInGame(gameState.getState()))
-        {
+        if (GameState.isNotInGame(gameState.getState())) {
             this.resetPlayerStats();
         }
     }
 
-    public UserDisplayData getDisplayData(String username, boolean fetchGlobalGameData)
-    {
-        if (GameState.isInGame(this.gameState.getState()))
-        {
+    public UserDisplayData getDisplayData(String username, boolean fetchGlobalGameData) {
+        if (GameState.isInGame(this.gameState.getState())) {
             return this.getInGameDisplayData(username, fetchGlobalGameData);
-        }
-        else if (this.gameState.getState() == GameState.BROKEN)
-        {
+        } else if (this.gameState.getState() == GameState.BROKEN) {
             return UserDisplayData.msg(this.gameState.getMessage());
-        }
-        else if (this.gameState.getState() == GameState.STARTINGEXTENSION)
-        {
+        } else if (this.gameState.getState() == GameState.STARTINGEXTENSION) {
             return UserDisplayData.msg("(Re)loading extension...");
-        }
-        else if (this.gameState.getState() == GameState.STARTINGSTREAM)
-        {
+        } else if (this.gameState.getState() == GameState.STARTINGSTREAM) {
             return UserDisplayData.empty();
-        }
-        else if (this.gameState.getState() == GameState.LEADERBOARDS)
-        {
+        } else if (this.gameState.getState() == GameState.LEADERBOARDS) {
             return UserDisplayData.empty();
-        }
-        else
-        {
+        } else {
             return UserDisplayData.empty();
         }
     }
 
-    private UserDisplayData getInGameDisplayData(String username, boolean fetchGlobalGameData)
-    {
+    private UserDisplayData getInGameDisplayData(String username, boolean fetchGlobalGameData) {
         DataOrMessage<PlayerInGameData> resourcesOrMessage = getInGameDataOrMessage(username);
-        if (resourcesOrMessage.getMessage() != null)
-        {
+        if (resourcesOrMessage.getMessage() != null) {
             return UserDisplayData.msg(resourcesOrMessage.getMessage());
         }
 
@@ -105,8 +82,7 @@ public class StateManager
         displayData.setInGameData(resourcesOrMessage.getData());
         displayData.setSellout(this.gameState.getState() == GameState.INGAME_SELLOUT);
         displayData.setEvents(events.getData(username).orElse(null)); // see *** above, fetching the data directly is safe
-        if (fetchGlobalGameData)
-        {
+        if (fetchGlobalGameData) {
             displayData.setMap(this.gameState.getMap());
             displayData.setCommandCard(this.gameState.getCommandCard());
         }
@@ -114,10 +90,8 @@ public class StateManager
         return displayData;
     }
 
-    public DataOrMessage<PlayerInGameData> getInGameDataOrMessage(String username)
-    {
-        if (username == null)
-        {
+    public DataOrMessage<PlayerInGameData> getInGameDataOrMessage(String username) {
+        if (username == null) {
             return DataOrMessage.msg("Unable to fetch your userName, please contact admins");
         }
 
@@ -125,13 +99,11 @@ public class StateManager
         return stats.map(DataOrMessage::data).orElse(DataOrMessage.msg("Type !play to join the game"));
     }
 
-    public GameStateContainer getCurrentState()
-    {
+    public GameStateContainer getCurrentState() {
         return this.gameState;
     }
 
-    public void pushEvents(Map<String, List<String>> eventsByUsername)
-    {
+    public void pushEvents(Map<String, List<String>> eventsByUsername) {
         eventsByUsername.forEach((key, value) ->
         {
             // simply add all events to the ones we already have

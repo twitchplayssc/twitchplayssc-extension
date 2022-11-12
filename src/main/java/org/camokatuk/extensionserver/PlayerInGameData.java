@@ -5,8 +5,7 @@ import lombok.Data;
 import java.util.Map;
 
 @Data
-public class PlayerInGameData
-{
+public class PlayerInGameData {
     private int gas;
     private int minerals;
     private int terrazine;
@@ -23,8 +22,7 @@ public class PlayerInGameData
     private int race; // p t z -> 1 2 3
 
     @Data
-    public static class Workers
-    {
+    public static class Workers {
         private int minerals;
         private int gas;
         private int idle;

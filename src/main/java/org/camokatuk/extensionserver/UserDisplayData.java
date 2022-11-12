@@ -1,34 +1,40 @@
 package org.camokatuk.extensionserver;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import java.util.List;
 
-@Data
-public class UserDisplayData
-{
-    private boolean sellout = false;
-    private PlayerInGameData inGameData;
-    private MiniMap map;
-    private String globalMessage;
-    private List<String> events;
-    private CommandCard commandCard;
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
-    public static UserDisplayData empty()
-    {
+@Data
+public class UserDisplayData {
+    private boolean sellout = false;
+    @JsonInclude(NON_NULL)
+    private PlayerInGameData inGameData;
+    @JsonInclude(NON_NULL)
+    private MiniMap map;
+    @JsonInclude(NON_NULL)
+    private String globalMessage;
+    @JsonInclude(NON_NULL)
+    private List<String> events;
+    @JsonInclude(NON_NULL)
+    private CommandCard commandCard;
+    @JsonInclude(NON_NULL)
+    private List<Skill> availableSkills;
+
+    public static UserDisplayData empty() {
         return UserDisplayData.msg(null);
     }
 
-    public static UserDisplayData msg(String msg)
-    {
+    public static UserDisplayData msg(String msg) {
         UserDisplayData instance = new UserDisplayData();
         instance.setGlobalMessage(msg);
         return instance;
     }
 
     @Data
-    public static class InGame
-    {
+    public static class InGame {
         private boolean sellout = false;
         private int gas;
         private int minerals;
@@ -44,8 +50,7 @@ public class UserDisplayData
         private MiniMap map = new MiniMap();
 
         @Data
-        public static class Workers
-        {
+        public static class Workers {
             private int minerals;
             private int gas;
             private int idle;

@@ -16,8 +16,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
-public class TwitchApi
-{
+public class TwitchApi {
     private static final Log LOG = LogFactory.getLog(TwitchApi.class);
 
     private final RestTemplate restTemplate = new RestTemplate();
@@ -26,28 +25,23 @@ public class TwitchApi
     private final Map<Integer, String> userNameToIdCache = new ConcurrentHashMap<>();
 
     @Autowired
-    public TwitchApi(@Value("${extension.client_id}") String extensionClientId)
-    {
+    public TwitchApi(@Value("${extension.client_id}") String extensionClientId) {
         this.extensionClientId = extensionClientId;
     }
 
-    public String getUserDisplayName(int uid)
-    {
+    public String getUserDisplayName(int uid) {
         String cachedUserName = userNameToIdCache.get(uid);
-        if (cachedUserName != null)
-        {
+        if (cachedUserName != null) {
             return cachedUserName;
         }
 
-        try
-        {
+        try {
             HttpHeaders headers = new HttpHeaders();
             headers.set("Client-ID", extensionClientId);
             UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("https://api.twitch.tv/helix/users").queryParam("id", uid);
             HttpEntity<String> entity = new HttpEntity<>("", headers);
             ResponseEntity<UserData> response = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, entity, UserData.class);
-            if (response.getBody() == null || response.getBody().data == null || response.getBody().data.length == 0)
-            {
+            if (response.getBody() == null || response.getBody().data == null || response.getBody().data.length == 0) {
                 LOG.warn("Failed to fetch userName by user id: " + uid + ". Response " + response.getStatusCodeValue() + ", " + response.getBody());
                 return null;
             }
@@ -56,8 +50,7 @@ public class TwitchApi
             userNameToIdCache.put(uid, userName);
             return userName;
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             LOG.warn("Failed to fetch userName by user id: " + uid, e);
             return null;
         }

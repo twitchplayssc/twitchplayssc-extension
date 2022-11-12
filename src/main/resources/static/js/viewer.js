@@ -6,7 +6,10 @@ function pollResourcesPeriodically(firstCall)
 	}
 	
 	ebsReq({
-		url: OVERLAY_API_BASE_URL + '/display?timestamp' + new Date().getTime() + (!isGameDataApplied ? "&fetchGlobalGameData=true" : ""),
+		url: OVERLAY_API_BASE_URL + '/display?timestamp'
+		    + new Date().getTime()
+		    + (!isGameDataApplied ? "&fetchGlobalGameData=true" : "")
+		    + (SKILLS == null ? "&firstRequest=true" : ""),
 		type: 'GET',
 		success: function(data) {
             var playerInGameData = data.inGameData;
@@ -53,8 +56,7 @@ function pollResourcesPeriodically(firstCall)
                 $('.gas-income .value').taxColor(playerInGameData.gasTax).numberChange(playerInGameData.gasIncome, '+');
                 $('.minerals-income .value').taxColor(playerInGameData.mineralsTax).numberChange(playerInGameData.mineralsIncome, '+');
 
-                if (playerInGameData.workers)
-                {
+                if (playerInGameData.workers) {
                     $('.workers-minerals .value').numberChange(playerInGameData.workers.minerals);
                     $('.workers-gas .value').numberChange(playerInGameData.workers.gas);
                     $('.workers-moving .value').numberChange(playerInGameData.workers.moving);
@@ -64,15 +66,13 @@ function pollResourcesPeriodically(firstCall)
                 }
 
                 $('.army').righteousToggle(playerInGameData.army);
-                if (playerInGameData.army)
-                {
+                if (playerInGameData.army) {
                     updateArmy(playerInGameData.army);
                 }
 
                 $('.sellout').righteousToggle(data.sellout);
 
-                if (data.events)
-                {
+                if (data.events) {
                     data.events.map(event => renderPersonalEvent(event));
                 }
             }
@@ -88,6 +88,10 @@ function pollResourcesPeriodically(firstCall)
             }
 
             $('.message').text(data.globalMessage);
+
+            if (data.availableSkills) {
+                SKILLS = data.availableSkills;
+            }
 
 			setTimeout(pollResourcesPeriodically, RESOURCE_POLL_TIMEOUT);
 		}

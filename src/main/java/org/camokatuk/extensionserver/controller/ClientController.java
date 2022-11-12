@@ -18,8 +18,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/client")
-public class ClientController
-{
+public class ClientController {
     private final StateManager stateManager;
     private final PlayerEventManager playerEventManager;
     private final GlobalInfoManager globalInfoManager;
@@ -30,8 +29,7 @@ public class ClientController
     @Autowired
     public ClientController(StateManager stateManager, PlayerEventManager playerEventManager,
                             GlobalInfoManager globalInfoManager, TwitchApi twitchApi,
-                            ConfigurableEnvironment env, @Value("${extension.secret}") String extensionSecret)
-    {
+                            ConfigurableEnvironment env, @Value("${extension.secret}") String extensionSecret) {
         this.stateManager = stateManager;
         this.twitchApi = twitchApi;
         this.extensionSecret = extensionSecret;
@@ -45,8 +43,7 @@ public class ClientController
     @RequestMapping("/state")
     public
     @ResponseBody
-    GameStateContainer index()
-    {
+    GameStateContainer index() {
         return stateManager.getCurrentState();
     }
 
@@ -55,16 +52,20 @@ public class ClientController
     @RequestMapping("/display")
     public
     @ResponseBody
-    UserDisplayData index(@RequestHeader("Authorization") String authenticationHeader, @RequestParam(required = false) boolean fetchGlobalGameData)
-    {
+    UserDisplayData index(@RequestHeader("Authorization") String authenticationHeader,
+                          @RequestParam(required = false) boolean fetchGlobalGameData,
+                          @RequestParam(required = false) boolean firstRequest) {
         Optional<String> username = getUserNameFromAuth(authenticationHeader);
-        if (username.isEmpty())
-        {
+        if (username.isEmpty()) {
             return UserDisplayData.msg("Extension requires permissions");
         }
 
         playerEventManager.userOnline(username.get());
-        return stateManager.getDisplayData(username.get(), fetchGlobalGameData);
+        UserDisplayData userDisplayData = stateManager.getDisplayData(username.get(), fetchGlobalGameData);
+        if (firstRequest) {
+            globalInfoManager.addGlobalData(userDisplayData);
+        }
+        return userDisplayData;
     }
 
     @CrossOrigin(origins = "*")
@@ -72,11 +73,9 @@ public class ClientController
     @GetMapping("/playerstatsglobal")
     public
     @ResponseBody
-    ResponseEntity<PlayerGlobalStats> getPlayerData(@RequestHeader("Authorization") String authenticationHeader)
-    {
+    ResponseEntity<PlayerGlobalStats> getPlayerData(@RequestHeader("Authorization") String authenticationHeader) {
         Optional<String> username = getUserNameFromAuth(authenticationHeader);
-        if (username.isEmpty())
-        {
+        if (username.isEmpty()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
         }
 
@@ -89,11 +88,9 @@ public class ClientController
     @PostMapping("/skills/levelup")
     public
     @ResponseBody
-    ResponseEntity<String> levelUpSkill(@RequestHeader("Authorization") String authenticationHeader, @RequestParam int skillId)
-    {
+    ResponseEntity<String> levelUpSkill(@RequestHeader("Authorization") String authenticationHeader, @RequestParam int skillId) {
         Optional<String> username = getUserNameFromAuth(authenticationHeader);
-        if (username.isEmpty())
-        {
+        if (username.isEmpty()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
                     .body("Can't get your Twitch username. Either expired JWT or some other authentication nonsense");
         }
@@ -101,30 +98,24 @@ public class ClientController
         return ResponseEntity.ok().body("OK");
     }
 
-    private Optional<String> getUserNameFromAuth(String authenticationHeader)
-    {
+    private Optional<String> getUserNameFromAuth(String authenticationHeader) {
         Optional<String> userIdOptional = getUserIdFromAuth(authenticationHeader);
-        if (userIdOptional.isEmpty())
-        {
+        if (userIdOptional.isEmpty()) {
             return Optional.empty();
         }
         Integer userId = Utils.parseNumericUserId(userIdOptional.get());
-        if (userId == null)
-        {
+        if (userId == null) {
             return Optional.empty();
         }
         return Optional.ofNullable(twitchApi.getUserDisplayName(userId));
     }
 
-    private Optional<String> getUserIdFromAuth(String authenticationHeader)
-    {
+    private Optional<String> getUserIdFromAuth(String authenticationHeader) {
         String userId = "77080650";
-        if (!devProfile)
-        {
+        if (!devProfile) {
             authenticationHeader = authenticationHeader.substring("Bearer ".length());
             Jws<Claims> jws = Jwts.parser().setSigningKey(extensionSecret).parseClaimsJws(authenticationHeader);
-            if (jws.getBody().getExpiration().before(new Date()))
-            {
+            if (jws.getBody().getExpiration().before(new Date())) {
                 return Optional.empty();
             }
             userId = (String) jws.getBody().get("user_id");

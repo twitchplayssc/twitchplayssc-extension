@@ -235,7 +235,11 @@ function fetchSkills() {
 }
 
 function updateSkills(playerGlobalState) {
-    $.extend(PLAYER_GLOBAL_DATA, playerGlobalState);
+    if (SKILLS == null) {
+        return;
+    }
+
+    PLAYER_GLOBAL_DATA = $.extend(PLAYER_GLOBAL_DATA, playerGlobalState);
 
     var skillJson = {
         groups: []
