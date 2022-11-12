@@ -8,9 +8,8 @@ import java.util.List;
 public class UserDisplayData
 {
     private boolean sellout = false;
-    private UserGameState state;
+    private PlayerInGameData inGameData;
     private MiniMap map;
-    private LeaderboardData leaderboard;
     private String globalMessage;
     private List<String> events;
     private CommandCard commandCard;
@@ -52,10 +51,5 @@ public class UserDisplayData
             private int idle;
             private int moving;
         }
-    }
-
-    public static class LeaderboardData
-    {
-        /* TODO */
     }
 }

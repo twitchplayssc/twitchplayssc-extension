@@ -1,28 +1,25 @@
 package org.camokatuk.extensionserver;
 
 import lombok.AllArgsConstructor;
-import org.camokatuk.extensionserver.twitchapi.TwitchApi;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 @AllArgsConstructor
 public class GlobalInfoManager
 {
-    private final TwitchApi twitchApi;
-    private final Map<String, PlayerGlobalStats> playerGlobalStats = new ConcurrentHashMap<>();
+    private final DataByUserName<PlayerGlobalStats> playerGlobalStats = new DataByUserName<>();
 
     public void acceptStatsFromServer(Map<String, PlayerGlobalStats> newStats)
     {
-        playerGlobalStats.putAll(newStats);
+        playerGlobalStats.replaceData(newStats);
     }
 
-    public PlayerGlobalStats get(String username)
+    public Optional<PlayerGlobalStats> get(String username)
     {
-        return playerGlobalStats.get(username);
+        return playerGlobalStats.getData(username);
     }
 
     public int getNumberOfSkills()
@@ -30,8 +27,8 @@ public class GlobalInfoManager
         return 21;
     }
 
-    public void levelUpSkill(String username, int skillId)
+    public void registerSkillLevelUpLocally(String username, int skillId)
     {
-        Optional.ofNullable(playerGlobalStats.get(username)).ifPresent(stats -> stats.levelUpSkill(skillId));
+        playerGlobalStats.getData(username).ifPresent(stats -> stats.levelUpSkill(skillId));
     }
 }

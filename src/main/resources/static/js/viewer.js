@@ -9,10 +9,10 @@ function pollResourcesPeriodically(firstCall)
 		url: OVERLAY_API_BASE_URL + '/display?timestamp' + new Date().getTime() + (!isGameDataApplied ? "&fetchGlobalGameData=true" : ""),
 		type: 'GET',
 		success: function(data) {
-
-			$('.resource').righteousToggle(data.state);
-            $('.minimap-click-data, .minimap, .command-card-click-data, .command-card').righteousToggle(data.state);
-			if (data.state) {
+            var playerInGameData = data.inGameData;
+			$('.resource').righteousToggle(playerInGameData);
+            $('.minimap-click-data, .minimap, .command-card-click-data, .command-card').righteousToggle(playerInGameData);
+			if (playerInGameData) {
 			    if (data.map && $('.minimap').length > 0) {
 			        $('.minimap').scaleToRatio(data.map.ratio ? data.map.ratio : 1);
                     isGameDataApplied = true;
@@ -38,35 +38,35 @@ function pollResourcesPeriodically(firstCall)
                         data.commandCard.widthCells, data.commandCard.heightCells);
                 }
 
-                setStanceText(data.state.stance);
-			    setFocusText(data.state.focus);
+                setStanceText(playerInGameData.stance);
+			    setFocusText(playerInGameData.focus);
 
-				$('.gas .value').numberChange(data.state.gas);
-				$('.minerals .value').numberChange(data.state.minerals);
-                $('.supply .value').text(data.state.supply);
-                $('.terrazine .value').text(data.state.terrazine);
+				$('.gas .value').numberChange(playerInGameData.gas);
+				$('.minerals .value').numberChange(playerInGameData.minerals);
+                $('.supply .value').text(playerInGameData.supply);
+                $('.terrazine .value').text(playerInGameData.terrazine);
 
-                $('.feeding').righteousToggle(data.state.feeding);
-                $('.resource.income').righteousToggle(!data.state.feeding);
+                $('.feeding').righteousToggle(playerInGameData.feeding);
+                $('.resource.income').righteousToggle(!playerInGameData.feeding);
 
-                $('.feeding .value').text(data.state.feeding);
-                $('.gas-income .value').taxColor(data.state.gasTax).numberChange(data.state.gasIncome, '+');
-                $('.minerals-income .value').taxColor(data.state.mineralsTax).numberChange(data.state.mineralsIncome, '+');
+                $('.feeding .value').text(playerInGameData.feeding);
+                $('.gas-income .value').taxColor(playerInGameData.gasTax).numberChange(playerInGameData.gasIncome, '+');
+                $('.minerals-income .value').taxColor(playerInGameData.mineralsTax).numberChange(playerInGameData.mineralsIncome, '+');
 
-                if (data.state.workers)
+                if (playerInGameData.workers)
                 {
-                    $('.workers-minerals .value').numberChange(data.state.workers.minerals);
-                    $('.workers-gas .value').numberChange(data.state.workers.gas);
-                    $('.workers-moving .value').numberChange(data.state.workers.moving);
-                    $('.workers-idle .value').numberChange(data.state.workers.idle, '', function(e, val) {
+                    $('.workers-minerals .value').numberChange(playerInGameData.workers.minerals);
+                    $('.workers-gas .value').numberChange(playerInGameData.workers.gas);
+                    $('.workers-moving .value').numberChange(playerInGameData.workers.moving);
+                    $('.workers-idle .value').numberChange(playerInGameData.workers.idle, '', function(e, val) {
                         e.toggleClass("value-warn", val > 0);
                     });
                 }
 
-                $('.army').righteousToggle(data.state.army);
-                if (data.state.army)
+                $('.army').righteousToggle(playerInGameData.army);
+                if (playerInGameData.army)
                 {
-                    updateArmy(data.state.army);
+                    updateArmy(playerInGameData.army);
                 }
 
                 $('.sellout').righteousToggle(data.sellout);

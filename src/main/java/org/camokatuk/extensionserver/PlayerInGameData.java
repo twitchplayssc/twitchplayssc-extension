@@ -2,7 +2,7 @@ package org.camokatuk.extensionserver;
 
 import java.util.Map;
 
-public class UserGameState
+public class PlayerInGameData
 {
     private int gas;
     private int minerals;
@@ -199,7 +199,7 @@ public class UserGameState
     @Override
     public String toString()
     {
-        
+
         return "UserGameState{" +
                 "gas=" + gas +
                 ", minerals=" + minerals +

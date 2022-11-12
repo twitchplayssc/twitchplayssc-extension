@@ -1,16 +1,34 @@
 package org.camokatuk.extensionserver;
 
+import lombok.NonNull;
+
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiFunction;
 
 public class DataByUserName<D>
 {
-    private volatile Map<String, D> dataByUserName;
+    private volatile Map<String, D> dataByUserName = new ConcurrentHashMap<>();
+    ;
 
     public void reset()
     {
         this.dataByUserName = new ConcurrentHashMap<>();
+    }
+
+    public void replaceData(Map<String, D> multipleUsersData)
+    {
+        for (Map.Entry<String, D> userEntry : multipleUsersData.entrySet())
+        {
+            replaceData(userEntry.getKey(), userEntry.getValue());
+        }
+    }
+
+    public void replaceData(String username, D data)
+    {
+        String userName = username.toLowerCase();
+        putOrMergeIfPresent(dataByUserName, userName, data, (oldData, newData) -> newData);
     }
 
     // biifunction: (existing data, new data) -> mergedData
@@ -28,25 +46,12 @@ public class DataByUserName<D>
 
     public void setData(String someUserIdentifier, D data)
     {
-        this.mergeData(someUserIdentifier, data, (oldData, newData) -> newData);
+        this.replaceData(someUserIdentifier, data);
     }
 
-    public DataOrMessage<D> getData(String username)
+    public Optional<D> getData(@NonNull String username)
     {
-        if (username == null)
-        {
-            return DataOrMessage.msg("Unable to fetch your userName, please contact admins");
-        }
-
-        D legacyStats = dataByUserName.get(username); // do the lookup in legacy collection
-        if (legacyStats != null)
-        {
-            return DataOrMessage.data(legacyStats);
-        }
-        else // no data found for the player whatsoever, but we know them, so they're ready to join
-        {
-            return DataOrMessage.msg("Type !play to join the game");
-        }
+        return Optional.ofNullable(dataByUserName.get(username));
     }
 
 }

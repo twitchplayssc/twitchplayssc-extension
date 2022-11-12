@@ -7,13 +7,14 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Component
 public class StateManager
 {
     private static final Log LOG = LogFactory.getLog(StateManager.class);
 
-    private final DataByUserName<UserGameState> resources = new DataByUserName<>();
+    private final DataByUserName<PlayerInGameData> resources = new DataByUserName<>();
     private final DataByUserName<List<String>> events = new DataByUserName<>();
 
     private volatile GameStateContainer gameState = new GameStateContainer();
@@ -29,7 +30,7 @@ public class StateManager
         this.events.reset();
     }
 
-    public void pushResources(Map<String, UserGameState> state)
+    public void pushResources(Map<String, PlayerInGameData> state)
     {
         if (state == null)
         {
@@ -48,7 +49,7 @@ public class StateManager
             this.gameState = GameStateContainer.inGame();
         }
 
-        for (Map.Entry<String, UserGameState> stateEntry : state.entrySet())
+        for (Map.Entry<String, PlayerInGameData> stateEntry : state.entrySet())
         {
             this.resources.setData(stateEntry.getKey(), stateEntry.getValue());
         }
@@ -93,17 +94,17 @@ public class StateManager
 
     private UserDisplayData getInGameDisplayData(String username, boolean fetchGlobalGameData)
     {
-        DataOrMessage<UserGameState> resourcesOrMessage = resources.getData(username);
+        DataOrMessage<PlayerInGameData> resourcesOrMessage = getInGameDataOrMessage(username);
         if (resourcesOrMessage.getMessage() != null)
         {
             return UserDisplayData.msg(resourcesOrMessage.getMessage());
         }
 
-        // *** validations have passed, userId is cached, resourcesOrMessage has resources
+        // *** validations have passed, userId is cached, we have at least some user data
         UserDisplayData displayData = new UserDisplayData();
-        displayData.setState(resourcesOrMessage.getData());
+        displayData.setInGameData(resourcesOrMessage.getData());
         displayData.setSellout(this.gameState.getState() == GameState.INGAME_SELLOUT);
-        displayData.setEvents(events.getData(username).getData()); // see *** above, fetching the data directly is safe
+        displayData.setEvents(events.getData(username).orElse(null)); // see *** above, fetching the data directly is safe
         if (fetchGlobalGameData)
         {
             displayData.setMap(this.gameState.getMap());
@@ -111,6 +112,17 @@ public class StateManager
         }
         events.setData(username, new ArrayList<>()); // reset the events data, now they are buffered on FE
         return displayData;
+    }
+
+    public DataOrMessage<PlayerInGameData> getInGameDataOrMessage(String username)
+    {
+        if (username == null)
+        {
+            return DataOrMessage.msg("Unable to fetch your userName, please contact admins");
+        }
+
+        Optional<PlayerInGameData> stats = resources.getData(username); // do the lookup in legacy collection
+        return stats.map(DataOrMessage::data).orElse(DataOrMessage.msg("Type !play to join the game"));
     }
 
     public GameStateContainer getCurrentState()

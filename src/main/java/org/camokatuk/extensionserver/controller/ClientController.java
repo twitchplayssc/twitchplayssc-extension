@@ -80,7 +80,8 @@ public class ClientController
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
         }
 
-        return ResponseEntity.ok().body(globalInfoManager.get(username.get()));
+        PlayerGlobalStats playerGlobalStats = globalInfoManager.get(username.get()).orElse(null);
+        return ResponseEntity.ok().body(playerGlobalStats);
     }
 
     @CrossOrigin(origins = "*")

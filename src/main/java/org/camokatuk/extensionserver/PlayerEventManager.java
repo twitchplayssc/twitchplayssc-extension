@@ -24,7 +24,7 @@ public class PlayerEventManager
     public void levelUpSkill(String username, int skillId)
     {
         levelUpBuffer.offer(new LevelUpEvent(username, skillId));
-        globalInfoManager.levelUpSkill(username, skillId);
+        globalInfoManager.registerSkillLevelUpLocally(username, skillId);
     }
 
     public Map<String, PlayerGeneratedEvents> fakeEvents()

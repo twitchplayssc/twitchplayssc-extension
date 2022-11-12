@@ -34,7 +34,7 @@ public class IngressController
     @PostMapping("/playerstats")
     public
     @ResponseBody
-    String pushStats(@RequestBody Map<String, UserGameState> state, @RequestHeader(value = "Authentication") String ohWowSecurity)
+    String pushStats(@RequestBody Map<String, PlayerInGameData> state, @RequestHeader(value = "Authentication") String ohWowSecurity)
     {
         if (isNotAuthorizedRequest(ohWowSecurity))
         {
