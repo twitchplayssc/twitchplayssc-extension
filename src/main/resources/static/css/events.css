@@ -1,4 +1,6 @@
 .event > span.red { color: red; }
+.event > span.minerals { color: red; }
+.event > span.gas { color: red; }
 
 .in-game-events-widget {
     position: absolute;

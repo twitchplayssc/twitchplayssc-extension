@@ -8,183 +8,14 @@ body {
     font-size: 1000px;
     background-size:100%;
     overflow: hidden;
+    transform-origin: top left;
+    user-select: none;
 }
 
-.resource {
-	width: 5.5%;
-	height: 3%;
-	display: none;
-	position: absolute;
-	top: 0.8%;
-	padding: 0;
-	/*font-size: 1.25vh;*/
-	font-size: 0.8vw;
-	color: white;
-	letter-spacing: 1px;
-	font-weight: bold;
-}
-
-.resource .value {
-	display: inline-block;
-	position: relative;
-    top: -34%;
-    width: 52%;
-}
 
 .value-warn {
     color: red;
 }
-
-.resource .icon {
-	background-size: contain;
-    background-repeat: no-repeat;
-    display: inline-block;
-    width: 48%;
-    height: 100%;
-}
-
-.minerals, .minerals-income, .workers-minerals {
-	left: 72.4%;
-}
-
-.gas, .gas-income, .workers-gas {
-	left: 79.7%;
-}
-
-.supply, .workers-moving, .terrazine {
-	left: 87.0%;
-}
-
-.workers-idle {
-	left: 94.3%;
-}
-
-.workers-minerals .icon {
-	background-image: url(../img/icons/wrench_min.png);
-}
-
-.workers-gas .icon {
-	background-image: url(../img/icons/wrench_gas.png);
-}
-
-.workers-idle .icon {
-	background-image: url(../img/icons/wrench_idle.png);
-}
-
-.workers-moving .icon {
-	background-image: url(../img/icons/wrench_mov.png);
-}
-
-.minerals .icon {
-	background-image: url(../img/icons/minerals.png);
-}
-
-.gas .icon {
-	background-image: url(../img/icons/gas.png);
-}
-
-.supply .icon {
-	background-image: url(../img/icons/supply.png);
-}
-
-.minerals-income .icon {
-	background-image: url(../img/icons/minerals-income.png);
-}
-
-.gas-income .icon {
-	background-image: url(../img/icons/gas-income.png);
-}
-
-.terrazine .icon {
-	background-image: url(../img/icons/terrazine28.png);
-}
-
-.income, .terrazine {
-	position: absolute;
-    top: 5%;
-}
-
-.workers {
-    position: absolute;
-    top: 9.2%;
-}
-
-.feeding {
-	display: none;
-	position: absolute;
-    top: 5%;
-/*    left: 81%; */
-	left: 72.4%;
-    font-size: 1vw;
-    color: lightblue;
-    letter-spacing: 1px;
-    font-weight: bold;
-    width: 25%;
-    height: 3%;
-}
-
-.feeding .value {
-	position: relative;
-	top: -18%;
-	width: 89%;
-    margin-left: 1%;
-	color: white;
-	display: inline-block;
-	white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-
-.feeding .icon{
-	background-image: url(../img/icons/feedingarrow2.png);
-	background-size: contain;
-    background-repeat: no-repeat;
-    margin-left: 1%;
-    width: 9%;
-    height: 100%;
-	display: inline-block;
-}
-
-.stance .label, .focus .label { color: lightblue; }
-
-.stance, .focus {
-    position: absolute;
-    top: 12.8%;
-    width: 13.8%;
-    height: 2%;
-	font-size: 1.1vw;
-    color: white;
-}
-
-.army {
-    position: absolute;
-    top: 17%;
-    width: 26%;
-	font-size: 1vw;
-    color: white;
-    text-shadow: 0.1vw 0.1vw 1px #000000;
-}
-
-.army .unit {
-    position: relative;
-    display: inline-block;
-    background-image: url(../img/icons/unit_table.png);
-    background-size: 2000%;
-/*    width: 10%; height: 2.4vw; /* 10 in a row */
-    width: 12%; height: 3.0vw; /* 8 in a row */
-    text-align: center;
-}
-
-.army .unit .count {
-    position: relative;
-    bottom: -65%;
-    opacity: 0.8;
-    background-color: black;
-}
-
-.stance, .army { left: 72.4%; }
-.focus { left: 86.9%; }
 
 .message {
 	position: absolute;
@@ -192,51 +23,6 @@ body {
     right: 2.5%;
     font-size: 1.2vw;
     color: lightblue;
-}
-
-body {
-	transform-origin: top left;
-	user-select: none;
-}
-
-.minimap {
-    /*344 x 344*/
-    width: 18.25%;
-    height: 32.0%;
-    position: absolute;
-    left: 0.4%;
-    top: 62.4%;
-}
-
-.minimap-click-data, .command-card-click-data {
-    background: url(../img/clickdatacontainer.png);
-    background-size: 100% 100%;
-    width: 5.02%;
-    height: 3.20%;
-    padding-top: 0.5%;
-    position: absolute;
-    font-family: 'HyperFont', monospace;
-    font-weight: bolder;
-    font-size: 1.1vw;
-    text-align: center;
-    color: lightblue;
-    top: 94.95%;
-}
-
-.minimap-click-data {
-    left: 7.1%;
-}
-
-.command-card {
-    position: absolute;
-    top: 74.8%;
-    right: 0.2%;
-    width: 19.1%;
-    height: 19.00%;
-}
-
-.command-card-click-data {
-    left: 81.8%;
 }
 
 #extension-hint {
@@ -266,8 +52,4 @@ body {
 
 .close:active {
     filter: brightness(2);
-}
-
-#clipboard {
-    display:none;
 }

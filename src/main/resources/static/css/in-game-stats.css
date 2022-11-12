@@ -1,0 +1,211 @@
+.resource {
+	width: 5.5%;
+	height: 3%;
+	display: none;
+	position: absolute;
+	top: 0.8%;
+	padding: 0;
+	/*font-size: 1.25vh;*/
+	font-size: 0.8vw;
+	color: white;
+	letter-spacing: 1px;
+	font-weight: bold;
+}
+
+.resource .value {
+	display: inline-block;
+	position: relative;
+    top: -34%;
+    width: 52%;
+}
+
+.minerals, .minerals-income, .workers-minerals {
+	left: 72.4%;
+}
+
+.gas, .gas-income, .workers-gas {
+	left: 79.7%;
+}
+
+.supply, .workers-moving, .terrazine {
+	left: 87.0%;
+}
+
+.workers-idle {
+	left: 94.3%;
+}
+
+.statIcon {
+	background-image: url(../img/icons/corner_icons.png);
+	background-size: 870%;
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 37%;
+    height: 111%;
+    margin-right: 5%;
+}
+
+.income, .terrazine {
+	position: absolute;
+    top: 5%;
+}
+
+.workers {
+    position: absolute;
+    top: 9.2%;
+}
+
+.feeding {
+	display: none;
+	position: absolute;
+    top: 5%;
+/*    left: 81%; */
+	left: 72.4%;
+    font-size: 1vw;
+    color: lightblue;
+    letter-spacing: 1px;
+    font-weight: bold;
+    width: 25%;
+    height: 3%;
+}
+
+.feeding .value {
+	position: relative;
+	top: -18%;
+	width: 89%;
+    margin-left: 1%;
+	color: white;
+	display: inline-block;
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.stance .label, .focus .label { color: lightblue; }
+
+.minerals, .minerals-income, .workers-minerals {
+	left: 72.4%;
+}
+
+.gas, .gas-income, .workers-gas {
+	left: 79.7%;
+}
+
+.supply, .workers-moving, .terrazine {
+	left: 87.0%;
+}
+
+.workers-idle {
+	left: 94.3%;
+}
+.income, .terrazine {
+	position: absolute;
+    top: 5%;
+}
+
+.workers {
+    position: absolute;
+    top: 9.2%;
+}
+
+.statIcon, .feeding .icon {
+	background-image: url(../img/icons/corner_icons.png);
+	background-size: 870%;
+    background-repeat: no-repeat;
+    display: inline-block;
+    height: 111%;
+}
+
+.statIcon {
+    width: 37%;
+    margin-right: 5%;
+}
+
+.feeding .icon{
+    width: 9%;
+}
+
+.workers-minerals .statIcon { background-position-x: 0%; }
+.workers-gas .statIcon { background-position-x: 12.5%; }
+.workers-moving .statIcon { background-position-x: 25%; }
+.workers-idle .statIcon { background-position-x: 37.5%; }
+.minerals .statIcon, .minerals-income .statIcon { background-position-x: 50%; }
+.gas .statIcon, .gas-income .statIcon { background-position-x: 62.7%; }
+.supply .statIcon { background-position-x: 75%; }
+.terrazine .statIcon { background-position-x: 87.5%; }
+.feeding .icon { background-position-x: 100%; }
+
+.minerals-income .statIcon, .gas-income .statIcon {
+    border: 0.2vw solid green;
+    width: 28%;
+    height: 87%;
+}
+
+
+/*  feeeeeeeeding  */
+
+.feeding {
+	display: none;
+	position: absolute;
+    top: 5%;
+/*    left: 81%; */
+	left: 72.4%;
+    font-size: 1vw;
+    color: lightblue;
+    letter-spacing: 1px;
+    font-weight: bold;
+    width: 25%;
+    height: 3%;
+}
+
+.feeding .value {
+	position: relative;
+	top: -18%;
+	width: 89%;
+    margin-left: 1%;
+	color: white;
+	display: inline-block;
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.stance .label, .focus .label { color: lightblue; }
+
+.stance, .focus {
+    position: absolute;
+    top: 12.8%;
+    width: 13.8%;
+    height: 2%;
+	font-size: 1.1vw;
+    color: white;
+}
+
+.army {
+    position: absolute;
+    top: 13%;
+    width: 26%;
+	font-size: 1vw;
+    color: white;
+    text-shadow: 0.1vw 0.1vw 1px #000000;
+}
+
+.army .unit {
+    position: relative;
+    display: inline-block;
+    background-image: url(../img/icons/unit_table.png);
+    background-size: 2000%;
+/*    width: 10%; height: 2.4vw; /* 10 in a row */
+    width: 12%; height: 3.0vw; /* 8 in a row */
+    text-align: center;
+}
+
+.army .unit .count {
+    position: relative;
+    bottom: -65%;
+    opacity: 0.8;
+    background-color: black;
+}
+
+.stance, .army { left: 72.4%; }
+.focus { left: 86.9%; }
