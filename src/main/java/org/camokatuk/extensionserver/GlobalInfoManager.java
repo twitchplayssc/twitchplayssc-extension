@@ -20,14 +20,9 @@ public class GlobalInfoManager
         playerGlobalStats.putAll(newStats);
     }
 
-    public PlayerGlobalStats get(int userId)
+    public PlayerGlobalStats get(String username)
     {
-        return playerGlobalStats.get(toUnameKey(userId));
-    }
-
-    private String toUnameKey(int userId)
-    {
-        return "uname_" + twitchApi.getUserDisplayName(userId);
+        return playerGlobalStats.get(username);
     }
 
     public int getNumberOfSkills()
@@ -35,9 +30,8 @@ public class GlobalInfoManager
         return 21;
     }
 
-    public void levelUpSkill(int userId, int skillId)
+    public void levelUpSkill(String username, int skillId)
     {
-        String userKey = toUnameKey(userId);
-        Optional.ofNullable(playerGlobalStats.get(userKey)).ifPresent(stats -> stats.levelUpSkill(skillId));
+        Optional.ofNullable(playerGlobalStats.get(username)).ifPresent(stats -> stats.levelUpSkill(skillId));
     }
 }

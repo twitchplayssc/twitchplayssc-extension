@@ -1,5 +1,6 @@
-package org.camokatuk.extensionserver;
+package org.camokatuk.extensionserver.controller;
 
+import org.camokatuk.extensionserver.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;

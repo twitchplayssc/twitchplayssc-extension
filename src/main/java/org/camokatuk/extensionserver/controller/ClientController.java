@@ -1,8 +1,10 @@
-package org.camokatuk.extensionserver;
+package org.camokatuk.extensionserver.controller;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
+import org.camokatuk.extensionserver.*;
+import org.camokatuk.extensionserver.twitchapi.TwitchApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.ConfigurableEnvironment;
@@ -21,19 +23,31 @@ public class ClientController
     private final StateManager stateManager;
     private final PlayerEventManager playerEventManager;
     private final GlobalInfoManager globalInfoManager;
+    private final TwitchApi twitchApi;
     private final String extensionSecret;
     private final boolean devProfile;
 
     @Autowired
     public ClientController(StateManager stateManager, PlayerEventManager playerEventManager,
-                            GlobalInfoManager globalInfoManager,
+                            GlobalInfoManager globalInfoManager, TwitchApi twitchApi,
                             ConfigurableEnvironment env, @Value("${extension.secret}") String extensionSecret)
     {
         this.stateManager = stateManager;
+        this.twitchApi = twitchApi;
         this.extensionSecret = extensionSecret;
         this.playerEventManager = playerEventManager;
         this.globalInfoManager = globalInfoManager;
         this.devProfile = Arrays.asList(env.getActiveProfiles()).contains("dev");
+    }
+
+    @CrossOrigin(origins = "*")
+    //	@CrossOrigin(origins = "twitch.tv")
+    @RequestMapping("/state")
+    public
+    @ResponseBody
+    GameStateContainer index()
+    {
+        return stateManager.getCurrentState();
     }
 
     @CrossOrigin(origins = "*")
@@ -43,15 +57,14 @@ public class ClientController
     @ResponseBody
     UserDisplayData index(@RequestHeader("Authorization") String authenticationHeader, @RequestParam(required = false) boolean fetchGlobalGameData)
     {
-        Optional<String> userIdOptional = getUserIdFromAuth(authenticationHeader);
-        if (userIdOptional.isEmpty())
+        Optional<String> username = getUserNameFromAuth(authenticationHeader);
+        if (username.isEmpty())
         {
-            return UserDisplayData.msg("You JWT has expired O_o");
+            return UserDisplayData.msg("Extension requires permissions");
         }
 
-        String userId = userIdOptional.get();
-        playerEventManager.userOnline(userId);
-        return stateManager.getDisplayData(userId, fetchGlobalGameData);
+        playerEventManager.userOnline(username.get());
+        return stateManager.getDisplayData(username.get(), fetchGlobalGameData);
     }
 
     @CrossOrigin(origins = "*")
@@ -61,14 +74,13 @@ public class ClientController
     @ResponseBody
     ResponseEntity<PlayerGlobalStats> getPlayerData(@RequestHeader("Authorization") String authenticationHeader)
     {
-        Optional<String> userIdOptional = getUserIdFromAuth(authenticationHeader);
-        if (userIdOptional.isEmpty())
+        Optional<String> username = getUserNameFromAuth(authenticationHeader);
+        if (username.isEmpty())
         {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
         }
 
-        Integer userId = Utils.parseNumericUserId(userIdOptional.get());
-        return ResponseEntity.ok().body(globalInfoManager.get(userId));
+        return ResponseEntity.ok().body(globalInfoManager.get(username.get()));
     }
 
     @CrossOrigin(origins = "*")
@@ -76,16 +88,31 @@ public class ClientController
     @PostMapping("/skills/levelup")
     public
     @ResponseBody
-    String levelUpSkill(@RequestHeader("Authorization") String authenticationHeader, @RequestParam int skillId)
+    ResponseEntity<String> levelUpSkill(@RequestHeader("Authorization") String authenticationHeader, @RequestParam int skillId)
+    {
+        Optional<String> username = getUserNameFromAuth(authenticationHeader);
+        if (username.isEmpty())
+        {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body("Can't get your Twitch username. Either expired JWT or some other authentication nonsense");
+        }
+        playerEventManager.levelUpSkill(username.get(), skillId);
+        return ResponseEntity.ok().body("OK");
+    }
+
+    private Optional<String> getUserNameFromAuth(String authenticationHeader)
     {
         Optional<String> userIdOptional = getUserIdFromAuth(authenticationHeader);
         if (userIdOptional.isEmpty())
         {
-            return "You JWT has expired O_o";
+            return Optional.empty();
         }
-
-        playerEventManager.levelUpSkill(userIdOptional.get(), skillId);
-        return "OK";
+        Integer userId = Utils.parseNumericUserId(userIdOptional.get());
+        if (userId == null)
+        {
+            return Optional.empty();
+        }
+        return Optional.ofNullable(twitchApi.getUserDisplayName(userId));
     }
 
     private Optional<String> getUserIdFromAuth(String authenticationHeader)
@@ -102,15 +129,5 @@ public class ClientController
             userId = (String) jws.getBody().get("user_id");
         }
         return Optional.of(userId);
-    }
-
-    @CrossOrigin(origins = "*")
-    //	@CrossOrigin(origins = "twitch.tv")
-    @RequestMapping("/state")
-    public
-    @ResponseBody
-    GameStateContainer index()
-    {
-        return stateManager.getCurrentState();
     }
 }

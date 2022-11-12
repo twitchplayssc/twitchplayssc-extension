@@ -2,7 +2,6 @@ package org.camokatuk.extensionserver;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.camokatuk.extensionserver.twitchapi.TwitchApi;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -14,24 +13,18 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class PlayerEventManager
 {
     private final GlobalInfoManager globalInfoManager;
-    private final TwitchApi twitchApi;
     private final Queue<LevelUpEvent> levelUpBuffer = new ConcurrentLinkedQueue<>();
-    private final Map<Integer, Long> usersOnline = new ConcurrentHashMap<>();
+    private final Map<String, Long> usersOnline = new ConcurrentHashMap<>(); //username to last seen timestamp
 
-    public void userOnline(String userIdString)
+    public void userOnline(String username)
     {
-        Integer userId = Utils.parseNumericUserId(userIdString);
-        usersOnline.put(userId, System.currentTimeMillis());
+        usersOnline.put(username, System.currentTimeMillis());
     }
 
-    public void levelUpSkill(String userIdString, int skillId)
+    public void levelUpSkill(String username, int skillId)
     {
-        Integer userId = Utils.parseNumericUserId(userIdString);
-        if (userId != null)
-        {
-            levelUpBuffer.offer(new LevelUpEvent(userId, skillId));
-        }
-        globalInfoManager.levelUpSkill(userId, skillId);
+        levelUpBuffer.offer(new LevelUpEvent(username, skillId));
+        globalInfoManager.levelUpSkill(username, skillId);
     }
 
     public Map<String, PlayerGeneratedEvents> fakeEvents()
@@ -54,8 +47,7 @@ public class PlayerEventManager
         // level up events
         for (LevelUpEvent levelUpEvent : allLevelUpEvents)
         {
-            String userKey = toUnameKey(levelUpEvent.userId);
-            PlayerGeneratedEvents allUserEvents = result.getOrDefault(userKey, new PlayerGeneratedEvents());
+            PlayerGeneratedEvents allUserEvents = result.getOrDefault(levelUpEvent.username, new PlayerGeneratedEvents());
             int[] levelups = allUserEvents.getLevelups();
             if (levelups == null)
             {
@@ -63,21 +55,15 @@ public class PlayerEventManager
                 allUserEvents.setLevelups(levelups);
             }
             levelups[levelUpEvent.skillId] += 1;
-            result.putIfAbsent(userKey, allUserEvents);
+            result.putIfAbsent(levelUpEvent.username, allUserEvents);
         }
 
         // online events
-        for (int playerId : usersOnline.keySet())
+        for (String username : usersOnline.keySet())
         {
-            String userKey = toUnameKey(playerId);
-            result.putIfAbsent(userKey, new PlayerGeneratedEvents());
+            result.putIfAbsent(username, new PlayerGeneratedEvents());
         }
         return result;
-    }
-
-    private String toUnameKey(int userId)
-    {
-        return "uname_" + twitchApi.getUserDisplayName(userId);
     }
 
     private <E> List<E> collectAndDropAll(Queue<E> queue)
@@ -99,7 +85,7 @@ public class PlayerEventManager
     @Data
     private static class LevelUpEvent
     {
-        private final int userId;
+        private final String username;
         private final int skillId;
     }
 }

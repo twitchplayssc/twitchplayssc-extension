@@ -2,31 +2,24 @@ package org.camokatuk.extensionserver;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.camokatuk.extensionserver.twitchapi.TwitchApi;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 public class StateManager
 {
     private static final Log LOG = LogFactory.getLog(StateManager.class);
 
-    private final AutoIdUserDataContainer<UserGameState> resources;
-    private final AutoIdUserDataContainer<List<String>> events;
+    private final DataByUserName<UserGameState> resources = new DataByUserName<>();
+    private final DataByUserName<List<String>> events = new DataByUserName<>();
 
     private volatile GameStateContainer gameState = new GameStateContainer();
 
-    @Autowired
-    public StateManager(TwitchApi twitchApi)
+    public StateManager()
     {
-        Map<String, Integer> displayNameToUid = new ConcurrentHashMap<>();
-        this.resources = new AutoIdUserDataContainer<>(twitchApi, displayNameToUid);
-        this.events = new AutoIdUserDataContainer<>(twitchApi, displayNameToUid);
         this.resetPlayerStats();
     }
 
@@ -70,11 +63,11 @@ public class StateManager
         }
     }
 
-    public UserDisplayData getDisplayData(String userIdString, boolean fetchGlobalGameData)
+    public UserDisplayData getDisplayData(String username, boolean fetchGlobalGameData)
     {
         if (GameState.isInGame(this.gameState.getState()))
         {
-            return this.getInGameDisplayData(userIdString, fetchGlobalGameData);
+            return this.getInGameDisplayData(username, fetchGlobalGameData);
         }
         else if (this.gameState.getState() == GameState.BROKEN)
         {
@@ -98,15 +91,9 @@ public class StateManager
         }
     }
 
-    private UserDisplayData getInGameDisplayData(String userIdString, boolean fetchGlobalGameData)
+    private UserDisplayData getInGameDisplayData(String username, boolean fetchGlobalGameData)
     {
-        Integer userId = Utils.parseNumericUserId(userIdString);
-        if (userId == null)
-        {
-            return UserDisplayData.msg("Welcome");
-        }
-
-        DataOrMessage<UserGameState> resourcesOrMessage = resources.getData(userId);
+        DataOrMessage<UserGameState> resourcesOrMessage = resources.getData(username);
         if (resourcesOrMessage.getMessage() != null)
         {
             return UserDisplayData.msg(resourcesOrMessage.getMessage());
@@ -116,13 +103,13 @@ public class StateManager
         UserDisplayData displayData = new UserDisplayData();
         displayData.setState(resourcesOrMessage.getData());
         displayData.setSellout(this.gameState.getState() == GameState.INGAME_SELLOUT);
-        displayData.setEvents(events.getData(userId).getData()); // see *** above, fetching the data directly is safe
+        displayData.setEvents(events.getData(username).getData()); // see *** above, fetching the data directly is safe
         if (fetchGlobalGameData)
         {
             displayData.setMap(this.gameState.getMap());
             displayData.setCommandCard(this.gameState.getCommandCard());
         }
-        events.setData(userIdString, new ArrayList<>()); // reset the events data, now they are buffered on FE
+        events.setData(username, new ArrayList<>()); // reset the events data, now they are buffered on FE
         return displayData;
     }
 
@@ -131,9 +118,9 @@ public class StateManager
         return this.gameState;
     }
 
-    public void pushEvents(Map<String, List<String>> eventsBySomeUserIdentifiers)
+    public void pushEvents(Map<String, List<String>> eventsByUsername)
     {
-        eventsBySomeUserIdentifiers.forEach((key, value) ->
+        eventsByUsername.forEach((key, value) ->
         {
             // simply add all events to the ones we already have
             events.mergeData(key, value, (l1, l2) ->
