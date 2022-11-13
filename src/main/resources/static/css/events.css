@@ -1,6 +1,42 @@
-.event > span.red { color: red; }
-.event > span.minerals { color: red; }
-.event > span.gas { color: red; }
+.event .red { color: red; }
+.event .yellow { color: yellow; }
+.event .orange { color: orange; }
+.event .green { color: green; }
+.event .blue { color: blue; }
+.event .darkblue { color: darkblue; }
+.event .violet { color: violet; }
+.event .purple { color: purple; }
+
+.event .terran { color: #b20d13; }
+.event .protoss { color: #fbc51b; }
+.event .zerg { color: #662670; }
+.event .minerals { color: #81B3F8; display: inline-block; }
+.event .gas { color: green; display: inline-block; }
+.event .terrazine { color: violet; display: inline-block; }
+.event .supply { display: inline-block; }
+.event .bronze { color: #4d2414; }
+.event .silver { color: #dbd9e2; }
+.event .gold { color: #d5c650; }
+.event .platinum { color: #6c9ebe; }
+.event .diamond { color: #64e3e8; }
+.event .tpscaccent { color: #c59c76; }
+
+.event .inlineIcon {
+    position:relative;
+    margin-left: 0.2vw;
+    display: inline-block;
+    background-image: url(../img/icons/corner_icons.png);
+	background-size: 880%;
+    background-repeat: no-repeat;
+    top: 0.4vw;
+    width: 2vw;
+    height: 2vw;
+}
+
+.event > .minerals > .inlineIcon { background-position-x: 50%; }
+.event > .gas > .inlineIcon { background-position-x:  62.7%; }
+.event > .supply > .inlineIcon { background-position-x: 75%; }
+.event > .terrazine > .inlineIcon { background-position-x: 87.5%; }
 
 .in-game-events-widget {
     position: absolute;
@@ -8,7 +44,7 @@
     left: 20%;
     width: 58.5%;
     height: 7%;
-    z-index: 10000;
+    z-index: 100000;
 }
 
 .in-game-events-widget > .log {
@@ -23,7 +59,7 @@
     border: 1px solid #B9936F;
     font-family: Michroma;
     font-size: 4%;
-    color: #81B3F8;
+    color: white;
     padding: 0.5% 1% 0.5% 1%;
 }
 

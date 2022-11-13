@@ -31,68 +31,23 @@ function parseEvent(str) {
     for (var i = 0; i < tokens.length; i++) {
         var tt = tokens[i].split(/\|/);
         if (tt.length > 1) {
-            $('<span/>').addClass(tt[0]).text(tt[1]).appendTo(result.el); // safe, jquery escapes here
+            var className = tt[0];
+            var parentElement = $('<span/>').addClass(className);
+
+            if (["minerals", "gas", "supply", "terrazine"].includes(className)) {
+                var race = PLAYER_GLOBAL_DATA.race;
+                var iconEl = $('<span/>').addClass("inlineIcon").css("background-position-y", (51 * (race - 1)) + "%");
+                var textClass = (className == "supply") ? RACE_CLASSES[race] : className;
+                var textEl = $('<span/>').addClass(textClass).text(tt[1]);
+                parentElement.append(iconEl).append(textEl);
+            } else {
+                parentElement.text(tt[1]); // safe injection, jquery escapes here
+            }
+            parentElement.appendTo(result.el);
         } else {
-            $('<span/>').text(tt[0]).appendTo(result.el); // same
+            $('<span/>').text(tt[0]).appendTo(result.el); // safe injection, jquery escapes here
         }
     }
-    return result;
-}
-
-function parseEvent1(str) {
-    var state = 'txt';
-    var classBuffer = '';
-    var textBuffer = '';
-    var buffer;
-    var result = { html: '', eventClass: '' };
-
-    let firstSpaceIndex = str.indexOf(' ');
-    var firstWord = str.substring(0, firstSpaceIndex);
-    if (firstWord.startsWith("/")) {
-        result.eventClass = firstWord.split("/").join(' ');
-        str = str.substring(firstSpaceIndex + 1);
-    }
-
-    function stateChange(st) {
-        result.html += buffer.text(textBuffer).html();
-        textBuffer = '';
-        buffer = $('<span/>');
-        state = st;
-    }
-
-    for (var i = 0; i < str.length; i++) {
-        if (state == 'txt') {
-            if (str[i] == '#') {
-                stateChange('clz');
-                classBuffer = 'inline-wrap-';
-            } else {
-                textBuffer += str[i];
-            }
-        } else if ( state == 'clz' ) {
-            if (str[i] == '{') {
-                classBuffer = '';
-                state = 'wrp';
-            } else {
-                classBuffer += str[i];
-            }
-        } else if ( state == 'wrp') {
-            if ( str[i] == '}' ) {
-                result.html += $('<span/>').addClass(classBuffer).text(textBuffer).html();
-                state = 'txt';
-            } else {
-                textBuffer += str[i];
-            }
-        } else if ( str[i] == '}' ) {
-            result.html += $('<span/>').addClass(state).text(buffer).html();
-            textBuffer = '';
-            state = 'txt';
-        } else {
-            textBuffer += str[i];
-        }
-    }
-
-    appendTextBuffer();
-
     return result;
 }
 
@@ -105,7 +60,7 @@ function wrap(text, flag) {
 }
 
 function startUpdatingInGameEventsLog() {
-    const EVENT_LIFETIME = 10000;
+    const EVENT_LIFETIME = 100000;
     window.setInterval(function() {
         let time = new Date().getTime();
         $('.in-game-events-widget > .log > .event').each(function() {
