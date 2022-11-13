@@ -210,7 +210,7 @@
 }
 
 .skillProgressbar {
-    margin-left: 2vw;
+    /* margin-left: 2vw;*/
     width: 22.2vw;
     height: 1.4vw;
     border: 0.1vw solid #060b16;
@@ -222,10 +222,12 @@
     position: absolute;
     display: block;
     border: 0.2vw solid rgb(71, 124, 185);
-    width: 107%;
+    width: 105%;
     height: 69%;
-    overflow-y: auto;
+    overflow-y: hidden;
     top: 0%;
+    padding-top: 1%;
+    padding-left: 2%;
 }
 
 #skillHint {
@@ -312,4 +314,15 @@
 
 .skillControls {
     height: 2vw;
+}
+
+.skillIcon {
+    display:inline-block;
+    position: relative;
+    top: -0.3vw;
+    background: url(../img/icons/skill_icons.png) no-repeat;
+    background-size: 600%;
+    width: 1.5vw;
+    height: 1.5vw;
+    margin-left: 0.7vw;
 }

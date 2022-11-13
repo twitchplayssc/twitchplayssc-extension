@@ -8,7 +8,7 @@ var TABS = [
     },{
         name: "Skills",
         fetchFn: fetchSkills,
-        fetchIntervalMs: 1000
+        fetchIntervalMs: 10000000
     },{
         name: "Achievements",
         fetchFn: fetchAchievements,
@@ -284,6 +284,12 @@ function rebuildSkillsUI(skills) {
             var skillElement = $('<div/>').addClass("skillControls").attr({
                 skillId: skill.id
             });
+
+            skillElement.append($('<div/>').addClass("skillIcon").css({
+                "background-position-x": (skill.id % 6) * 20 + "%",
+                "background-position-y": Math.floor(skill.id / 6) * 33.3 + "%",
+            }));
+
             var progressbar = $('<div/>').addClass("skillProgressbar");
             progressbar.tpscprogressbar({
                 value: skill.playerLevel,
