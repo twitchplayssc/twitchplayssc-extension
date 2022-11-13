@@ -19,19 +19,19 @@
     width: 52%;
 }
 
-.minerals, .minerals-income, .workers-minerals {
+.resource.minerals, .resource.minerals-income, .resource.workers-minerals {
 	left: 72.4%;
 }
 
-.gas, .gas-income, .workers-gas {
+.resource.gas, .resource.gas-income, .resource.workers-gas {
 	left: 79.7%;
 }
 
-.supply, .workers-moving, .terrazine {
+.resource.supply, .resource.workers-moving, .resource.terrazine {
 	left: 87.0%;
 }
 
-.workers-idle {
+.resource.workers-idle {
 	left: 94.3%;
 }
 
@@ -45,12 +45,12 @@
     margin-right: 5%;
 }
 
-.income, .terrazine {
+.resource.income, .resource.terrazine {
 	position: absolute;
     top: 5%;
 }
 
-.workers {
+.resource.workers {
     position: absolute;
     top: 9.2%;
 }
@@ -83,42 +83,12 @@
 
 .stance .label, .focus .label { color: lightblue; }
 
-.minerals, .minerals-income, .workers-minerals {
-	left: 72.4%;
-}
-
-.gas, .gas-income, .workers-gas {
-	left: 79.7%;
-}
-
-.supply, .workers-moving, .terrazine {
-	left: 87.0%;
-}
-
-.workers-idle {
-	left: 94.3%;
-}
-.income, .terrazine {
-	position: absolute;
-    top: 5%;
-}
-
-.workers {
-    position: absolute;
-    top: 9.2%;
-}
-
 .statIcon, .feeding .icon {
 	background-image: url(../img/icons/corner_icons.png);
 	background-size: 870%;
     background-repeat: no-repeat;
     display: inline-block;
     height: 111%;
-}
-
-.statIcon {
-    width: 37%;
-    margin-right: 5%;
 }
 
 .feeding .icon{

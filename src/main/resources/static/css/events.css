@@ -10,10 +10,9 @@
 .event .terran { color: #b20d13; }
 .event .protoss { color: #fbc51b; }
 .event .zerg { color: #662670; }
-.event .minerals { color: #81B3F8; display: inline-block; }
-.event .gas { color: green; display: inline-block; }
-.event .terrazine { color: violet; display: inline-block; }
-.event .supply { display: inline-block; }
+.event .minerals { color: #81B3F8; }
+.event .gas { color: green; }
+.event .terrazine { color: violet; }
 .event .bronze { color: #4d2414; }
 .event .silver { color: #dbd9e2; }
 .event .gold { color: #d5c650; }
@@ -23,7 +22,6 @@
 
 .event .inlineIcon {
     position:relative;
-    margin-left: 0.2vw;
     display: inline-block;
     background-image: url(../img/icons/corner_icons.png);
 	background-size: 880%;
