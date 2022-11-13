@@ -8,7 +8,7 @@ var TABS = [
     },{
         name: "Skills",
         fetchFn: fetchSkills,
-        fetchIntervalMs: 10000000
+        fetchIntervalMs: 1000
     },{
         name: "Achievements",
         fetchFn: fetchAchievements,

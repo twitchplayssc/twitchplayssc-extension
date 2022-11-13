@@ -80,7 +80,7 @@ public class ClientController {
         }
 
         PlayerGlobalStats playerGlobalStats = globalInfoManager.get(username.get()).orElse(null);
-        return ResponseEntity.ok().body(playerGlobalStats);
+        return ResponseEntity.ok(playerGlobalStats);
     }
 
     @CrossOrigin(origins = "*")
