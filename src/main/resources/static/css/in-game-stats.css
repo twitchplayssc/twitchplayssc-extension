@@ -188,6 +188,7 @@
 	font-size: 1vw;
     color: white;
     text-shadow: 0.1vw 0.1vw 1px #000000;
+    text-align: right;
 }
 
 .army .unit {
