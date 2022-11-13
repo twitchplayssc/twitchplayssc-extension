@@ -87,7 +87,7 @@ function pollResourcesPeriodically(firstCall)
                 isGameDataApplied = false;
             }
 
-            $('.message').text(data.globalMessage);
+            $('.message').text(data.globalMessage ? data.globalMessage : "");
 
             if (data.availableSkills) {
                 SKILLS = data.availableSkills;
