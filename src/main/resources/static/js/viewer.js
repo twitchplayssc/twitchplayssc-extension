@@ -65,6 +65,8 @@ function pollResourcesPeriodically(firstCall)
                     });
                 }
 
+                $('.statIcon, .feeding .icon').css("background-position-y", (48 * (playerInGameData.race - 1)) + "%");
+
                 $('.army').righteousToggle(playerInGameData.army);
                 if (playerInGameData.army) {
                     updateArmy(playerInGameData.army);
