@@ -111,7 +111,7 @@ function updateArmy(army) {
         var unitDiv = $('#unitcount-' + unit);
         if (unitDiv.length == 0) {
             unitDiv = $('<div/>').addClass('unit');
-            unitDiv.attr('id', 'unitcount-' + unit).attr('unitId', unit).attr('title', UNITS[unit]);
+            unitDiv.attr('id', 'unitcount-' + unit).attr('unitId', unit).tooltip(UNITS[unit]);
             unitDiv.css('background-position', UNIT_TABLE_OFFSET(unit));
             var countEl = $('<span/>').addClass('count');
             unitDiv.append(countEl);
