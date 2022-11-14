@@ -19,7 +19,9 @@
     width: 52%;
 }
 
-.resource.minerals, .resource.minerals-income, .resource.workers-minerals {
+.focus { left: 86.9%; }
+
+.resource.minerals, .resource.minerals-income, .resource.workers-minerals, .stance, .army {
 	left: 72.4%;
 }
 
@@ -42,7 +44,7 @@
 
 .resource.workers {
     position: absolute;
-    top: 9.2%;
+    top: 9%;
 }
 
 .stance .label, .focus .label { color: lightblue; }
@@ -145,6 +147,3 @@
     opacity: 0.8;
     background-color: black;
 }
-
-.stance, .army { left: 72.4%; }
-.focus { left: 86.9%; }
