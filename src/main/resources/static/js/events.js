@@ -5,9 +5,9 @@ function renderPersonalEvent(str) {
 
     var parsedEvent = parseEvent(str);
     var rt = $('<div/>').addClass("event")
-        .addClass("scale-up-bottom").addClass(parsedEvent.eventClass)
+        .addClass("scale-up-bottom").addClass(parsedEvent.attr('class'))
         .attr('data', time)
-        .html(parsedEvent.el.html()).appendTo(logElement);
+        .html(parsedEvent.html()).appendTo(logElement);
 
     var allEvents = logElement.find('.event');
     var excessElements = Math.max(allEvents.length - MAX_EVENTS, 0);
@@ -18,36 +18,16 @@ function renderPersonalEvent(str) {
         /flag/flag2 asdasd #{|}# asdasdasd
 */
 function parseEvent(str) {
-    var result = { el: $('<div/>'), eventClass: '' };
+    var result = $('<div/>');
 
     let firstSpaceIndex = str.indexOf(' ');
     var firstWord = str.substring(0, firstSpaceIndex);
     if (firstWord.startsWith("/")) {
-        result.eventClass = firstWord.split("/").join(' ');
+        result.addClass(firstWord.split("/").join(' '));
         str = str.substring(firstSpaceIndex + 1);
     }
 
-    var tokens = str.split(/\{|\}/g);
-    for (var i = 0; i < tokens.length; i++) {
-        var tt = tokens[i].split(/\|/);
-        if (tt.length > 1) {
-            var className = tt[0];
-            var parentElement = $('<span/>').addClass(className);
-
-            if (["minerals", "gas", "supply", "terrazine"].includes(className)) {
-                var race = PLAYER_GLOBAL_DATA.race;
-                var iconEl = $('<span/>').addClass("inlineIcon").css("background-position-y", (51 * (race - 1)) + "%");
-                var textClass = (className == "supply") ? RACE_CLASSES[race] : className;
-                var textEl = $('<span/>').addClass(textClass).text(tt[1]);
-                parentElement.append(iconEl).append(textEl);
-            } else {
-                parentElement.text(tt[1]); // safe injection, jquery escapes here
-            }
-            parentElement.appendTo(result.el);
-        } else {
-            $('<span/>').text(tt[0]).appendTo(result.el); // safe injection, jquery escapes here
-        }
-    }
+    result.richText(str);
     return result;
 }
 

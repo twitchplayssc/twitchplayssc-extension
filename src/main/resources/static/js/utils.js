@@ -106,6 +106,32 @@ $.fn.extend({
     },
     tooltip: function(txt) {
         $(this).addClass('tooltip').append('<span class="tooltiptext">' + txt + '</span>');
+    },
+    richText: function(text) {
+        $(this).addClass("richText").children().remove();
+        // changes {className|text} to <span class="className">text</span> and adds icons for resource classes
+        // then appends the result to the element
+        var tokens = text.split(/\{|\}/g);
+        for (var i = 0; i < tokens.length; i++) {
+            var tt = tokens[i].split(/\|/);
+            if (tt.length > 1) {
+                var className = tt[0];
+                var parentElement = $('<span/>').addClass(className);
+
+                if (["minerals", "gas", "supply", "terrazine"].includes(className)) {
+                    var race = PLAYER_GLOBAL_DATA.race;
+                    var iconEl = $('<span/>').addClass("inlineIcon").css("background-position-y", (51 * (race - 1)) + "%");
+                    var textClass = (className == "supply") ? RACE_CLASSES[race] : className;
+                    var textEl = $('<span/>').addClass(textClass).text(tt[1]);
+                    parentElement.append(iconEl).append(textEl);
+                } else {
+                    parentElement.text(tt[1]); // safe injection, jquery escapes this
+                }
+                $(this).append(parentElement);
+            } else {
+                $(this).append($('<span/>').text(tt[0])); // safe injection, jquery escapes this
+            }
+        }
     }
 });
 

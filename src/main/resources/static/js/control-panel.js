@@ -202,10 +202,10 @@ function pollSubmit(element, pollId, optionIndex) {
             console.log("Cool, you voted with " + terraEl.val());
         },
         error: function(data) {
-               	    updatePolls($('#tabPolls'), data);
-               	    console.log(element);
-                        console.log("ERROR, you voted with " + terraEl.val());
-                }
+            updatePolls($('#tabPolls'), data);
+            console.log(element);
+            console.log("ERROR, you voted with " + terraEl.val());
+        }
     });
 }
 
@@ -241,71 +241,65 @@ function updateSkills(playerGlobalState) {
 
     PLAYER_GLOBAL_DATA = $.extend(PLAYER_GLOBAL_DATA, playerGlobalState);
 
-    var skillJson = {
-        groups: []
-    };
-    skillJson.groups[0] = mapSkillGroup("General", SKILLS_GENERAL);
-    skillJson.groups[1] = mapSkillGroup("Protoss", SKILLS_PROTOSS);
-    skillJson.groups[2] = mapSkillGroup("Terran", SKILLS_TERRAN);
-    skillJson.groups[3] = mapSkillGroup("Zerg", SKILLS_ZERG);
-    rebuildSkillsUI(skillJson);
+    rebuildSkillsUI([
+        mapSkillGroup("General", SKILLS_GENERAL),
+        mapSkillGroup("Protoss", SKILLS_PROTOSS),
+        mapSkillGroup("Terran", SKILLS_TERRAN),
+        mapSkillGroup("Zerg", SKILLS_ZERG)
+    ]);
 }
 
 function mapSkillGroup(groupName, idArray) {
-    var group = {
-        name: groupName
-    };
-
+    var group = { name: groupName };
     group.skills = idArray.map(id => ({
         id: id,
-        name: SKILLS[id].name,
-        shortName: SKILLS[id].shortName,
-        hint: SKILLS[id].description,
-        playerLevel: Math.min(PLAYER_GLOBAL_DATA.skills[id], SKILLS[id].maxPoints),
-        max: SKILLS[id].maxPoints
+        playerLevel: Math.min(PLAYER_GLOBAL_DATA.skills[id], SKILLS[id].maxPoints)
     }));
     return group;
 }
 
 
-function rebuildSkillsUI(skills) {
+function rebuildSkillsUI(skillGroups) {
     $('#skillContainer').children().detach();
     $('.skillHintBox').righteousToggle(false);
     $('#availablePoints').text('-');
 
     var mainSkillsEl = $('#skillContainer');
-    for (var i = 0; i < skills.groups.length; i++) {
-        var skillGroup = skills.groups[i];
+    for (var i = 0; i < skillGroups.length; i++) {
+        var skillGroup = skillGroups[i];
         var skillGroupEl = $('<div/>').addClass("skillGroup");
         skillGroupEl.append($('<span/>').addClass("skillName").text(skillGroup.name));
         for (var j = 0; j < skillGroup.skills.length; j++) {
-            var skill = skillGroup.skills[j];
+            var skillViewInfo = skillGroup.skills[j];
+            var playerLevel = skillViewInfo.playerLevel;
+            var skillId = skillViewInfo.id;
+            var skill = SKILLS[skillId];
 
-            var skillElement = $('<div/>').addClass("skillControls").attr({
-                skillId: skill.id
-            });
 
-            skillElement.append($('<div/>').addClass("skillIcon").css({
-                "background-position-x": (skill.id % 6) * 20 + "%",
-                "background-position-y": Math.floor(skill.id / 6) * 33.3 + "%",
-            }));
+            var skillElement = $('<div/>').addClass("skillControls").attr("skillId", skillId)
+                .append($('<div/>').addClass("skillIcon").css({
+                    "background-position-x": (skillId % 6) * 20 + "%",
+                    "background-position-y": Math.floor(skillId / 6) * 33.3 + "%",
+                }));
 
-            var progressbar = $('<div/>').addClass("skillProgressbar");
-            progressbar.tpscprogressbar({
-                value: skill.playerLevel,
-                max: skill.max
+            var progressbar = $('<div/>').addClass("skillProgressbar").tpscprogressbar({
+                value: playerLevel,
+                max: skill.maxPoints
             });
             skillElement.append(progressbar);
-            var skillPlus = $('<div/>').addClass("skillPlus").attr("skillId", skill.id);
-            skillPlus.toggleClass("disabled", skill.playerLevel == skill.max || PLAYER_GLOBAL_DATA.availablePoints == 0);
+
+            var skillPlus = $('<div/>').addClass("skillPlus").attr("skillId", skillId)
+                .toggleClass("disabled", playerLevel == skill.maxPoints || PLAYER_GLOBAL_DATA.availablePoints == 0);
             skillElement.append(skillPlus)
+
             skillElement.mouseover(function() {
                 var skillId = parseInt($(this).attr("skillId"));
+                var skill = SKILLS[skillId];
                 var skillLevel = PLAYER_GLOBAL_DATA.skills[skillId];
-                $('#skillHintSkillName').text(SKILLS[skillId].name + " Level ");
-                var skillLevelString = skillLevel + " / " + SKILLS[skillId].maxPoints
+                $('#skillHintSkillName').text(skill.name + " Level ");
+                var skillLevelString = skillLevel + " / " + skill.maxPoints
                 $('#currentSkillLevel').text(skillLevelString);
-                $("#skillHint").text(SKILLS[skillId].description);
+                $("#skillHint").richText(skill.description);
                 $('#skillHintContainer').children().righteousToggle(true);
             }).mouseout(function() {
                 $('#skillHintContainer').children().righteousToggle(false);

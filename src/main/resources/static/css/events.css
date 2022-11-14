@@ -1,25 +1,25 @@
-.event .red { color: red; }
-.event .yellow { color: yellow; }
-.event .orange { color: orange; }
-.event .green { color: green; }
-.event .blue { color: blue; }
-.event .darkblue { color: darkblue; }
-.event .violet { color: violet; }
-.event .purple { color: purple; }
+.richText .red { color: red; }
+.richText .yellow { color: yellow; }
+.richText .orange { color: orange; }
+.richText .green { color: green; }
+.richText .blue { color: blue; }
+.richText .darkblue { color: darkblue; }
+.richText .violet { color: violet; }
+.richText .purple { color: purple; }
 
-.event .terran { color: #b20d13; }
-.event .protoss { color: #fbc51b; }
-.event .zerg { color: #662670; }
-.event .minerals { color: #81B3F8; display: inline-block;}
-.event .gas { color: green; display: inline-block;}
-.event .terrazine { color: violet; display: inline-block;}
-.event .supply { display: inline-block;}
-.event .bronze { color: #4d2414; }
-.event .silver { color: #dbd9e2; }
-.event .gold { color: #d5c650; }
-.event .platinum { color: #6c9ebe; }
-.event .diamond { color: #64e3e8; }
-.event .tpscaccent { color: #c59c76; }
+.richText .terran { color: #b20d13; }
+.richText .protoss { color: #fbc51b; }
+.richText .zerg { color: #662670; }
+.richText .minerals { color: #81B3F8; display: inline-block;}
+.richText .gas { color: green; display: inline-block;}
+.richText .terrazine { color: violet; display: inline-block;}
+.richText .supply { display: inline-block;}
+.richText .bronze { color: #4d2414; }
+.richText .silver { color: #dbd9e2; }
+.richText .gold { color: #d5c650; }
+.richText .platinum { color: #6c9ebe; }
+.richText .diamond { color: #64e3e8; }
+.richText .tpscaccent { color: #c59c76; }
 
 .event .inlineIcon {
     position:relative;
