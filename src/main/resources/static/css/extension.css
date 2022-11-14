@@ -53,3 +53,24 @@ body {
 .close:active {
     filter: brightness(2);
 }
+
+::-webkit-scrollbar {
+  width: 1.5vw;
+  opacity: 0.7;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #111111;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #5cb6f6;
+  border-radius: 1vw;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #addbfb;
+}

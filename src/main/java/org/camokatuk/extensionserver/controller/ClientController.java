@@ -98,6 +98,21 @@ public class ClientController {
         return ResponseEntity.ok().body("OK");
     }
 
+
+    @CrossOrigin(origins = "*")
+    //	@CrossOrigin(origins = "twitch.tv")
+    @GetMapping("/polls")
+    public
+    @ResponseBody
+    ResponseEntity<String> getPolls(@RequestHeader("Authorization") String authenticationHeader) {
+        Optional<String> username = getUserNameFromAuth(authenticationHeader);
+        if (username.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body("Can't get your Twitch username. Either expired JWT or some other authentication nonsense");
+        }
+        return ResponseEntity.ok().body("OK");
+    }
+
     private Optional<String> getUserNameFromAuth(String authenticationHeader) {
         Optional<String> userIdOptional = getUserIdFromAuth(authenticationHeader);
         if (userIdOptional.isEmpty()) {
