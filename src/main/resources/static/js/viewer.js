@@ -43,6 +43,7 @@ function pollResourcesPeriodically(firstCall)
 
                 setStanceText(playerInGameData.stance);
 			    setFocusText(playerInGameData.focus);
+			    adjustArmyIconsHeight(playerInGameData.stance || playerInGameData.focus)
 
 				$('.gas .value').numberChange(playerInGameData.gas);
 				$('.minerals .value').numberChange(playerInGameData.minerals);
@@ -131,7 +132,7 @@ function setStanceText(stanceString) {
     let stanceElement = $('.stance').html('');
     if (stanceString) {
         $('<span/>').addClass('label').text('stance: ').appendTo(stanceElement);
-        stanceElement.append(stanceString).tooltip('Army behavior');;
+        stanceElement.append(stanceString).tooltip('Army behavior');
     }
 }
 
@@ -141,6 +142,10 @@ function setFocusText(focusString) {
         $('<span/>').addClass('label').text('focus: ').appendTo(focusElement);
         focusElement.append(focusString).tooltip('Attack priority');
     }
+}
+
+function adjustArmyIconsHeight(stanceOrFocusPresent) {
+    $('.army').css("top", stanceOrFocusPresent ? "16.5%" : "13%");
 }
 
 function toggleMode(joined){
@@ -169,6 +174,7 @@ function initTips()
     $('.workers-gas').tooltip('Workers on vespene');
     $('.workers-moving').tooltip('Moving workers');
     $('.workers-idle').tooltip('Idle<br/>workers');
+    $('.feeding .icon').tooltip("Feeding");
 }
 
 

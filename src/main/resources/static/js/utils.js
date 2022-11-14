@@ -105,7 +105,8 @@ $.fn.extend({
 	    }
     },
     tooltip: function(txt) {
-        $(this).addClass('tooltip').append('<span class="tooltiptext">' + txt + '</span>');
+        var tooltipEl = $('<span>' + txt + "</span>").addClass('tooltiptext');
+        $(this).addClass('tooltip').append(tooltipEl);
     },
     richText: function(text) {
         $(this).addClass("richText").children().remove();
