@@ -50,7 +50,7 @@ function pollResourcesPeriodically(firstCall)
                 $('.supply .value').text(playerInGameData.supply);
                 $('.terrazine .value').text(playerInGameData.terrazine);
 
-                $('.feeding').righteousToggle(playerInGameData.feeding);
+                $('.feeding').righteousToggle(playerInGameData.feeding).css("width", data.sellout ? "15%" : "25%");
                 $('.resource.income').righteousToggle(!playerInGameData.feeding);
 
                 $('.feeding .value').text(playerInGameData.feeding);
@@ -164,17 +164,18 @@ $(function () {
 
 function initTips()
 {
-    $('.minerals').tooltip('Your&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;minerals');
-    $('.gas').tooltip('Your&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vespene');
-    $('.supply').tooltip('Supply: your/total/limit');
-    $('.minerals-income').tooltip('Your&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;minerals income');
-    $('.gas-income').tooltip('Your&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vespene income');
-    $('.supply').tooltip('Supply: your/total/limit');
+    $('.resource.minerals').tooltip('Your&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;minerals');
+    $('.resource.gas').tooltip('Your&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vespene');
+    $('.resource.supply').tooltip('Supply: your/total/limit');
+    $('.resource.minerals-income').tooltip('Your&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;minerals income');
+    $('.resource.gas-income').tooltip('Your&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vespene income');
+    $('.resource.supply').tooltip('Supply: your/total/limit');
     $('.workers-minerals').tooltip('Workers on minerals');
     $('.workers-gas').tooltip('Workers on vespene');
     $('.workers-moving').tooltip('Moving workers');
     $('.workers-idle').tooltip('Idle<br/>workers');
-    $('.feeding .icon').tooltip("Feeding");
+    $('.feeding').tooltip("Feeding");
+    $('.resource.terrazine').tooltip("Your Terrazine");
 }
 
 

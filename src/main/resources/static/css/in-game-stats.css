@@ -35,17 +35,7 @@
 	left: 94.3%;
 }
 
-.statIcon {
-	background-image: url(../img/icons/corner_icons.png);
-	background-size: 870%;
-    background-repeat: no-repeat;
-    display: inline-block;
-    width: 37%;
-    height: 111%;
-    margin-right: 5%;
-}
-
-.resource.income, .resource.terrazine {
+.resource.income, .resource.terrazine, .feeding {
 	position: absolute;
     top: 5%;
 }
@@ -55,44 +45,24 @@
     top: 9.2%;
 }
 
-.feeding {
-	display: none;
-	position: absolute;
-    top: 5%;
-/*    left: 81%; */
-	left: 72.4%;
-    font-size: 1vw;
-    color: lightblue;
-    letter-spacing: 1px;
-    font-weight: bold;
-    width: 25%;
-    height: 3%;
-}
-
-.feeding .value {
-	position: relative;
-	top: -18%;
-	width: 89%;
-    margin-left: 1%;
-	color: white;
-	display: inline-block;
-	white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
 .stance .label, .focus .label { color: lightblue; }
 
 .statIcon, .feeding .icon {
 	background-image: url(../img/icons/corner_icons.png);
+	display: inline-block;
 	background-size: 870%;
     background-repeat: no-repeat;
     display: inline-block;
     height: 111%;
 }
 
+.statIcon {
+    width: 37%;
+    margin-right: 5%;
+}
+
 .feeding .icon{
-    width: 9%;
+    width: 2.7vw;
 }
 
 .workers-minerals .statIcon { background-position-x: 0%; }
@@ -116,22 +86,20 @@
 
 .feeding {
 	display: none;
-	position: absolute;
-    top: 5%;
 /*    left: 81%; */
 	left: 72.4%;
     font-size: 1vw;
     color: lightblue;
     letter-spacing: 1px;
     font-weight: bold;
-    width: 25%;
+    width: 15%;
     height: 3%;
 }
 
 .feeding .value {
 	position: relative;
 	top: -18%;
-	width: 89%;
+	width: 80%;
     margin-left: 1%;
 	color: white;
 	display: inline-block;

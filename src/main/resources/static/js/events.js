@@ -40,7 +40,7 @@ function wrap(text, flag) {
 }
 
 function startUpdatingInGameEventsLog() {
-    const EVENT_LIFETIME = 100000;
+    const EVENT_LIFETIME = 10000;
     window.setInterval(function() {
         let time = new Date().getTime();
         $('.in-game-events-widget > .log > .event').each(function() {
