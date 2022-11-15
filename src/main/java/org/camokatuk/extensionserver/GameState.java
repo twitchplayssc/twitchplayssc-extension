@@ -39,6 +39,10 @@ public enum GameState {
         return state != null && state.inGame;
     }
 
+    public boolean isInGame() {
+        return inGame;
+    }
+
     public static boolean isNotInGame(GameState state) {
         return !isInGame(state);
     }

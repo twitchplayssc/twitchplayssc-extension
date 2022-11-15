@@ -13,8 +13,14 @@ function pollResourcesPeriodically(firstCall)
 		type: 'GET',
 		success: function(data) {
             var playerInGameData = data.inGameData;
-			$('.resource').righteousToggle(playerInGameData);
-            $('.minimap-click-data, .minimap, .command-card-click-data, .command-card').righteousToggle(playerInGameData);
+            $('.when-user-in-game').righteousToggle(playerInGameData);
+            $('.when-game-is-on').righteousToggle(data.inGame);
+
+            if (data.levelProgress) {
+                $('#experience-progress-bar').css("left", "-" + (100 - (data.levelProgress * 100)) + "%");
+                $('#control-panel-toggle').toggleClass("levelupComplete", data.levelProgress >= 1.0)
+            }
+
 			if (playerInGameData) {
 			    if (data.map && $('.minimap').length > 0) {
 			        $('.minimap').scaleToRatio(data.map.ratio ? data.map.ratio : 1);
@@ -83,10 +89,9 @@ function pollResourcesPeriodically(firstCall)
             else
             {
                 // reinitialize all the text boxes
-                $('.feeding').righteousToggle(false);
                 $('.resource .value').text('0').prop('Counter', '0');
                 $('.income .value').text('+0').prop('Counter', '0').taxColor(0);
-                $('#extension-hint').righteousToggle(data.globalMessage && data.globalMessage.endsWith('elcome'));
+                $('#extension-hint').righteousToggle(data.globalMessage && data.globalMessage.endsWith('requires permissions'));
                 $('.stance, .focus').html('');
                 isGameDataApplied = false;
             }

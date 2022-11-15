@@ -28,37 +28,45 @@
 
 <div id="app" class="full-height"></div>
 
-<div class="stance"></div>
-<div class="focus"></div>
-<div class="army"></div>
+<div class="stance when-user-in-game"></div>
+<div class="focus when-user-in-game"></div>
+<div class="army when-user-in-game"></div>
 
-<div class="gas resource"><span class="statIcon"></span><span class="value"></span></div>
-<div class="minerals resource"><span class="statIcon"></span><span class="value"></span></div>
-<div class="supply resource"><span class="statIcon"></span><span class="value"></span></div>
+<div class="gas resource when-user-in-game"><span class="statIcon"></span><span class="value"></span></div>
+<div class="minerals resource when-user-in-game"><span class="statIcon"></span><span class="value"></span></div>
+<div class="supply resource when-user-in-game"><span class="statIcon"></span><span class="value"></span></div>
 
-<div class="minerals-income resource income"><span class="statIcon"></span><span class="value"></span></div>
-<div class="gas-income resource income"><span class="statIcon"></span><span class="value"></span></div>
-<div class="terrazine resource sellout"><span class="statIcon"></span><span class="value"></span></div>
-<div class="feeding "><span class="icon"></span><span class="value"></span></div>
+<div class="minerals-income resource income when-user-in-game"><span class="statIcon"></span><span class="value"></span>
+</div>
+<div class="gas-income resource income when-user-in-game"><span class="statIcon"></span><span class="value"></span>
+</div>
+<div class="terrazine resource sellout when-user-in-game"><span class="statIcon"></span><span class="value"></span>
+</div>
+<div class="feeding when-user-in-game"><span class="icon"></span><span class="value"></span></div>
 
 
-<div class="resource workers workers-minerals"><span class="statIcon"></span><span class="value"></span></div>
-<div class="resource workers workers-gas"><span class="statIcon"></span><span class="value"></span></div>
-<div class="resource workers workers-moving"><span class="statIcon"></span><span class="value"></span></div>
-<div class="resource workers workers-idle"><span class="statIcon"></span><span class="value"></span></div>
+<div class="resource workers workers-minerals when-user-in-game"><span class="statIcon"></span><span
+        class="value"></span>
+</div>
+<div class="resource workers workers-gas when-user-in-game"><span class="statIcon"></span><span class="value"></span>
+</div>
+<div class="resource workers workers-moving when-user-in-game"><span class="statIcon"></span><span class="value"></span>
+</div>
+<div class="resource workers workers-idle when-user-in-game"><span class="statIcon"></span><span class="value"></span>
+</div>
 
-<div class="message"></div>
+<div class="message when-game-is-on"></div>
 
-<div class="minimap"></div>
-<div class="minimap-click-data"></div>
-<div class="command-card"></div>
-<div class="command-card-click-data"></div>
+<div class="minimap when-user-in-game"></div>
+<div class="minimap-click-data when-user-in-game"></div>
+<div class="command-card when-user-in-game"></div>
+<div class="command-card-click-data when-user-in-game"></div>
 
 <div id="extension-hint">
     <div class="close"></div>
 </div>
 
-<div class="in-game-events-widget">
+<div class="in-game-events-widget when-user-in-game">
     <div class="log">
 
     </div>
@@ -70,13 +78,18 @@
             <span class="tab-selector"></span>
             <div class="tab-content" id="tabPolls"></div>
             <div class="tab-content" id="tabSkills">
-                <div id="skillContainer"></div>
+                <div id="skillContainer">
+                    <div id="experience-info">
+                        <span class="skillName">Level:&nbsp;</span>
+                        <span id="experience" class="skillFieldMargin"></span>
+                        <span class="skillName">Available Skill Points:&nbsp;</span>
+                        <span id="availablePoints" class="skillFieldMargin"></span>
+                    </div>
+                </div>
                 <div id="skillHintContainer">
                     <div id="skillHintBox">
                         <span id="skillHintSkillName" class="skillName">Skill Level:&nbsp;</span>
                         <span id="currentSkillLevel" class="skillFieldMargin"></span>
-                        <span class="skillName">Available Points:&nbsp;</span>
-                        <span id="availablePoints" class="skillFieldMargin"></span>
                     </div>
                     <div id="skillHint" class="skillHintBox"></div>
                 </div>
@@ -89,7 +102,11 @@
     </div>
 </div>
 
-<div id="control-panel-toggle"><span>Open Control Panel</span>
+<div id="control-panel-toggle" class="when-game-is-on">
+    <span id="experience-progress-bar">
+
+    </span>
+    <span id="control-panel-toggle-label">Open Control Panel</span>
 </div>
 
 </body>

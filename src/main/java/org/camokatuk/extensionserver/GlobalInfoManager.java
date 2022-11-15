@@ -68,4 +68,12 @@ public class GlobalInfoManager {
                 new Skill("burrow", "I haven't loaded skills yet ok jeez", DEFAULT_DESCRIPTION, DEFAULT_MAX_SKILL)
         );
     }
+
+    public void addXpData(String username, UserDisplayData userDisplayData) {
+        playerGlobalStats.getData(username).ifPresent(stats -> {
+            userDisplayData.setLevelupXp(stats.getLevelupXp());
+            userDisplayData.setXp(stats.getXp());
+            userDisplayData.setLevelProgress(stats.getLevelProgress());
+        });
+    }
 }

@@ -7,7 +7,7 @@ public class PlayerGlobalStats {
     private String level;
     private int xp;
     private int levelupXp;
-    private int levelProgress;
+    private double levelProgress;
     private int[] skills;
     private int availablePoints;
 

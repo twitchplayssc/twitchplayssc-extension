@@ -65,6 +65,7 @@ public class ClientController {
         if (firstRequest) {
             globalInfoManager.addGlobalData(userDisplayData);
         }
+        globalInfoManager.addXpData(username.get(), userDisplayData);
         return userDisplayData;
     }
 

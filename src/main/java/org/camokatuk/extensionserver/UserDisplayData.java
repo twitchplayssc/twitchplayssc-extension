@@ -10,6 +10,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @Data
 public class UserDisplayData {
     private boolean sellout = false;
+    private boolean inGame = false;
     @JsonInclude(NON_NULL)
     private PlayerInGameData inGameData;
     @JsonInclude(NON_NULL)
@@ -22,6 +23,12 @@ public class UserDisplayData {
     private CommandCard commandCard;
     @JsonInclude(NON_NULL)
     private List<Skill> availableSkills;
+    @JsonInclude(NON_NULL)
+    private Integer xp;
+    @JsonInclude(NON_NULL)
+    private Integer levelupXp;
+    @JsonInclude(NON_NULL)
+    private Double levelProgress;
 
     public static UserDisplayData empty() {
         return UserDisplayData.msg(null);

@@ -25,7 +25,8 @@
     width: 50.0%;
     height: 2.8%;
     left: 24.8%;
-    top: 79.0%;
+    top: 78.0%;
+    border: 0.3vw solid rgba(255, 255, 255, 0);
     background-color: #5cb6f6;
     opacity: 0.8;
     border: 0.2vw solid black;
@@ -34,6 +35,7 @@
     text-align:center;
     font-size: 1.1vw;
     z-index: 10001;
+    overflow:hidden;
 }
 
 #control-panel-toggle .span {
@@ -223,7 +225,7 @@
     display: block;
     border: 0.2vw solid rgb(71, 124, 185);
     width: 105%;
-    height: 69%;
+    height: 76%;
     overflow-y: hidden;
     top: 0%;
     padding-top: 1%;
@@ -247,8 +249,10 @@
     display: block;
     border: 0.2vw solid rgb(71, 124, 185);
     width: 107%;
-    height: 34%;
-    top: 71%;
+    height: 25.5%;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    top: 79.5%;
 }
 
 .progressbarContainer {
@@ -325,4 +329,74 @@
     width: 1.5vw;
     height: 1.5vw;
     margin-left: 0.7vw;
+}
+
+#experience-info {
+    width: 98%;
+    padding-top: 0.5vw;
+    height: 10%;
+    text-align: center;
+    font-size: 1.5vw;
+    background-color: rgb(20, 46, 71);
+}
+
+#control-panel-toggle.levelupComplete {
+    animation: borderok alternate 2s infinite;
+    left: 24.8%;
+    top: 78.0%;
+}
+
+@-webkit-keyframes borderok {
+    0% {border-color: rgba(255,255,255,0)}
+    30% {border-color: rgba(255,255,255,0.4)}
+    100% {border-color: rgba(255,255,255,1)}
+}
+
+@keyframes borderok {
+    0% {border-color: rgba(255,255,255,0)}
+    20% {border-color: rgba(255,255,255,0.4)}
+    100% {border-color: rgba(255,255,255,1)}
+}
+
+#experience-progress-bar {
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    left: -100%;
+    z-index: 0;
+    /*background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(44,95,106,1) 100%);
+    -webkit-animation: sparks 6s cubic-bezier(0.390, 0.575, 0.565, 1.000) infinite both;
+    animation: sparks 6s cubic-bezier(0.390, 0.575, 0.565, 1.000) infinite both ;*/
+    background-size: 200% 200%;
+
+    background-image: repeating-linear-gradient(
+    	45deg,
+        rgba(2,0,36,1) 0%,
+        rgba(44,95,106,1) 45%,
+        rgba(2,0,36,1) 100%
+    );
+    animation: diagonal alternate 5s infinite;
+    -webkit-animation: diagonal alternate 5s infinite;
+}
+
+@-webkit-keyframes diagonal {
+    0% {background-position: 0% 50%}
+    100% {background-position: 100% 50%}
+}
+
+@keyframes diagonal {
+    0% {background-position: 0% 50%}
+    100% {background-position: 100% 50%}
+}
+
+#control-panel-toggle-label {
+    position: absolute;
+    width: 100%;
+    left: 0%;
+    text-align: center;
+    display: inline-block;
+    z-index: 10002;
+    text-shadow: 0.15vw 0.15vw black;
+    color: white;
 }

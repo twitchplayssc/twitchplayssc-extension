@@ -8,23 +8,23 @@ var TABS = [
     },{
         name: "Skills",
         fetchFn: fetchSkills,
-        fetchIntervalMs: 1000
+        fetchIntervalMs: 3000
     },{
         name: "Achievements",
         fetchFn: fetchAchievements,
-        fetchIntervalMs: 1000
+        fetchIntervalMs: 3000
     },{
         name: "Maps",
         fetchFn: fetchMaps,
-        fetchIntervalMs: 1000
+        fetchIntervalMs: 3000
     },{
         name: "Stats",
         fetchFn: fetchStats,
-        fetchIntervalMs: 1000
+        fetchIntervalMs: 3000
     },{
         name: "Help",
         fetchFn: fetchHelp,
-        fetchIntervalMs: 1000
+        fetchIntervalMs: 3000
     }
 ];
 var ACTIVE_TAB = TABS[01];
@@ -73,7 +73,7 @@ $(document).ready(function() {
         if (isOpen) {
             ACTIVE_TAB.focus();
         }
-        $(this).text(isOpen ? 'Close Control Panel' : 'Open Control Panel');
+        $('#control-panel-toggle-label').text(isOpen ? 'Close Control Panel' : 'Open Control Panel');
     });
 
     ACTIVE_TAB.activate();
@@ -239,7 +239,7 @@ function updateSkills(playerGlobalState) {
         return;
     }
 
-    PLAYER_GLOBAL_DATA = $.extend(PLAYER_GLOBAL_DATA, playerGlobalState);
+    PLAYER_GLOBAL_DATA = $.extend(PLAYER_GLOBAL_DATA, data);
 
     rebuildSkillsUI([
         mapSkillGroup("General", SKILLS_GENERAL),
@@ -260,7 +260,8 @@ function mapSkillGroup(groupName, idArray) {
 
 
 function rebuildSkillsUI(skillGroups) {
-    $('#skillContainer').children().detach();
+    $('#skillContainer .skillGroup').detach();
+    $('#experience').text(PLAYER_GLOBAL_DATA.level);
     $('.skillHintBox').righteousToggle(false);
     $('#availablePoints').text('-');
 

@@ -72,31 +72,28 @@ public class StateManager {
     }
 
     private UserDisplayData getInGameDisplayData(String username, boolean fetchGlobalGameData) {
-        DataOrMessage<PlayerInGameData> resourcesOrMessage = getInGameDataOrMessage(username);
-        if (resourcesOrMessage.getMessage() != null) {
-            return UserDisplayData.msg(resourcesOrMessage.getMessage());
+        if (username == null) {
+            return UserDisplayData.msg("Unable to fetch your userName, please contact admins");
+        }
+
+        UserDisplayData displayData = new UserDisplayData();
+        Optional<PlayerInGameData> stats = resources.getData(username); // do the lookup in legacy collection
+        if (stats.isPresent()) {
+            displayData.setInGameData(stats.get());
+            if (fetchGlobalGameData) {
+                displayData.setMap(this.gameState.getMap());
+                displayData.setCommandCard(this.gameState.getCommandCard());
+            }
+        } else {
+            displayData.setGlobalMessage("Type !play to join the game");
         }
 
         // *** validations have passed, userId is cached, we have at least some user data
-        UserDisplayData displayData = new UserDisplayData();
-        displayData.setInGameData(resourcesOrMessage.getData());
+        displayData.setInGame(this.gameState.getState().isInGame());
         displayData.setSellout(this.gameState.getState() == GameState.INGAME_SELLOUT);
         displayData.setEvents(events.getData(username).orElse(null)); // see *** above, fetching the data directly is safe
-        if (fetchGlobalGameData) {
-            displayData.setMap(this.gameState.getMap());
-            displayData.setCommandCard(this.gameState.getCommandCard());
-        }
         events.setData(username, new ArrayList<>()); // reset the events data, now they are buffered on FE
         return displayData;
-    }
-
-    public DataOrMessage<PlayerInGameData> getInGameDataOrMessage(String username) {
-        if (username == null) {
-            return DataOrMessage.msg("Unable to fetch your userName, please contact admins");
-        }
-
-        Optional<PlayerInGameData> stats = resources.getData(username); // do the lookup in legacy collection
-        return stats.map(DataOrMessage::data).orElse(DataOrMessage.msg("Type !play to join the game"));
     }
 
     public GameStateContainer getCurrentState() {
