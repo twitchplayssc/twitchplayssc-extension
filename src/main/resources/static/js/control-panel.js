@@ -239,7 +239,7 @@ function updateSkills(playerGlobalState) {
         return;
     }
 
-    PLAYER_GLOBAL_DATA = $.extend(PLAYER_GLOBAL_DATA, data);
+    PLAYER_GLOBAL_DATA = $.extend(PLAYER_GLOBAL_DATA, playerGlobalState);
 
     rebuildSkillsUI([
         mapSkillGroup("General", SKILLS_GENERAL),
