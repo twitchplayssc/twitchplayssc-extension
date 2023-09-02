@@ -61,11 +61,9 @@ public class PlayerEventManager {
     private <E> List<E> collectAndDropAll(Queue<E> queue) {
         int currentLength = queue.size();
         List<E> allEvents = new ArrayList<>(currentLength);
-        for (int i = 0; i < currentLength; i++) // needs limit to not get stuck polling quickly arriving events
-        {
+        for (int i = 0; i < currentLength; i++) { // needs limit to not get stuck polling quickly arriving events
             E nextElement = queue.poll();
-            if (nextElement == null) // can happen if called in parallel with itself
-            {
+            if (nextElement == null) { // can happen if called in parallel with itself
                 break;
             }
             allEvents.add(nextElement);

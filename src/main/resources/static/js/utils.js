@@ -84,25 +84,27 @@ $.fn.extend({
 	        $(this).attr('originalPosition', JSON.stringify(originalPosition));
 	        $(this).attr('originalDimensions', JSON.stringify(originalDimensions));
 	    } else { // reset to original dimensions first
-	         originalPosition = JSON.parse($(this).attr('originalPosition'));
-             originalDimensions = JSON.parse($(this).attr('originalDimensions'));
-             $(this).percentValue('left', originalPosition.left);
-             $(this).percentValue('top', originalPosition.top);
-             $(this).percentValue('width', originalDimensions.width);
-             $(this).percentValue('height', originalDimensions.height);
-	    }
+            originalPosition = JSON.parse($(this).attr('originalPosition'));
+            originalDimensions = JSON.parse($(this).attr('originalDimensions'));
+            $(this).percentValue('left', originalPosition.left);
+            $(this).percentValue('top', originalPosition.top);
+            $(this).percentValue('width', originalDimensions.width);
+            $(this).percentValue('height', originalDimensions.height);
+        }
 
-	    if (ratioW2H > 1) { // apply the ratio thingy
+        if (ratioW2H > 1) { // apply the ratio thingy
             let originalHeight = originalDimensions.height;
-	        let newHeight = originalHeight / ratioW2H;
-	        $(this).percentValue('top', originalPosition.top + ((originalHeight - newHeight) / 2));
-	        $(this).percentValue('height', newHeight);
-	    } else if (ratioW2H < 1) {
-	        let originalWidth = originalDimensions.width;
-	        let newWidth = originalWidth * ratioW2H;
-	        $(this).percentValue('left', originalPosition.left + ((originalWidth - newWidth) / 2));
-	        $(this).percentValue('width', newWidth);
-	    }
+            let newHeight = originalHeight / ratioW2H;
+            $(this).percentValue('top', originalPosition.top + ((originalHeight - newHeight) / 2));
+            $(this).percentValue('height', newHeight);
+        } else if (ratioW2H < 1) {
+            let originalWidth = originalDimensions.width;
+            let newWidth = originalWidth * ratioW2H;
+            $(this).percentValue('left', originalPosition.left + ((originalWidth - newWidth) / 2));
+            $(this).percentValue('width', newWidth);
+        }
+
+        return $(this);
     },
     tooltip: function(txt) {
         var tooltipEl = $('<span>' + txt + "</span>").addClass('tooltiptext');

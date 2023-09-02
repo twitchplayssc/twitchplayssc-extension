@@ -14,16 +14,17 @@ function copyToClipboard(text, key) {
         $clipboard.attr("combo", JSON.stringify(key.combo));
     }
 
-    var combo = JSON.parse($clipboard.attr("combo"));
+    let comboJson = $clipboard.attr("combo")
+    var combo = comboJson === undefined ? undefined : JSON.parse(comboJson);
 
     var newVal;
-    var shouldForgetCombo = key == CLIPBOARD_TARGET_C && !combo.includes(CLIPBOARD_ATTR_C);
+    var shouldForgetCombo = combo && (key === CLIPBOARD_TARGET_C && !combo.includes(CLIPBOARD_ATTR_C));
     if (!combo || shouldForgetCombo) {
         forgetCombo();
         newVal = text;
     } else {
         // if combo allows multiplier, increment it
-        if (combo.includes(CLIPBOARD_ATTR_M) && oldValue == text) {
+        if (combo.includes(CLIPBOARD_ATTR_M) && oldValue === text) {
             var multiplierText = $clipboard.attr(CLIPBOARD_ATTR_M);
             var multiplier = multiplierText ? parseInt(multiplierText) : 1;
             $clipboard.attr(CLIPBOARD_ATTR_M, multiplier + 1);

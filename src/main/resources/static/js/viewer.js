@@ -22,7 +22,14 @@ function pollResourcesPeriodically(firstCall) {
 
             if (playerInGameData) {
                 if (data.map && $('.minimap').length > 0) {
-                    $('.minimap').scaleToRatio(data.map.ratio ? data.map.ratio : 1);
+                    $('.minimap')
+                        .scaleToRatio(data.map.ratio ? data.map.ratio : 1)
+                        .trackClicks(
+                            $('.minimap-click-data'),
+                            crds => ((crds.x + 1) + " " + crds.y),
+                            crds => copyToClipboard("(" + (crds.x + 1) + " " + crds.y + ")", CLIPBOARD_TARGET_C),
+                            100, 100
+                        );
                     isGameDataApplied = true;
                 }
                 if (data.commandCard) {

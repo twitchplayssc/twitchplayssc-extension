@@ -2,34 +2,34 @@ const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 var pollIntervalId = null;
 var TABS = [
     {
-        name: "Polls",
-        fetchFn: fetchPolls,
-        fetchIntervalMs: 3000
-    },{
+        //     name: "Polls",
+        //     fetchFn: fetchPolls,
+        //     fetchIntervalMs: 3000
+        // }, {
         name: "Skills",
         fetchFn: fetchSkills,
         fetchIntervalMs: 3000
-    },{
-        name: "Achievements",
-        fetchFn: fetchAchievements,
-        fetchIntervalMs: 3000
-    },{
-        name: "Maps",
-        fetchFn: fetchMaps,
-        fetchIntervalMs: 3000
-    },{
-        name: "Stats",
-        fetchFn: fetchStats,
-        fetchIntervalMs: 3000
-    },{
-        name: "Help",
-        fetchFn: fetchHelp,
-        fetchIntervalMs: 3000
+        // }, {
+        //     name: "Achievements",
+        //     fetchFn: fetchAchievements,
+        //     fetchIntervalMs: 3000
+        // }, {
+        //     name: "Maps",
+        //     fetchFn: fetchMaps,
+        //     fetchIntervalMs: 3000
+        // }, {
+        //     name: "Stats",
+        //     fetchFn: fetchStats,
+        //     fetchIntervalMs: 3000
+        // }, {
+        //     name: "Help",
+        //     fetchFn: fetchHelp,
+        //     fetchIntervalMs: 3000
     }
 ];
-var ACTIVE_TAB = TABS[01];
+var ACTIVE_TAB = TABS[0];
 
-$(document).ready(function() {
+$(document).ready(function () {
     function stopFetchingAllData() {
         if (pollIntervalId) clearInterval(pollIntervalId);
     }
@@ -39,19 +39,19 @@ $(document).ready(function() {
         var tab = $('<span/>').addClass("tab").append(tabLink);
         $('#control-panel-content .tab-selector').append(tab);
         TABS[i].link = tabLink;
-        TABS[i].activate = function() {
+        TABS[i].activate = function () {
             ACTIVE_TAB = this;
             $('.tab a').addClass('inactive');
             this.link.removeClass('inactive');
             $('.tab-content').hide(); // hides all content
             $("#tab" + this.name).fadeIn('slow');
         };
-        TABS[i].open = function() {
+        TABS[i].open = function () {
             stopFetchingAllData();
             this.activate();
             this.focus();
         };
-        TABS[i].focus = function() {
+        TABS[i].focus = function () {
             if (this.fetchFn) {
                 this.fetchFn();
                 pollIntervalId = setInterval(this.fetchFn, this.fetchIntervalMs);
@@ -59,22 +59,28 @@ $(document).ready(function() {
         };
     }
 
-    $('.tab a').click(function(){
+    var closeLink = $('<a/>').text("close");
+    var closeButton = $('<span/>').addClass("close-control-panel").append(closeLink).click(toggleControlPanel);
+    $('#control-panel-content .tab-selector').append(closeButton);
+
+    $('.tab a').click(function () {
         var tabIndex = parseInt($(this).attr('id').substring(3));
         if ($(this).hasClass('inactive')) { // this is the start of our condition
             TABS[tabIndex].open();
         }
     });
 
-    $('#control-panel-toggle').click(function() {
+    function toggleControlPanel() {
         $('#control-panel').toggle();
         stopFetchingAllData();
         var isOpen = $('#control-panel').is(":visible");
         if (isOpen) {
             ACTIVE_TAB.focus();
         }
-        $('#control-panel-toggle-label').text(isOpen ? 'Close Control Panel' : 'Open Control Panel');
-    });
+        $('#control-panel-toggle-label').text(isOpen ? 'Close Skill Panel' : 'Open Skill Panel');
+    }
+
+    $('#control-panel-toggle').click(toggleControlPanel);
 
     ACTIVE_TAB.activate();
 });
@@ -84,12 +90,12 @@ function fetchPolls() {
     updatePolls($('#tabPolls'), DEBUG_POLLS());
 
     ebsReq({
-    	url: OVERLAY_API_BASE_URL + '/polls',
-    	type: 'GET',
-    	success: function(data) {
-       	    updatePolls($('#tabPolls'), data);
+        url: OVERLAY_API_BASE_URL + '/polls',
+        type: 'GET',
+        success: function (data) {
+            updatePolls($('#tabPolls'), data);
         },
-        error: function(e) {
+        error: function (e) {
             // $('#tabPolls').text(e.status + ' - ' + e.statusText)
         }
     });
@@ -103,8 +109,7 @@ function updatePolls(tab, data) {
         var pollContainerId = 'poll-container-' + poll.id;
         var pollContainer = $('#' + pollContainerId);
 
-        if (pollContainer.length == 0)
-        {
+        if (pollContainer.length == 0) {
             pollContainer = $('<div/>').attr('id', pollContainerId).addClass("poll-container");
             var pollName = $('<span/>').addClass("pollName").text(poll.name);
             if (poll.disabled) {
@@ -126,8 +131,7 @@ function updatePolls(tab, data) {
             }
             pollContainer.append(pollName).append(pollTable);
             tab.append(pollContainer);
-        }
-        else // poll already rendered, just need to update results
+        } else // poll already rendered, just need to update results
         {
             var pollTable = pollContainer.find('table');
             for (var j = 0; j < poll.options.length; j++) {
@@ -135,7 +139,8 @@ function updatePolls(tab, data) {
                 var optionEl = pollTable.children(":nth-child(" + (j + 1) + ")");
                 optionEl.find(".currentValue").stop().animate({
                     width: 100 * option.progress + "%"
-                }, 1000, function() {});
+                }, 1000, function () {
+                });
 
             }
         }
@@ -152,7 +157,7 @@ function createOptionSubmitElements(poll, optionIndex) {
     if (poll.voteType == 'Terrazine') {
         var terraInput = $("<input class='terra' type='number' step='100' min='0' value='0'/>");
         terraInput.clamp();
-        terraInput.keypress(function(e) {
+        terraInput.keypress(function (e) {
             if (e.which == 13) {
                 pollSubmit($(this), poll.id, optionIndex);
             }
@@ -160,11 +165,11 @@ function createOptionSubmitElements(poll, optionIndex) {
 
         parentEl.append(terraInput);
         var scrollers = $("<div class='scrollers'/>");
-        var numberup = $("<div class='numberup'/>").click(function(e) {
+        var numberup = $("<div class='numberup'/>").click(function (e) {
             if (e.shiftKey) terraInput[0].value = terraInput[0].max;
             else terraInput[0].stepUp();
         });
-        var numberdown = $("<div class='numberdown'/>").click(function(e) {
+        var numberdown = $("<div class='numberdown'/>").click(function (e) {
             terraInput[0].stepDown();
         });
         parentEl.append(scrollers.append(numberup).append(numberdown));
@@ -187,21 +192,21 @@ function pollSubmit(element, pollId, optionIndex) {
     }
 
     ebsReq({
-    	url: OVERLAY_API_BASE_URL + '/polls/vote',
-    	data: {
-    	    pollId : pollId,
-    	    optionIndex : optionIndex,
-    	    terrazine: terraEl ? terraEl.val() : null,
-    	    timestamp: new Date().getTime()
-    	},
-    	type: 'POST',
-    	success: function(data) {
-    	    terraEl.val(0);
-       	    updatePolls($('#tabPolls'), data);
-       	    console.log(element);
+        url: OVERLAY_API_BASE_URL + '/polls/vote',
+        data: {
+            pollId: pollId,
+            optionIndex: optionIndex,
+            terrazine: terraEl ? terraEl.val() : null,
+            timestamp: new Date().getTime()
+        },
+        type: 'POST',
+        success: function (data) {
+            terraEl.val(0);
+            updatePolls($('#tabPolls'), data);
+            console.log(element);
             console.log("Cool, you voted with " + terraEl.val());
         },
-        error: function(data) {
+        error: function (data) {
             updatePolls($('#tabPolls'), data);
             console.log(element);
             console.log("ERROR, you voted with " + terraEl.val());
@@ -222,13 +227,15 @@ function fetchAchievements() {
 }
 
 function fetchSkills() {
+    console.log("fetching skills")
     ebsReq({
-       	url: OVERLAY_API_BASE_URL + '/playerstatsglobal',
-      	type: 'GET',
-     	success: function(data) {
-     	    updateSkills(data);
+        url: OVERLAY_API_BASE_URL + '/playerstatsglobal',
+        type: 'GET',
+        success: function (data) {
+            updateSkills(data);
         },
-        error: function(e) {
+        error: function (e) {
+            console.log(e);
             // $('#tabPolls').text(e.status + ' - ' + e.statusText)
         }
     });
@@ -239,7 +246,7 @@ function updateSkills(playerGlobalState) {
         return;
     }
 
-    PLAYER_GLOBAL_DATA = $.extend(PLAYER_GLOBAL_DATA, playerGlobalState);
+    extendSkills(playerGlobalState);
 
     rebuildSkillsUI([
         mapSkillGroup("General", SKILLS_GENERAL),
@@ -249,8 +256,22 @@ function updateSkills(playerGlobalState) {
     ]);
 }
 
+function extendSkills(playerGlobalState) {
+    let probablyOutdatedState = false;
+    for (let skillId = 0; skillId < PLAYER_GLOBAL_DATA.skills.length; skillId++) {
+        let newValueIsSmaller = playerGlobalState.skills[skillId] < PLAYER_GLOBAL_DATA.skills[skillId]
+        if (newValueIsSmaller && PLAYER_GLOBAL_DATA.updatedRecently(skillId)) {
+            probablyOutdatedState = true;
+            break;
+        }
+    }
+    if (!probablyOutdatedState) { // can replace
+        PLAYER_GLOBAL_DATA = $.extend(PLAYER_GLOBAL_DATA, playerGlobalState);
+    }
+}
+
 function mapSkillGroup(groupName, idArray) {
-    var group = { name: groupName };
+    var group = {name: groupName};
     group.skills = idArray.map(id => ({
         id: id,
         playerLevel: Math.min(PLAYER_GLOBAL_DATA.skills[id], SKILLS[id].maxPoints)
@@ -293,7 +314,7 @@ function rebuildSkillsUI(skillGroups) {
                 .toggleClass("disabled", playerLevel == skill.maxPoints || PLAYER_GLOBAL_DATA.availablePoints == 0);
             skillElement.append(skillPlus)
 
-            skillElement.mouseover(function() {
+            skillElement.mouseover(function () {
                 var skillId = parseInt($(this).attr("skillId"));
                 var skill = SKILLS[skillId];
                 var skillLevel = PLAYER_GLOBAL_DATA.skills[skillId];
@@ -302,7 +323,7 @@ function rebuildSkillsUI(skillGroups) {
                 $('#currentSkillLevel').text(skillLevelString);
                 $("#skillHint").richText(skill.description);
                 $('#skillHintContainer').children().righteousToggle(true);
-            }).mouseout(function() {
+            }).mouseout(function () {
                 $('#skillHintContainer').children().righteousToggle(false);
             });
             skillGroupEl.append(skillElement);
@@ -312,7 +333,7 @@ function rebuildSkillsUI(skillGroups) {
 
     $('#availablePoints').text(PLAYER_GLOBAL_DATA.availablePoints);
 
-    $('.skillPlus').click(function() {
+    $('.skillPlus').click(function () {
         if (PLAYER_GLOBAL_DATA.availablePoints == 0) return;
 
         var _this = $(this);
@@ -320,9 +341,8 @@ function rebuildSkillsUI(skillGroups) {
         var progressBar = _this.prev();
         var max = parseInt(progressBar.attr('max'));
         var expectedNewValue = PLAYER_GLOBAL_DATA.skills[skillId];
-        if (expectedNewValue < max)
-        {
-            skillLevelUp(skillId, max, function() {
+        if (expectedNewValue < max) {
+            skillLevelUp(skillId, max, function () {
                 PLAYER_GLOBAL_DATA.levelupSkill(skillId);
                 adjustPlayerGlobalDataUI();
                 _this.mouseover();
@@ -331,9 +351,8 @@ function rebuildSkillsUI(skillGroups) {
     });
 }
 
-function adjustPlayerGlobalDataUI()
-{
-    $('.skillControls').each(function() {
+function adjustPlayerGlobalDataUI() {
+    $('.skillControls').each(function () {
         var skillId = parseInt($(this).attr("skillId"));
         var skillMaxLevel = SKILLS[skillId].maxPoints;
         var skillLevel = PLAYER_GLOBAL_DATA.skills[skillId];
@@ -353,7 +372,7 @@ function skillLevelUp(skillId, max, onsuccess) {
         data: {
             skillId: skillId
         },
-        success: function(data) {
+        success: function (data) {
             onsuccess();
         }
     });
@@ -364,15 +383,15 @@ function fetchMaps() {
     console.log("Imma fetch some Maps");
 }
 
-(function ( $ ) {
+(function ($) {
 
-    $.fn.tpscprogressbar = function(options) {
-        var opts = $.extend( {
+    $.fn.tpscprogressbar = function (options) {
+        var opts = $.extend({
             value: 0,
             max: 10,
             name: "skill name"
-        }, options );
-        this.addClass( "progressbarContainer" );
+        }, options);
+        this.addClass("progressbarContainer");
         this.attr('max', opts.max);
         this.append($("<div/>").addClass("progressbar"));
         this.append($("<div/>").addClass("skillBarMask"));
@@ -380,7 +399,7 @@ function fetchMaps() {
         return this.adjustProgressbar(opts.value, opts.max);
     };
 
-    $.fn.adjustProgressbar = function( newVal, max ) {
+    $.fn.adjustProgressbar = function (newVal, max) {
         newVal = Math.min(newVal, max);
         var progressPercents = 100.0 * newVal / max;
         this.find('.progressbar').css('left', (progressPercents - 100) + "%");
@@ -389,13 +408,14 @@ function fetchMaps() {
         return this;
     };
 
-    $.fn.clamp = function() {
+    $.fn.clamp = function () {
         function doet() {
             var myMin = parseInt($(this).attr('min'));
             var myMax = parseInt($(this).attr('max'));
             $(this).val(clamp(myMin, $(this).val(), myMax));
         }
+
         $(this).change(doet);
         return this;
     };
-}( jQuery ));
+}(jQuery));

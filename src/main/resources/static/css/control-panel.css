@@ -80,7 +80,7 @@
     text-decoration:none;
 }
 
-.tab a:not(.inactive){
+.tab a:not(.inactive) {
     color: white;
     border-bottom: 0.2vw solid black;
 }
@@ -399,4 +399,12 @@
     z-index: 10002;
     text-shadow: 0.15vw 0.15vw black;
     color: white;
+}
+
+.close-control-panel {
+    cursor: pointer;
+    float: right;
+    margin-top: 0.4%;
+    margin-right: 4%;
+    color: red !important;
 }
