@@ -21,12 +21,15 @@ public class TwitchApi {
 
     private final RestTemplate restTemplate = new RestTemplate();
     private final String extensionClientId;
+    private final String extensionAccessToken;
 
     private final Map<Integer, String> userNameToIdCache = new ConcurrentHashMap<>();
 
     @Autowired
-    public TwitchApi(@Value("${extension.client_id}") String extensionClientId) {
+    public TwitchApi(@Value("${extension.client_id}") String extensionClientId,
+                     @Value("${extension.access_token}") String extensionAccessToken) {
         this.extensionClientId = extensionClientId;
+        this.extensionAccessToken = extensionAccessToken;
     }
 
     public String getUserDisplayName(int uid) {
@@ -37,6 +40,7 @@ public class TwitchApi {
 
         try {
             HttpHeaders headers = new HttpHeaders();
+            headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + extensionAccessToken);
             headers.set("Client-ID", extensionClientId);
             UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("https://api.twitch.tv/helix/users").queryParam("id", uid);
             HttpEntity<String> entity = new HttpEntity<>("", headers);
@@ -49,8 +53,7 @@ public class TwitchApi {
 
             userNameToIdCache.put(uid, userName);
             return userName;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             LOG.warn("Failed to fetch userName by user id: " + uid, e);
             return null;
         }
