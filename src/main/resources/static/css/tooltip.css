@@ -1,17 +1,15 @@
 /* Tooltip text */
 .tooltip .tooltiptext {
   visibility: hidden;
-  max-width: 10vw;
-  min-width: 8vw;
   border: 0.1vw solid #B9936F;
   background-color: #000;
   color: #fff;
   text-align: center;
-  padding-top: 1% !important;
+  padding: 0.1vw 0.5vw 0.2vw 0.5vw !important;
   border-radius: 0.3vw;
   font-size: 0.9vw;
   font-weight: lighter;
-  
+
 
   /* Position the tooltip text */
   display: inline-block;
@@ -19,11 +17,9 @@
   z-index: 1;
   bottom: -1.8vw;
   left: 10%;
-  min-height: 1.8vw;
-  min-width: 8vw;
   max-width: 15vw;
-  
-  
+
+
   margin-left: -3vw;
 
   /* Fade in tooltip */
