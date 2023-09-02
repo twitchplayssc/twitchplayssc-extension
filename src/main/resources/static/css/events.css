@@ -22,10 +22,10 @@
 .richText .tpscaccent { color: #c59c76; }
 
 .event .inlineIcon {
-    position:relative;
+    position: relative;
     display: inline-block;
     background-image: url(../img/icons/corner_icons.png);
-	background-size: 880%;
+    background-size: 880%;
     background-repeat: no-repeat;
     top: 0.4vw;
     width: 2vw;
@@ -57,7 +57,7 @@
     background-color: black;
     border: 1px solid #B9936F;
     font-family: Michroma;
-    font-size: 4%;
+    font-size: 1.5vw;
     color: white;
     padding: 0.5% 1% 0.5% 1%;
 }
@@ -68,36 +68,36 @@
 }
 
 .scale-up-bottom {
-	-webkit-animation: scale-up-bottom 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
-	        animation: scale-up-bottom 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+    -webkit-animation: scale-up-bottom 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+    animation: scale-up-bottom 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
 }
 
 @-webkit-keyframes scale-up-bottom {
-  0% {
-    -webkit-transform: scale(0.5);
-            transform: scale(0.5);
-    -webkit-transform-origin: 50% 100%;
-            transform-origin: 50% 100%;
-  }
-  100% {
-    -webkit-transform: scale(1);
-            transform: scale(1);
-    -webkit-transform-origin: 50% 100%;
-            transform-origin: 50% 100%;
-  }
+    0% {
+        -webkit-transform: scale(0.5);
+        transform: scale(0.5);
+        -webkit-transform-origin: 50% 100%;
+        transform-origin: 50% 100%;
+    }
+    100% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+        -webkit-transform-origin: 50% 100%;
+        transform-origin: 50% 100%;
+    }
 }
 
 @keyframes scale-up-bottom {
-  0% {
-    -webkit-transform: scale(0.5);
-            transform: scale(0.5);
-    -webkit-transform-origin: 50% 100%;
-            transform-origin: 50% 100%;
-  }
-  100% {
-    -webkit-transform: scale(1);
-            transform: scale(1);
-    -webkit-transform-origin: 50% 100%;
-            transform-origin: 50% 100%;
-  }
+    0% {
+        -webkit-transform: scale(0.5);
+        transform: scale(0.5);
+        -webkit-transform-origin: 50% 100%;
+        transform-origin: 50% 100%;
+    }
+    100% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+        -webkit-transform-origin: 50% 100%;
+        transform-origin: 50% 100%;
+    }
 }
