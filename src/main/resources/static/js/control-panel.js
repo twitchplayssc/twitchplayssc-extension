@@ -77,13 +77,32 @@ $(document).ready(function () {
         if (isOpen) {
             ACTIVE_TAB.focus();
         }
-        $('#control-panel-toggle-label').text(isOpen ? 'Close Skill Panel' : 'Open Skill Panel');
+        updateControlPanelButtonText();
     }
 
     $('#control-panel-toggle').click(toggleControlPanel);
 
     ACTIVE_TAB.activate();
 });
+
+function updateControlPanelButtonText(availablePoints) {
+    let buttonLabel = $('#control-panel-toggle-label');
+    let defaultText = $('#control-panel').is(":visible") ? 'Close Skill Panel' : 'Open Skill Panel';
+
+    if (availablePoints !== undefined) {
+        buttonLabel.attr('availablePoints', availablePoints)
+    } else {
+        let pointsAttrValue = buttonLabel.attr('availablePoints');
+        availablePoints = pointsAttrValue ? parseInt(pointsAttrValue) : 0;
+    }
+    let text = (availablePoints > 0) ? ('( ' + availablePoints + ' ) \u00A0 Unspent Skill Points') : defaultText;
+    buttonLabel.text(text);
+}
+
+function updateControlPanelLevelProgress(levelProgress) {
+    $('#experience-progress-bar').css("left", "-" + (100 - (levelProgress * 100)) + "%");
+    $('#control-panel-toggle').toggleClass("levelupComplete", levelProgress >= 1.0)
+}
 
 function fetchPolls() {
     console.log("Imma fetch some Polls");

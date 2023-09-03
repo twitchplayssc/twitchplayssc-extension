@@ -28,6 +28,8 @@ public class UserDisplayData {
     @JsonInclude(NON_NULL)
     private Integer levelupXp;
     @JsonInclude(NON_NULL)
+    private Integer availablePoints;
+    @JsonInclude(NON_NULL)
     private Double levelProgress;
 
     public static UserDisplayData empty() {

@@ -124,7 +124,7 @@ $.fn.extend({
                 if (["minerals", "gas", "supply", "terrazine"].includes(className)) {
                     var race = PLAYER_GLOBAL_DATA.race;
                     var iconEl = $('<span/>').addClass("inlineIcon").css("background-position-y", (51 * (race - 1)) + "%");
-                    var textClass = (className == "supply") ? RACE_CLASSES[race] : className;
+                    var textClass = (className === "supply") ? RACE_CLASSES[race] : className;
                     var textEl = $('<span/>').addClass(textClass).text(tt[1]);
                     parentElement.append(iconEl).append(textEl);
                 } else {

@@ -25,17 +25,26 @@
     width: 50.0%;
     height: 2.8%;
     left: 24.8%;
-    top: 78.0%;
-    border: 0.3vw solid rgba(255, 255, 255, 0);
-    background-color: #5cb6f6;
+    top: 93.0%;
+    border: 0.2vw solid rgba(255, 255, 255, 0);
+    background-image: repeating-linear-gradient(
+            45deg,
+            rgba(2, 0, 36, 1) 0%,
+            rgba(44, 95, 106, 1) 45%,
+            rgba(2, 0, 36, 1) 100%
+    );
     opacity: 0.8;
-    border: 0.2vw solid black;
     border-radius: 1vw;
     cursor: pointer;
-    text-align:center;
+    text-align: center;
     font-size: 1.1vw;
     z-index: 10001;
-    overflow:hidden;
+    overflow: hidden;
+}
+
+#control-panel-toggle.ingame {
+    left: 24.8%;
+    top: 78.0%;
 }
 
 #control-panel-toggle .span {
@@ -342,20 +351,27 @@
 
 #control-panel-toggle.levelupComplete {
     animation: borderok alternate 2s infinite;
-    left: 24.8%;
-    top: 78.0%;
+}
+
+#control-panel-toggle.levelupComplete #experience-progress-bar {
+    background-color: #f5c15b;
+}
+
+#control-panel-toggle.levelupComplete #control-panel-toggle-label {
+    color: black;
+    text-shadow: none;
 }
 
 @-webkit-keyframes borderok {
-    0% {border-color: rgba(255,255,255,0)}
-    30% {border-color: rgba(255,255,255,0.4)}
-    100% {border-color: rgba(255,255,255,1)}
+    0% {border-color: rgba(0,0,0,0)}
+    30% {border-color: rgba(0,0,0,0.4)}
+    100% {border-color: rgba(0,0,0,1)}
 }
 
 @keyframes borderok {
-    0% {border-color: rgba(255,255,255,0)}
-    20% {border-color: rgba(255,255,255,0.4)}
-    100% {border-color: rgba(255,255,255,1)}
+    0% {border-color: rgba(202,105,0,0)}
+    20% {border-color: rgba(202,105,0,0.4)}
+    100% {border-color: rgba(202,105,0,1)}
 }
 
 #experience-progress-bar {
@@ -370,12 +386,7 @@
     animation: sparks 6s cubic-bezier(0.390, 0.575, 0.565, 1.000) infinite both ;*/
     background-size: 200% 200%;
 
-    background-image: repeating-linear-gradient(
-    	45deg,
-        rgba(2,0,36,1) 0%,
-        rgba(44,95,106,1) 45%,
-        rgba(2,0,36,1) 100%
-    );
+    background-color: #5cb6f6;
     animation: diagonal alternate 5s infinite;
     -webkit-animation: diagonal alternate 5s infinite;
 }

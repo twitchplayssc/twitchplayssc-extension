@@ -15,14 +15,18 @@ function pollResourcesPeriodically(firstCall) {
             $('.when-user-in-game').righteousToggle(playerInGameData);
             $('.when-game-is-on').righteousToggle(data.inGame);
 
+            $('#control-panel-toggle').toggleClass("ingame", data.inGame);
+
             if (data.levelProgress) {
-                $('#experience-progress-bar').css("left", "-" + (100 - (data.levelProgress * 100)) + "%");
-                $('#control-panel-toggle').toggleClass("levelupComplete", data.levelProgress >= 1.0)
+                updateControlPanelButtonText(data.availablePoints);
+                let levelProgress = data.availablePoints > 0 ? 1 : data.levelProgress;
+                updateControlPanelLevelProgress(levelProgress);
             }
 
             if (playerInGameData) {
-                if (data.map && $('.minimap').length > 0) {
-                    $('.minimap')
+                let minimap = $('.minimap');
+                if (data.map && minimap.length > 0) {
+                    minimap
                         .scaleToRatio(data.map.ratio ? data.map.ratio : 1)
                         .trackClicks(
                             $('.minimap-click-data'),

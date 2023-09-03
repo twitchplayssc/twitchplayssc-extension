@@ -74,6 +74,7 @@ public class GlobalInfoManager {
             userDisplayData.setLevelupXp(stats.getLevelupXp());
             userDisplayData.setXp(stats.getXp());
             userDisplayData.setLevelProgress(stats.getLevelProgress());
+            userDisplayData.setAvailablePoints(stats.getAvailablePoints());
         });
     }
 }

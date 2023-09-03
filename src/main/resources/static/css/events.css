@@ -21,21 +21,29 @@
 .richText .diamond { color: #64e3e8; }
 .richText .tpscaccent { color: #c59c76; }
 
-.event .inlineIcon {
+.richText .inlineIcon {
     position: relative;
     display: inline-block;
     background-image: url(../img/icons/corner_icons.png);
     background-size: 880%;
     background-repeat: no-repeat;
     top: 0.4vw;
+}
+
+.event .inlineIcon {
     width: 2vw;
     height: 2vw;
 }
 
-.event > .minerals > .inlineIcon { background-position-x: 50%; }
-.event > .gas > .inlineIcon { background-position-x:  62.7%; }
-.event > .supply > .inlineIcon { background-position-x: 75%; }
-.event > .terrazine > .inlineIcon { background-position-x: 87.5%; }
+#skillHint .inlineIcon {
+    width: 1.4vw;
+    height: 1.4vw;
+}
+
+.richText .minerals > .inlineIcon { background-position-x: 50%; }
+.richText .gas > .inlineIcon { background-position-x: 62.7%; }
+.richText .supply > .inlineIcon { background-position-x: 75%; }
+.richText .terrazine > .inlineIcon { background-position-x: 87.5%; }
 
 .in-game-events-widget {
     position: absolute;
@@ -48,6 +56,16 @@
 
 .in-game-events-widget > .log {
     width: 100%;
+}
+
+.richText {
+    width: 98%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    background-color: black;
+    border: 1px solid #B9936F;
+    color: white;
+    padding: 0.5% 1% 0.5% 1%;
 }
 
 .in-game-events-widget .event {
