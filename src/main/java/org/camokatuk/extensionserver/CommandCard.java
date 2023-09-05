@@ -16,10 +16,5 @@ public class CommandCard {
         public String copyText;
         public ClipboardToken clipToken;
         public String tip;
-
-        public static class ClipboardToken {
-            public String attr;
-            public String[] combo;
-        }
     }
 }

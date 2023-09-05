@@ -25,7 +25,7 @@
     width: 50.0%;
     height: 2.8%;
     left: 24.8%;
-    top: 93.0%;
+    bottom: 4.6%;
     border: 0.2vw solid rgba(255, 255, 255, 0);
     background-image: repeating-linear-gradient(
             45deg,
@@ -285,7 +285,7 @@
     left: -10%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(rgba(4,112,173,1), rgba(4,112,173,1));
+    background: linear-gradient(#58b9ec, #58b9ec);
     /*background: url(../img/progressbar.png) no-repeat left;*/
 }
 
@@ -316,8 +316,13 @@
     cursor: pointer;
 }
 
+.skillPlus:hover {
+    filter: brightness(1.75);
+}
+
+
 .skillPlus.disabled {
-    filter: none;
+    filter: none !important;
     -webkit-filter: grayscale(100%) !important;
     -moz-filter:    grayscale(100%) !important;
     -ms-filter:     grayscale(100%) !important;

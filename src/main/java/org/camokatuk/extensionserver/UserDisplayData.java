@@ -18,7 +18,7 @@ public class UserDisplayData {
     @JsonInclude(NON_NULL)
     private String globalMessage;
     @JsonInclude(NON_NULL)
-    private List<String> events;
+    private List<UserEvent> events;
     @JsonInclude(NON_NULL)
     private CommandCard commandCard;
     @JsonInclude(NON_NULL)

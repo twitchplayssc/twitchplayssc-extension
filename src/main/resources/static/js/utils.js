@@ -20,23 +20,22 @@ $.fn.extend({
         }
         return this;
     },
-	rgbColor: function(r, g, b) {
-		return $(this).css("color", "rgb(" + r + "," + g + "," + b + ")");
-	},
-	whiteColor: function() {
-	    return $(this).rgbColor(255, 255, 255);
-	},
-	taxColor: function(tax) {
-	    if (!tax)
-	    {
-	        return $(this).whiteColor();
-	    }
-	    var r = 255;
+    rgbColor: function (r, g, b) {
+        return $(this).css("color", "rgb(" + r + "," + g + "," + b + ")");
+    },
+    whiteColor: function () {
+        return $(this).rgbColor(255, 255, 255);
+    },
+    taxColor: function (tax) {
+        if (!tax) {
+            return $(this).whiteColor();
+        }
+        var r = 255;
         var g = 255 - Math.max(5 * tax - 245, 0);
         var b = 255 - Math.min(5 * tax, 255);
         return $(this).rgbColor(r, g, b);
-	},
-	mouseCoords(event, scaleWidth, scaleHeight) {
+    },
+    mouseCoords(event, scaleWidth, scaleHeight) {
         var posX = event.pageX - $(this).position().left;
         var posY = event.pageY - $(this).position().top;
 
@@ -44,46 +43,52 @@ $.fn.extend({
         var myY = Math.floor(scaleHeight - posY * scaleHeight / $(this).height());
         return {x: myX, y: myY};
     },
-	trackClicks: function(valueHolder, valueDisplayFn, valueClipFn, scaleWidth, scaleHeight) {
-	    function myClickTrack(event) {
-	        if (event.which == 1) {
+    trackClicks: function (valueHolder, valueDisplayFn, valueClipFn, scaleWidth, scaleHeight) {
+        function myClickTrack(event) {
+            if (event.which === 1 && valueClipFn) {
                 var crds = $(this).mouseCoords(event, scaleWidth, scaleHeight);
                 valueClipFn(crds);
             }
-	    }
+        }
 
-	    $(this).mouseout(function(event) {
-	        valueHolder.text('');
-	    }).mousemove(function(event) {
-	        var crds = $(this).mouseCoords(event, scaleWidth, scaleHeight);
-	        var str = valueDisplayFn(crds);
-	        valueHolder.text(str);
-	    }).unbind('click').bind('click', myClickTrack);
-	},
-	percentWidth: function() {
-	    return 100 * $(this).width() / $(window).width();
-	},
-	percentHeight: function() {
+        $(this).mouseout(function (event) {
+            if (valueHolder) {
+                valueHolder.text('');
+            }
+        }).mousemove(function (event) {
+            if (valueDisplayFn) {
+                var crds = $(this).mouseCoords(event, scaleWidth, scaleHeight);
+                var str = valueDisplayFn(crds);
+                valueHolder.text(str);
+            }
+        }).unbind('click').bind('click', myClickTrack);
+
+        return $(this);
+    },
+    percentWidth: function () {
+        return 100 * $(this).width() / $(window).width();
+    },
+    percentHeight: function () {
         return 100 * $(this).height() / $(window).height();
     },
-    percentLeft: function() {
+    percentLeft: function () {
         return 100 * $(this).position().left / $(window).width();
     },
-    percentTop: function() {
+    percentTop: function () {
         return 100 * $(this).position().top / $(window).height();
     },
-    percentValue: function(prop, newVal) {
-         return $(this).css(prop, newVal + '%');
+    percentValue: function (prop, newVal) {
+        return $(this).css(prop, newVal + '%');
     },
-	scaleToRatio: function(ratioW2H) { // preserves the center
-	    var originalPosition;
+    scaleToRatio: function (ratioW2H) { // preserves the center
+        var originalPosition;
         var originalDimensions;
-	    if (!$(this).attr('originalPosition')) { // store the original values
-	        originalPosition = {left: $(this).percentLeft(), top: $(this).percentTop()};
-	        originalDimensions = {width: $(this).percentWidth(), height: $(this).percentHeight()};
-	        $(this).attr('originalPosition', JSON.stringify(originalPosition));
-	        $(this).attr('originalDimensions', JSON.stringify(originalDimensions));
-	    } else { // reset to original dimensions first
+        if (!$(this).attr('originalPosition')) { // store the original values
+            originalPosition = {left: $(this).percentLeft(), top: $(this).percentTop()};
+            originalDimensions = {width: $(this).percentWidth(), height: $(this).percentHeight()};
+            $(this).attr('originalPosition', JSON.stringify(originalPosition));
+            $(this).attr('originalDimensions', JSON.stringify(originalDimensions));
+        } else { // reset to original dimensions first
             originalPosition = JSON.parse($(this).attr('originalPosition'));
             originalDimensions = JSON.parse($(this).attr('originalDimensions'));
             $(this).percentValue('left', originalPosition.left);
@@ -109,6 +114,7 @@ $.fn.extend({
     tooltip: function(txt) {
         var tooltipEl = $('<span>' + txt + "</span>").addClass('tooltiptext');
         $(this).addClass('tooltip').append(tooltipEl);
+        return $(this);
     },
     richText: function(text) {
         $(this).addClass("richText").children().remove();
@@ -135,6 +141,8 @@ $.fn.extend({
                 $(this).append($('<span/>').text(tt[0])); // safe injection, jquery escapes this
             }
         }
+
+        return $(this);
     }
 });
 

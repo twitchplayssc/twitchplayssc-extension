@@ -21,11 +21,11 @@
 
 .focus { left: 86.9%; }
 
-.resource.minerals, .resource.minerals-income, .resource.workers-minerals, .stance, .army {
+.resource.minerals, .resource.minerals-income, .stance, .army {
 	left: 72.4%;
 }
 
-.resource.gas, .resource.gas-income, .resource.workers-gas {
+.resource.gas, .resource.gas-income {
 	left: 79.7%;
 }
 
@@ -33,18 +33,35 @@
 	left: 87.0%;
 }
 
-.resource.workers-idle {
-	left: 94.3%;
-}
+.resource.workers-minerals  { left: 72.0%; }
+.resource.workers-gas { left: 79.3%; }
+.resource.workers-moving { left: 86.6%; }
+.resource.workers-idle { left: 93.9%; }
 
 .resource.income, .resource.terrazine, .feeding {
 	position: absolute;
-    top: 5%;
+    top: 5.5%;
 }
 
 .resource.workers {
     position: absolute;
-    top: 9%;
+    top: 10%;
+    height: 4%;
+}
+
+.resource.workers .value {
+    width: 20%;
+    top: -1.5vw;
+}
+
+.resource.workers .statIcon {
+    /*
+    width: 70%;
+    height: 169%;
+    background-size: 878%;*/
+    width: 3.5vw;
+    height: 3.5vw;
+    background-size: 980%;
 }
 
 .stance .label, .focus .label { color: lightblue; }
@@ -52,35 +69,34 @@
 .statIcon, .feeding .icon {
 	background-image: url(../img/icons/corner_icons.png);
 	display: inline-block;
-	background-size: 870%;
+	background-size: 900%;
     background-repeat: no-repeat;
-    display: inline-block;
-    height: 111%;
+    height: 2.2vw;
 }
 
 .statIcon {
-    width: 37%;
+    width: 2.2vw;
     margin-right: 5%;
 }
 
 .feeding .icon{
-    width: 2.7vw;
+    width: 2.2vw;
 }
 
 .workers-minerals .statIcon { background-position-x: 0%; }
 .workers-gas .statIcon { background-position-x: 12.5%; }
 .workers-moving .statIcon { background-position-x: 25%; }
-.workers-idle .statIcon { background-position-x: 37.5%; }
+.workers-idle .statIcon { background-position-x: 37.6%; }
 .minerals .statIcon, .minerals-income .statIcon { background-position-x: 50%; }
-.gas .statIcon, .gas-income .statIcon { background-position-x: 62.7%; }
+.gas .statIcon, .gas-income .statIcon { background-position-x: 62.5%; }
 .supply .statIcon { background-position-x: 75%; }
-.terrazine .statIcon { background-position-x: 87.5%; }
+.terrazine .statIcon { background-position-x: 87.6%; }
 .feeding .icon { background-position-x: 100%; }
 
 .minerals-income .statIcon, .gas-income .statIcon {
     border: 0.2vw solid green;
-    width: 28%;
-    height: 87%;
+    width: 1.8vw;
+    height: 1.8vw;
 }
 
 
@@ -100,7 +116,7 @@
 
 .feeding .value {
 	position: relative;
-	top: -18%;
+    top: -0.5vw;
 	width: 80%;
     margin-left: 1%;
 	color: white;
@@ -110,11 +126,15 @@
     text-overflow: ellipsis;
 }
 
+.terrazine .value {
+    top: -0.7vw;
+}
+
 .stance .label, .focus .label { color: lightblue; }
 
 .stance, .focus {
     position: absolute;
-    top: 13%;
+    top: 16.5%;
     width: 13.8%;
     height: 2%;
 	font-size: 1.1vw;
@@ -123,7 +143,7 @@
 
 .army {
     position: absolute;
-    top: 13%;
+    top: 20.0%;
     width: 26%;
 	font-size: 1vw;
     color: white;

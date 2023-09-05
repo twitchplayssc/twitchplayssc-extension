@@ -65,7 +65,7 @@ public class IngressController {
     @PostMapping("/event")
     public
     @ResponseBody
-    ResponseEntity<String> receiveEvent(@RequestBody Map<String, List<String>> eventsByUserIds,
+    ResponseEntity<String> receiveEvent(@RequestBody Map<String, List<UserEvent>> eventsByUserIds,
                                         @RequestHeader(value = "Authentication") String ohWowSecurity) {
         if (isNotAuthorizedRequest(ohWowSecurity)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);

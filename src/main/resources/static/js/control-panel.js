@@ -87,8 +87,12 @@ $(document).ready(function () {
 
 function updateControlPanelButtonText(availablePoints) {
     let buttonLabel = $('#control-panel-toggle-label');
-    let defaultText = $('#control-panel').is(":visible") ? 'Close Skill Panel' : 'Open Skill Panel';
+    if ($('#control-panel').is(":visible")) {
+        buttonLabel.text('Close Skill Panel');
+        return;
+    }
 
+    let defaultText = 'Open Skill Panel';
     if (availablePoints !== undefined) {
         buttonLabel.attr('availablePoints', availablePoints)
     } else {
@@ -353,7 +357,7 @@ function rebuildSkillsUI(skillGroups) {
     $('#availablePoints').text(PLAYER_GLOBAL_DATA.availablePoints);
 
     $('.skillPlus').click(function () {
-        if (PLAYER_GLOBAL_DATA.availablePoints == 0) return;
+        if (PLAYER_GLOBAL_DATA.availablePoints === 0) return;
 
         var _this = $(this);
         var skillId = _this.attr("skillId");
@@ -377,11 +381,12 @@ function adjustPlayerGlobalDataUI() {
         var skillLevel = PLAYER_GLOBAL_DATA.skills[skillId];
 
         // update plus
-        $(this).find('.skillPlus').toggleClass("disabled", PLAYER_GLOBAL_DATA.availablePoints == 0 || skillLevel >= skillMaxLevel);
+        $(this).find('.skillPlus').toggleClass("disabled", PLAYER_GLOBAL_DATA.availablePoints === 0 || skillLevel >= skillMaxLevel);
         // update progress bar
         $(this).find('.skillProgressbar').adjustProgressbar(skillLevel, skillMaxLevel);
     });
     $('#availablePoints').text(PLAYER_GLOBAL_DATA.availablePoints);
+    updateControlPanelButtonText(PLAYER_GLOBAL_DATA.availablePoints);
 }
 
 function skillLevelUp(skillId, max, onsuccess) {

@@ -46,7 +46,7 @@ function pollResourcesPeriodically(firstCall) {
                     }).show().trackClicks($('.command-card-click-data'), crds => {
                             let x = crds.x;
                             let y = data.commandCard.heightCells - crds.y - 1;
-                            var cell = data.commandCard.cells[x + "," + y];
+                            let cell = data.commandCard.cells[x + "," + y];
                             return cell ? cell.tip : '';
                         },
                         crds => {
@@ -64,8 +64,8 @@ function pollResourcesPeriodically(firstCall) {
                 setFocusText(playerInGameData.focus);
                 adjustArmyIconsHeight(playerInGameData.stance || playerInGameData.focus)
 
-                $('.gas .value').numberChange(playerInGameData.gas);
-                $('.minerals .value').numberChange(playerInGameData.minerals);
+                $('.gas .value').taxColor(playerInGameData.gasTax).numberChange(playerInGameData.gas);
+                $('.minerals .value').taxColor(playerInGameData.mineralsTax).numberChange(playerInGameData.minerals);
                 $('.supply .value').text(playerInGameData.supply);
                 $('.terrazine .value').text(playerInGameData.terrazine);
 
@@ -73,8 +73,8 @@ function pollResourcesPeriodically(firstCall) {
                 $('.resource.income').righteousToggle(!playerInGameData.feeding);
 
                 $('.feeding .value').text(playerInGameData.feeding);
-                $('.gas-income .value').taxColor(playerInGameData.gasTax).numberChange(playerInGameData.gasIncome, '+');
-                $('.minerals-income .value').taxColor(playerInGameData.mineralsTax).numberChange(playerInGameData.mineralsIncome, '+');
+                $('.gas-income .value').numberChange(playerInGameData.gasIncome, '+');
+                $('.minerals-income .value').numberChange(playerInGameData.mineralsIncome, '+');
 
                 if (playerInGameData.workers) {
                     $('.workers-minerals .value').numberChange(playerInGameData.workers.minerals);
@@ -86,7 +86,7 @@ function pollResourcesPeriodically(firstCall) {
                 }
 
                 PLAYER_GLOBAL_DATA.race = playerInGameData.race;
-                $('.statIcon, .feeding .icon').css("background-position-y", (49 * (playerInGameData.race - 1)) + "%");
+                $('.statIcon, .feeding .icon').css("background-position-y", (50 * (playerInGameData.race - 1)) + "%");
 
                 $('.army').righteousToggle(playerInGameData.army);
                 if (playerInGameData.army) {
@@ -161,7 +161,7 @@ function setFocusText(focusString) {
 }
 
 function adjustArmyIconsHeight(stanceOrFocusPresent) {
-    $('.army').css("top", stanceOrFocusPresent ? "16.5%" : "13%");
+    $('.army').css("top", stanceOrFocusPresent ? "20.5%" : "16.5%");
 }
 
 function toggleMode(joined) {
@@ -181,10 +181,9 @@ $(function () {
 function initTips() {
     $('.resource.minerals').tooltip('Your&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;minerals');
     $('.resource.gas').tooltip('Your&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vespene');
-    $('.resource.supply').tooltip('Supply: your/total/limit');
+    $('.resource.supply').tooltip('Supply yours/total/limit');
     $('.resource.minerals-income').tooltip('Your&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;minerals income');
     $('.resource.gas-income').tooltip('Your&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vespene income');
-    $('.resource.supply').tooltip('Supply: your/total/limit');
     $('.workers-minerals').tooltip('Workers on minerals');
     $('.workers-gas').tooltip('Workers on vespene');
     $('.workers-moving').tooltip('Moving workers');

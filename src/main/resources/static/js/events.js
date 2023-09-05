@@ -1,25 +1,34 @@
-function renderPersonalEvent(str) {
-    const MAX_EVENTS = 1;
-    var logElement = $('.in-game-events-widget > .log');
-    let time = new Date().getTime();
+function renderPersonalEvent(myEvent) {
+    const MAX_EVENTS = 2;
+    let logElement = $('.in-game-events-widget > .log');
 
-    var parsedEvent = parseEvent(str);
-    var rt = $('<div/>').addClass("event")
+    let parsedEvent = parseEvent(myEvent);
+    $('<div/>').addClass("event")
         .addClass("scale-up-bottom").addClass(parsedEvent.attr('class'))
-        .attr('data', time)
-        .html(parsedEvent.html()).appendTo(logElement);
+        .attr('created', new Date().getTime())
+        .attr('lifetime', myEvent.lifetime) // seconds
+        .html(parsedEvent.html())
+        .trackClicks($('.command-card-click-data'), crds => {
+                return null;
+            },
+            crds => {
+                copyToClipboard(myEvent.copyText, myEvent.clipToken)
+            },
+            1, 1)
+        .appendTo(logElement);
 
-    var allEvents = logElement.find('.event');
-    var excessElements = Math.max(allEvents.length - MAX_EVENTS, 0);
+    let allEvents = logElement.find('.event');
+    let excessElements = Math.max(allEvents.length - MAX_EVENTS, 0);
     allEvents.slice(0, excessElements).remove();  // if we reached MAX_EVENTS, remove old events which still haven't faded out
 }
 
 /*
         /flag/flag2 asdasd #{|}# asdasdasd
 */
-function parseEvent(str) {
-    var result = $('<div/>');
+function parseEvent(myEvent) {
+    let result = $('<div/>');
 
+    let str = myEvent.text;
     let firstSpaceIndex = str.indexOf(' ');
     var firstWord = str.substring(0, firstSpaceIndex);
     if (firstWord.startsWith("/")) {
@@ -40,13 +49,15 @@ function wrap(text, flag) {
 }
 
 function startUpdatingInGameEventsLog() {
-    const EVENT_LIFETIME = 10000;
     window.setInterval(function() {
         let time = new Date().getTime();
         $('.in-game-events-widget > .log > .event').each(function() {
-            let eventTime = parseInt($(this).attr('data'));
-            if (time - eventTime > EVENT_LIFETIME) {
-                $(this).fadeOut(1000, function() { if ($(this).parent().length > 0) $(this).remove(); });
+            let eventCreated = parseInt($(this).attr('created'));
+            let eventLifetime = parseInt($(this).attr('lifetime'));
+            if (time - eventCreated > eventLifetime) {
+                $(this).fadeOut(1000, function () {
+                    if ($(this).parent().length > 0) $(this).remove();
+                });
             }
         });
     }, 200);

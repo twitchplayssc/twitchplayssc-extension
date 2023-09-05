@@ -14,7 +14,7 @@ public class StateManager {
     private static final Log LOG = LogFactory.getLog(StateManager.class);
 
     private final DataByUserName<PlayerInGameData> resources = new DataByUserName<>();
-    private final DataByUserName<List<String>> events = new DataByUserName<>();
+    private final DataByUserName<List<UserEvent>> events = new DataByUserName<>();
 
     private volatile GameStateContainer gameState = new GameStateContainer();
 
@@ -100,7 +100,7 @@ public class StateManager {
         return this.gameState;
     }
 
-    public void pushEvents(Map<String, List<String>> eventsByUsername) {
+    public void pushEvents(Map<String, List<UserEvent>> eventsByUsername) {
         eventsByUsername.forEach((key, value) ->
         {
             // simply add all events to the ones we already have
