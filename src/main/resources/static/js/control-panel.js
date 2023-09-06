@@ -250,7 +250,7 @@ function fetchAchievements() {
 }
 
 function fetchSkills() {
-    console.log("fetching skills")
+    // console.log("fetching skills")
     ebsReq({
         url: OVERLAY_API_BASE_URL + '/playerstatsglobal',
         type: 'GET',
@@ -365,8 +365,12 @@ function rebuildSkillsUI(skillGroups) {
         var max = parseInt(progressBar.attr('max'));
         var expectedNewValue = PLAYER_GLOBAL_DATA.skills[skillId];
         if (expectedNewValue < max) {
+            PLAYER_GLOBAL_DATA.levelupSkill(skillId);
+            adjustPlayerGlobalDataUI();
             skillLevelUp(skillId, max, function () {
-                PLAYER_GLOBAL_DATA.levelupSkill(skillId);
+                _this.mouseover();
+            }, function () {
+                PLAYER_GLOBAL_DATA.leveldownSkill(skillId);
                 adjustPlayerGlobalDataUI();
                 _this.mouseover();
             });
@@ -389,7 +393,7 @@ function adjustPlayerGlobalDataUI() {
     updateControlPanelButtonText(PLAYER_GLOBAL_DATA.availablePoints);
 }
 
-function skillLevelUp(skillId, max, onsuccess) {
+function skillLevelUp(skillId, max, onsuccess, onerror) {
     ebsReq({
         url: OVERLAY_API_BASE_URL + '/skills/levelup?timestamp' + new Date().getTime(),
         type: 'POST',
@@ -398,6 +402,9 @@ function skillLevelUp(skillId, max, onsuccess) {
         },
         success: function (data) {
             onsuccess();
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            onerror();
         }
     });
 }

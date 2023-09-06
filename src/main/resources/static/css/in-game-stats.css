@@ -59,8 +59,8 @@
     width: 70%;
     height: 169%;
     background-size: 878%;*/
-    width: 3.5vw;
-    height: 3.5vw;
+    width: 3.0vw;
+    height: 3.0vw;
     background-size: 980%;
 }
 
@@ -134,7 +134,7 @@
 
 .stance, .focus {
     position: absolute;
-    top: 16.5%;
+    top: 16.0%;
     width: 13.8%;
     height: 2%;
 	font-size: 1.1vw;
@@ -143,7 +143,7 @@
 
 .army {
     position: absolute;
-    top: 20.0%;
+    top: 19.5%;
     width: 26%;
 	font-size: 1vw;
     color: white;

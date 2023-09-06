@@ -161,7 +161,7 @@ function setFocusText(focusString) {
 }
 
 function adjustArmyIconsHeight(stanceOrFocusPresent) {
-    $('.army').css("top", stanceOrFocusPresent ? "20.5%" : "16.5%");
+    $('.army').css("top", stanceOrFocusPresent ? "19.5%" : "16.5%");
 }
 
 function toggleMode(joined) {
