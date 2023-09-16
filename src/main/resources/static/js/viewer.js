@@ -1,6 +1,9 @@
-function pollResourcesPeriodically(firstCall) {
+function startPollingResources() {
+    setInterval(pollResourcesPeriodically, RESOURCE_POLL_TIMEOUT);
+}
+
+function pollResourcesPeriodically() {
     if (!token) {
-        setTimeout(pollResourcesPeriodically, RESOURCE_POLL_TIMEOUT);
         return;
     }
 
@@ -112,8 +115,6 @@ function pollResourcesPeriodically(firstCall) {
             if (data.availableSkills) {
                 SKILLS = data.availableSkills;
             }
-
-            setTimeout(pollResourcesPeriodically, RESOURCE_POLL_TIMEOUT);
         }
     });
 }
@@ -172,7 +173,7 @@ function toggleMode(joined) {
 
 $(function () {
     toggleMode(false);
-    pollResourcesPeriodically(true);
+    startPollingResources();
     startUpdatingInGameEventsLog();
     $("#extension-hint .close").click(() => $("#extension-hint").detach());
     initTips();
