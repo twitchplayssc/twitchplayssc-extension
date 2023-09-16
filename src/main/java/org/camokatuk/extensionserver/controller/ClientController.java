@@ -147,6 +147,5 @@ public class ClientController {
             logger.error("Can't parse user jwt token: " + e.getMessage());
             return Optional.empty();
         }
-        return Optional.empty();
     }
 }
