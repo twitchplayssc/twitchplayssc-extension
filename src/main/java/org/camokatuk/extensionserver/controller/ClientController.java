@@ -3,6 +3,8 @@ package org.camokatuk.extensionserver.controller;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.camokatuk.extensionserver.*;
 import org.camokatuk.extensionserver.twitchapi.TwitchApi;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/client")
 public class ClientController {
+    private final Log logger = LogFactory.getLog(getClass());
+
     private final StateManager stateManager;
     private final PlayerEventManager playerEventManager;
     private final GlobalInfoManager globalInfoManager;
@@ -127,15 +131,22 @@ public class ClientController {
     }
 
     private Optional<String> getUserIdFromAuth(String authenticationHeader) {
-        String userId = "77080650";
-        if (!devProfile) {
-            authenticationHeader = authenticationHeader.substring("Bearer ".length());
+        if (devProfile) {
+            return Optional.of("77080650");
+        }
+
+        authenticationHeader = authenticationHeader.substring("Bearer ".length());
+        try {
             Jws<Claims> jws = Jwts.parser().setSigningKey(extensionSecret).parseClaimsJws(authenticationHeader);
             if (jws.getBody().getExpiration().before(new Date())) {
                 return Optional.empty();
             }
-            userId = (String) jws.getBody().get("user_id");
+            String userId = (String) jws.getBody().get("user_id");
+            return Optional.of(userId);
+        } catch (Exception e) {
+            logger.error("Can't parse user jwt token: " + e.getMessage());
+            return Optional.empty();
         }
-        return Optional.of(userId);
+        return Optional.empty();
     }
 }
