@@ -137,7 +137,7 @@ public class ClientController {
 
         authenticationHeader = authenticationHeader.substring("Bearer ".length());
         try {
-            Jws<Claims> jws = Jwts.parser().setSigningKey(extensionSecret).parseClaimsJws(authenticationHeader);
+            Jws<Claims> jws = Jwts.parser().setSigningKey(extensionSecret).parseClaimsJws(authenticationHeader); // TODO needs update
             if (jws.getBody().getExpiration().before(new Date())) {
                 return Optional.empty();
             }
