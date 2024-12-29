@@ -50,7 +50,7 @@ jobs:
       - name: Build / Push Container image
         uses: docker/build-push-action@v5
         with:
-          contexts: .
+          context: .
           push: true
           labels: ${{ steps.metadata.outputs.labels }}
           tags: ${{ steps.metadata.outputs.tags }}
