@@ -1,0 +1,30 @@
+Testing instructions: 
+
+1. When a game is in progress, you will see a message in the top right corner of the screen, asking you to type !play in the twitch chat to join the game.  This message will only appear during the game,  and is not visible in between games, when leader boards are shown.
+2. When you join the game, your personal in-game data will appear in the same corner of the screen. You will see some values change depending on your actions in the game. This view will stay there until current game ends, and then the process will repeat.
+3. Instructions on how to play the game can be found in the stream description on [the main channel](twitch.tv/twitchplayssc) and in [the wiki](https://twitchplayssc.fandom.com/wiki/)
+
+New in TPSC Toolkit 2.0.0
+
+1. Now displays army units
+2. All icons are now chosen based on the player's in-game race
+3. Added support for personalized in-game alerts, such as insufficiant resources, inability to build structures, etc. When such alert is associated with a command, clicking on it will copy the command to the clipboard. Supports combos similarly to the command card
+4. Added control panel to view skills and assign skill points, if available, both between games and in game
+5. Command card can now be configured remotely, enabling support for different game modes and all in-game races
+
+# New in 1.1.1
+1. Added support for copying commands by clicking on them on the command card
+2. Added terrazine resource and stances (basically just new ui elements)
+3. Added a hint on how to give the extension a permission for identification 
+4. A number of UI adjustments
+
+# New in 1.1.0
+1. Added an area on the screen over the in-game mini-map. Clicking on that area will copy relative map coordinates to the users clipboard. They can be then pasted in the chat as part of any in-game command that supports them
+2. Added mobile version of the extension which contains resources and intro message. The mini-map functionality described above is not present there.
+
+General description
+
+This extension is to be used on the twitchplayssc channel only. 
+The channel itself allows twitch users send commands to the instance of Starcraft II, which we run locally, and in that, effectively play the game.
+The extension serves as a helper tool for players, showing player specific in-game stats. 
+The extension connects to a dedicated server, which identifies the user based on the 'Authorization' header and returns all the data, which is then rendered in the view
