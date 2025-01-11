@@ -1,4 +1,4 @@
-let OVERLAY_API_BASE_URL = 'https://twitchplayssc.herokuapp.com/api/client';
+let OVERLAY_API_BASE_URL = 'https://twitchplayssc.freeddns.org:2323/api/client';
 let RESOURCE_POLL_TIMEOUT = 2000;
 let token = '';
 let tuid = '';
