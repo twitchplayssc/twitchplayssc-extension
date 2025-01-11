@@ -34,10 +34,12 @@ $(document).ready(function () {
         if (pollIntervalId) clearInterval(pollIntervalId);
     }
 
+    let tabSelector = $('#control-panel-content .tab-selector')
+
     for (var i = 0; i < TABS.length; i++) {
         var tabLink = $('<a/>').attr('id', "tab" + i).addClass('inactive').text(TABS[i].name);
         var tab = $('<span/>').addClass("tab").append(tabLink);
-        $('#control-panel-content .tab-selector').append(tab);
+        tabSelector.append(tab);
         TABS[i].link = tabLink;
         TABS[i].activate = function () {
             ACTIVE_TAB = this;
@@ -61,7 +63,7 @@ $(document).ready(function () {
 
     var closeLink = $('<a/>').text("close");
     var closeButton = $('<span/>').addClass("close-control-panel").append(closeLink).click(toggleControlPanel);
-    $('#control-panel-content .tab-selector').append(closeButton);
+    tabSelector.append(closeButton);
 
     $('.tab a').click(function () {
         var tabIndex = parseInt($(this).attr('id').substring(3));
@@ -71,10 +73,10 @@ $(document).ready(function () {
     });
 
     function toggleControlPanel() {
-        $('#control-panel').toggle();
+        let controlPanel = $('#control-panel');
+        controlPanel.toggle();
         stopFetchingAllData();
-        var isOpen = $('#control-panel').is(":visible");
-        if (isOpen) {
+        if (controlPanel.is(":visible")) {
             ACTIVE_TAB.focus();
         }
         updateControlPanelButtonText();
@@ -334,7 +336,7 @@ function rebuildSkillsUI(skillGroups) {
             skillElement.append(progressbar);
 
             var skillPlus = $('<div/>').addClass("skillPlus").attr("skillId", skillId)
-                .toggleClass("disabled", playerLevel == skill.maxPoints || PLAYER_GLOBAL_DATA.availablePoints == 0);
+                .toggleClass("disabled", playerLevel === skill.maxPoints || PLAYER_GLOBAL_DATA.availablePoints === 0);
             skillElement.append(skillPlus)
 
             skillElement.mouseover(function () {
