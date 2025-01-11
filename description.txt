@@ -4,8 +4,11 @@ Testing instructions:
 2. When you join the game, your personal in-game data will appear in the same corner of the screen. You will see some values change depending on your actions in the game. This view will stay there until current game ends, and then the process will repeat.
 3. Instructions on how to play the game can be found in the stream description on [the main channel](twitch.tv/twitchplayssc) and in [the wiki](https://twitchplayssc.fandom.com/wiki/)
 
-New in TPSC Toolkit 2.0.0
+New in TPSC Toolkit 2.0.1
 
+1. Updated backend endpoint
+
+# New in 2.0.0
 1. Now displays army units
 2. All icons are now chosen based on the player's in-game race
 3. Added support for personalized in-game alerts, such as insufficiant resources, inability to build structures, etc. When such alert is associated with a command, clicking on it will copy the command to the clipboard. Supports combos similarly to the command card
