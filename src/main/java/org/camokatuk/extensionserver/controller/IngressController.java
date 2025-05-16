@@ -43,7 +43,7 @@ public class IngressController {
     @PostMapping("/twitchaccesstoken")
     public
     @ResponseBody
-    ResponseEntity<String> pushTwitchAccessToken(String newToken, @RequestHeader(value = "Authentication") String ohWowSecurity) {
+    ResponseEntity<String> pushTwitchAccessToken(@RequestBody String newToken, @RequestHeader(value = "Authentication") String ohWowSecurity) {
         if (isNotAuthorizedRequest(ohWowSecurity)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
