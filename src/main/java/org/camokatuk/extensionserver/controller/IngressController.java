@@ -1,6 +1,7 @@
 package org.camokatuk.extensionserver.controller;
 
 import org.camokatuk.extensionserver.*;
+import org.camokatuk.extensionserver.twitchapi.TwitchApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,8 @@ public class IngressController {
     private final PlayerEventManager playerEventManager;
     private final GlobalInfoManager globalInfoManager;
     private final ExtensionStateManager extensionStateManager;
+
+    private final TwitchApi twitchApi;
     private final String superSecretKey;
     private final boolean sendDebugData;
 
@@ -24,6 +27,7 @@ public class IngressController {
     public IngressController(StateManager stateManager, PlayerEventManager playerEventManager,
                              GlobalInfoManager globalInfoManager,
                              ExtensionStateManager extensionStateManager,
+                             TwitchApi twitchApi,
                              @Value("${extension.ingress.password}") String superSecretKey,
                              @Value("${extension.ingress.bullshitdata:false}") boolean sendDebugData) {
         this.stateManager = stateManager;
@@ -32,6 +36,20 @@ public class IngressController {
         this.extensionStateManager = extensionStateManager;
         this.superSecretKey = superSecretKey;
         this.sendDebugData = sendDebugData;
+        this.twitchApi = twitchApi;
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping("/twitchaccesstoken")
+    public
+    @ResponseBody
+    ResponseEntity<String> pushTwitchAccessToken(String newToken, @RequestHeader(value = "Authentication") String ohWowSecurity) {
+        if (isNotAuthorizedRequest(ohWowSecurity)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+
+        twitchApi.setAccessToken(newToken);
+        return ResponseEntity.ok("OK");
     }
 
     @CrossOrigin(origins = "*")

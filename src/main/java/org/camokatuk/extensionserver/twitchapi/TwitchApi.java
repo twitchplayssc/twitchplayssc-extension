@@ -21,7 +21,7 @@ public class TwitchApi {
 
     private final RestTemplate restTemplate = new RestTemplate();
     private final String extensionClientId;
-    private final String extensionAccessToken;
+    private String extensionAccessToken;
 
     private final Map<Integer, String> userNameToIdCache = new ConcurrentHashMap<>();
 
@@ -57,5 +57,9 @@ public class TwitchApi {
             LOG.warn("Failed to fetch userName by user id: " + uid, e);
             return null;
         }
+    }
+
+    public void setAccessToken(String newToken) {
+        this.extensionAccessToken = newToken;
     }
 }
